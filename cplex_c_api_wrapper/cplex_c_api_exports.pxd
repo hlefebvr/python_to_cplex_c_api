@@ -1,6 +1,8 @@
 cdef extern from "cplex.h":
     ctypedef void* CPXENVptr
+    ctypedef void* CPXCENVptr
     ctypedef void* CPXLPptr
+    ctypedef int (*LazyCallbackCFunc)(CPXENVptr env, void* cbdata, int wherefrom, void* cbhandle, int* useraction_p)
 
     # Create environment
     CPXENVptr CPXopenCPLEX(int *status_p)
@@ -19,12 +21,21 @@ cdef extern from "cplex.h":
 
     # Parameters
     int CPXsetintparam(CPXENVptr env, int whichparam, int newvalue)
-    int CPX_PARAM_SCRIND
-    int CPX_ON
-    int CPX_OFF
 
     # Solve
     int CPXmipopt(CPXENVptr env, CPXLPptr lp)
 
+    # Callbacks
+    int CPXsetlazyconstraintcallbackfunc(CPXENVptr env, LazyCallbackCFunc lazyconcallback, void* cbhandle)
+    int CPXgetcallbacknodelp (CPXCENVptr env, void *cbdata, int wherefrom, CPXLPptr *nodelp_p)
+
     # Constants
     double CPX_INFBOUND
+    int CPX_PARAM_SCRIND
+    int CPX_PARAM_STARTALG
+    int CPX_PARAM_SUBALG
+    int CPX_ALG_DUAL
+    int CPX_ALG_PRIMAL
+    int CPX_PARAM_PREIND
+    int CPX_ON
+    int CPX_OFF

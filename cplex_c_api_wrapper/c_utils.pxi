@@ -83,3 +83,15 @@ cdef class ArrayOfString:
     def __dealloc__(self):
         if self.impl != NULL:
             free(self.impl)
+
+cdef class VoidPointer:
+    cdef void* impl
+
+    def __cinit__(self):
+        self.impl = NULL
+
+    @staticmethod
+    cdef from_ptr(void* impl):
+        cdef VoidPointer result = VoidPointer.__new__(VoidPointer)  # allocate without calling __cinit__
+        result.impl = impl
+        return result

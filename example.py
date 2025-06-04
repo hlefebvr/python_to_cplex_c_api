@@ -1,5 +1,17 @@
 import cplex_c_api_wrapper as cplex
 
+print("**********************************************************")
+print("**********************************************************")
+
+class MyCallback(cplex.Callback):
+
+    def __call__(self):
+
+        print("Python callback called from event " + str(self.wherefrom))
+        
+        lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
+        cplex.CPXwriteprob(self.env, lp, "test.lp")
+
 env = cplex.CPXopenCPLEX()
 
 model = cplex.CPXcreateprob(env, "model")
@@ -27,17 +39,22 @@ rmatval = [
         -25, 20,
         1,   2,
         2,  -1,
-        -2,  -10
+        2,  10
 ]
-rhs = [30, 10, 15, -15]
+rhs = [30, 10, 15, 15]
 rownames = ["c1", "c2", "c3", "c4"]
 
 cplex.CPXaddrows(env, model, 0, 4, len(rmatval), rhs, rtypes, rmatbeg, rmatind, rmatval, None, rownames)
 
-# Write problem to a file
-cplex.CPXwriteprob(env, model, "test.lp")
-
+# Set some parameters
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_SCRIND, cplex.CPX_ON)
+#cplex.CPXsetintparam(env, cplex.CPX_PARAM_PREIND, cplex.CPX_OFF)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_STARTALG, cplex.CPX_ALG_PRIMAL)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_SUBALG, cplex.CPX_ALG_DUAL)
+
+# Set callback
+cb = MyCallback()
+cplex.CPXsetlazyconstraintcallbackfunc(env, cb)
 
 # Solve problem
 cplex.CPXmipopt(env, model)

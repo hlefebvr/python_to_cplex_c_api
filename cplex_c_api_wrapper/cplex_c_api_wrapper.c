@@ -925,27 +925,28 @@ static const char *__pyx_f[] = {
   "stringsource",
   "cplex_c_api_wrapper.pyx",
 };
+/* ForceInitThreads.proto */
+#ifndef __PYX_FORCE_INIT_THREADS
+  #define __PYX_FORCE_INIT_THREADS 0
+#endif
+
+/* NoFastGil.proto */
+#define __Pyx_PyGILState_Ensure PyGILState_Ensure
+#define __Pyx_PyGILState_Release PyGILState_Release
+#define __Pyx_FastGIL_Remember()
+#define __Pyx_FastGIL_Forget()
+#define __Pyx_FastGilFuncInit()
+
 
 /*--- Type declarations ---*/
 struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble;
 struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfInt;
 struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar;
 struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString;
-struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv;
-struct __pyx_obj_19cplex_c_api_wrapper_CplexModel;
-struct __pyx_opt_args_19cplex_c_api_wrapper_CPXwriteprob;
-
-/* "cplex_c_api_wrapper.pyx":41
- *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
- * 
- * cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):             # <<<<<<<<<<<<<<
- *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
- *                                   model.impl,
- */
-struct __pyx_opt_args_19cplex_c_api_wrapper_CPXwriteprob {
-  int __pyx_n;
-  PyObject *filetype_str;
-};
+struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer;
+struct __pyx_obj_19cplex_c_api_wrapper_Env;
+struct __pyx_obj_19cplex_c_api_wrapper_Model;
+struct __pyx_obj_19cplex_c_api_wrapper_Callback;
 
 /* "c_utils.pxi":3
  * from libc.stdlib cimport malloc, free
@@ -1005,31 +1006,102 @@ struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString {
 };
 
 
-/* "cplex_c_api_wrapper.pyx":13
+/* "c_utils.pxi":87
+ *             free(self.impl)
+ * 
+ * cdef class VoidPointer:             # <<<<<<<<<<<<<<
+ *     cdef void* impl
+ * 
+ */
+struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_19cplex_c_api_wrapper_VoidPointer *__pyx_vtab;
+  void *impl;
+};
+
+
+/* "cplex_c_api_wrapper.pyx":18
  *     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
  * 
- * cdef class CplexEnv:             # <<<<<<<<<<<<<<
+ * cdef class Env:             # <<<<<<<<<<<<<<
  *     cdef cplex.CPXENVptr impl
  * 
  */
-struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv {
+struct __pyx_obj_19cplex_c_api_wrapper_Env {
   PyObject_HEAD
+  struct __pyx_vtabstruct_19cplex_c_api_wrapper_Env *__pyx_vtab;
   CPXENVptr impl;
 };
 
 
-/* "cplex_c_api_wrapper.pyx":21
- *         CALL_CPLEX(status)
+/* "cplex_c_api_wrapper.pyx":27
+ *         return env
  * 
- * cdef class CplexModel:             # <<<<<<<<<<<<<<
+ * cdef class Model:             # <<<<<<<<<<<<<<
  *     cdef cplex.CPXLPptr impl
  * 
  */
-struct __pyx_obj_19cplex_c_api_wrapper_CplexModel {
+struct __pyx_obj_19cplex_c_api_wrapper_Model {
   PyObject_HEAD
+  struct __pyx_vtabstruct_19cplex_c_api_wrapper_Model *__pyx_vtab;
   CPXLPptr impl;
 };
 
+
+/* "cplex_c_api_wrapper.pyx":93
+ *     CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))
+ * 
+ * cdef class Callback:             # <<<<<<<<<<<<<<
+ *     cdef object python_callback
+ * 
+ */
+struct __pyx_obj_19cplex_c_api_wrapper_Callback {
+  PyObject_HEAD
+  PyObject *python_callback;
+};
+
+
+
+/* "c_utils.pxi":87
+ *             free(self.impl)
+ * 
+ * cdef class VoidPointer:             # <<<<<<<<<<<<<<
+ *     cdef void* impl
+ * 
+ */
+
+struct __pyx_vtabstruct_19cplex_c_api_wrapper_VoidPointer {
+  PyObject *(*from_ptr)(void *);
+};
+static struct __pyx_vtabstruct_19cplex_c_api_wrapper_VoidPointer *__pyx_vtabptr_19cplex_c_api_wrapper_VoidPointer;
+
+
+/* "cplex_c_api_wrapper.pyx":18
+ *     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
+ * 
+ * cdef class Env:             # <<<<<<<<<<<<<<
+ *     cdef cplex.CPXENVptr impl
+ * 
+ */
+
+struct __pyx_vtabstruct_19cplex_c_api_wrapper_Env {
+  PyObject *(*from_ptr)(CPXENVptr);
+};
+static struct __pyx_vtabstruct_19cplex_c_api_wrapper_Env *__pyx_vtabptr_19cplex_c_api_wrapper_Env;
+
+
+/* "cplex_c_api_wrapper.pyx":27
+ *         return env
+ * 
+ * cdef class Model:             # <<<<<<<<<<<<<<
+ *     cdef cplex.CPXLPptr impl
+ * 
+ */
+
+struct __pyx_vtabstruct_19cplex_c_api_wrapper_Model {
+  PyObject *(*from_ptr)(CPXLPptr);
+};
+static struct __pyx_vtabstruct_19cplex_c_api_wrapper_Model *__pyx_vtabptr_19cplex_c_api_wrapper_Model;
 
 /* --- Runtime support code (head) --- */
 /* Refnanny.proto */
@@ -1301,12 +1373,33 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
         __Pyx__ArgTypeTest(obj, type, name, exact))
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
 
+/* CallableCheck.proto */
+#if CYTHON_USE_TYPE_SLOTS && PY_MAJOR_VERSION >= 3
+#define __Pyx_PyCallable_Check(obj)   (Py_TYPE(obj)->tp_call != NULL)
+#else
+#define __Pyx_PyCallable_Check(obj)   PyCallable_Check(obj)
+#endif
+
+/* PyObjectSetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
+#else
+#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
+#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
+#endif
+
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #else
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
+
+/* WriteUnraisableException.proto */
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
 
 /* PyObject_GenericGetAttrNoDict.proto */
 #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
@@ -1335,6 +1428,9 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, P
 
 /* SetupReduce.proto */
 static int __Pyx_setup_reduce(PyObject* type_obj);
+
+/* SetVTable.proto */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable);
 
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
@@ -1398,6 +1494,9 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
+static PyObject *__pyx_f_19cplex_c_api_wrapper_11VoidPointer_from_ptr(void *__pyx_v_impl); /* proto*/
+static PyObject *__pyx_f_19cplex_c_api_wrapper_3Env_from_ptr(CPXENVptr __pyx_v_impl); /* proto*/
+static PyObject *__pyx_f_19cplex_c_api_wrapper_5Model_from_ptr(CPXLPptr __pyx_v_impl); /* proto*/
 
 /* Module declarations from 'libc.string' */
 
@@ -1410,10 +1509,11 @@ static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble = 0;
 static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_ArrayOfInt = 0;
 static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar = 0;
 static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_ArrayOfString = 0;
-static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_CplexEnv = 0;
-static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_CplexModel = 0;
-static PyObject *__pyx_f_19cplex_c_api_wrapper_CPXwriteprob(struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_19cplex_c_api_wrapper_CPXwriteprob *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_19cplex_c_api_wrapper_CPXnewcols(struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *, PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_VoidPointer = 0;
+static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_Env = 0;
+static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_Model = 0;
+static PyTypeObject *__pyx_ptype_19cplex_c_api_wrapper_Callback = 0;
+static int __pyx_f_19cplex_c_api_wrapper_callback_bridge(CPXCENVptr, void *, int, void *, int *); /*proto*/
 #define __Pyx_MODULE_NAME "cplex_c_api_wrapper"
 extern int __pyx_module_is_main_cplex_c_api_wrapper;
 int __pyx_module_is_main_cplex_c_api_wrapper = 0;
@@ -1423,8 +1523,11 @@ static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_RuntimeError;
 static const char __pyx_k__5[] = "";
+static const char __pyx_k_cb[] = "cb";
 static const char __pyx_k_lb[] = "lb";
+static const char __pyx_k_lp[] = "lp";
 static const char __pyx_k_ub[] = "ub";
+static const char __pyx_k_Env[] = "Env";
 static const char __pyx_k_env[] = "env";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_rhs[] = "rhs";
@@ -1433,14 +1536,17 @@ static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "name";
 static const char __pyx_k_rcnt[] = "rcnt";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_Model[] = "Model";
 static const char __pyx_k_ascii[] = "ascii";
 static const char __pyx_k_model[] = "model";
 static const char __pyx_k_nzcnt[] = "nzcnt";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_CPX_ON[] = "CPX_ON";
+static const char __pyx_k_cbdata[] = "cbdata";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_reduce[] = "__reduce__";
+static const char __pyx_k_result[] = "result";
 static const char __pyx_k_rtypes[] = "rtypes";
 static const char __pyx_k_status[] = "status";
 static const char __pyx_k_values[] = "values";
@@ -1451,22 +1557,27 @@ static const char __pyx_k_rmatbeg[] = "rmatbeg";
 static const char __pyx_k_rmatind[] = "rmatind";
 static const char __pyx_k_rmatval[] = "rmatval";
 static const char __pyx_k_rowname[] = "rowname";
-static const char __pyx_k_CplexEnv[] = "CplexEnv";
+static const char __pyx_k_Callback[] = "Callback";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_newvalue[] = "newvalue";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_CPXmipopt[] = "CPXmipopt";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
+static const char __pyx_k_wherefrom[] = "wherefrom";
 static const char __pyx_k_ArrayOfInt[] = "ArrayOfInt";
 static const char __pyx_k_CALL_CPLEX[] = "CALL_CPLEX";
 static const char __pyx_k_CPXaddrows[] = "CPXaddrows";
-static const char __pyx_k_CplexModel[] = "CplexModel";
+static const char __pyx_k_CPXnewcols[] = "CPXnewcols";
+static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_whichparam[] = "whichparam";
 static const char __pyx_k_ArrayOfChar[] = "ArrayOfChar";
 static const char __pyx_k_CPXfreeprob[] = "CPXfreeprob";
+static const char __pyx_k_VoidPointer[] = "VoidPointer";
+static const char __pyx_k_CPX_ALG_DUAL[] = "CPX_ALG_DUAL";
 static const char __pyx_k_CPX_INFBOUND[] = "CPX_INFBOUND";
 static const char __pyx_k_CPXopenCPLEX[] = "CPXopenCPLEX";
+static const char __pyx_k_CPXwriteprob[] = "CPXwriteprob";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_filename_str[] = "filename_str";
 static const char __pyx_k_filetype_str[] = "filetype_str";
@@ -1475,37 +1586,59 @@ static const char __pyx_k_ArrayOfString[] = "ArrayOfString";
 static const char __pyx_k_CPXcloseCPLEX[] = "CPXcloseCPLEX";
 static const char __pyx_k_CPXcreateprob[] = "CPXcreateprob";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
+static const char __pyx_k_CPX_ALG_PRIMAL[] = "CPX_ALG_PRIMAL";
 static const char __pyx_k_CPXsetintparam[] = "CPXsetintparam";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
+static const char __pyx_k_CPX_PARAM_PREIND[] = "CPX_PARAM_PREIND";
 static const char __pyx_k_CPX_PARAM_SCRIND[] = "CPX_PARAM_SCRIND";
+static const char __pyx_k_CPX_PARAM_SUBALG[] = "CPX_PARAM_SUBALG";
+static const char __pyx_k_CPX_PARAM_STARTALG[] = "CPX_PARAM_STARTALG";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_cplex_c_api_wrapper[] = "cplex_c_api_wrapper";
+static const char __pyx_k_CPXgetcallbacknodelp[] = "CPXgetcallbacknodelp";
 static const char __pyx_k_cplex_c_api_wrapper_pyx[] = "cplex_c_api_wrapper.pyx";
+static const char __pyx_k_Callback_must_be_callable[] = "Callback must be callable";
+static const char __pyx_k_CPXsetlazyconstraintcallbackfunc[] = "CPXsetlazyconstraintcallbackfunc";
 static const char __pyx_k_Error_calling_CPLEX_returned_sta[] = "Error calling CPLEX: returned status ";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
+static const char __pyx_k_self_impl_cannot_be_converted_to[] = "self.impl cannot be converted to a Python object for pickling";
 static PyObject *__pyx_n_s_ArrayOfChar;
 static PyObject *__pyx_n_s_ArrayOfDouble;
 static PyObject *__pyx_n_s_ArrayOfInt;
 static PyObject *__pyx_n_s_ArrayOfString;
 static PyObject *__pyx_n_s_CALL_CPLEX;
+static PyObject *__pyx_n_s_CPX_ALG_DUAL;
+static PyObject *__pyx_n_s_CPX_ALG_PRIMAL;
 static PyObject *__pyx_n_s_CPX_INFBOUND;
 static PyObject *__pyx_n_s_CPX_OFF;
 static PyObject *__pyx_n_s_CPX_ON;
+static PyObject *__pyx_n_s_CPX_PARAM_PREIND;
 static PyObject *__pyx_n_s_CPX_PARAM_SCRIND;
+static PyObject *__pyx_n_s_CPX_PARAM_STARTALG;
+static PyObject *__pyx_n_s_CPX_PARAM_SUBALG;
 static PyObject *__pyx_n_s_CPXaddrows;
 static PyObject *__pyx_n_s_CPXcloseCPLEX;
 static PyObject *__pyx_n_s_CPXcreateprob;
 static PyObject *__pyx_n_s_CPXfreeprob;
+static PyObject *__pyx_n_s_CPXgetcallbacknodelp;
 static PyObject *__pyx_n_s_CPXmipopt;
+static PyObject *__pyx_n_s_CPXnewcols;
 static PyObject *__pyx_n_s_CPXopenCPLEX;
 static PyObject *__pyx_n_s_CPXsetintparam;
-static PyObject *__pyx_n_s_CplexEnv;
-static PyObject *__pyx_n_s_CplexModel;
+static PyObject *__pyx_n_s_CPXsetlazyconstraintcallbackfunc;
+static PyObject *__pyx_n_s_CPXwriteprob;
+static PyObject *__pyx_n_s_Callback;
+static PyObject *__pyx_kp_u_Callback_must_be_callable;
+static PyObject *__pyx_n_s_Env;
 static PyObject *__pyx_kp_u_Error_calling_CPLEX_returned_sta;
+static PyObject *__pyx_n_s_Model;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_TypeError;
+static PyObject *__pyx_n_s_VoidPointer;
 static PyObject *__pyx_kp_u__5;
 static PyObject *__pyx_n_u_ascii;
+static PyObject *__pyx_n_s_cb;
+static PyObject *__pyx_n_s_cbdata;
 static PyObject *__pyx_n_s_ccnt;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_colname;
@@ -1517,6 +1650,7 @@ static PyObject *__pyx_n_s_filename_str;
 static PyObject *__pyx_n_s_filetype_str;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_n_s_lb;
+static PyObject *__pyx_n_s_lp;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_model;
 static PyObject *__pyx_n_s_name;
@@ -1525,23 +1659,27 @@ static PyObject *__pyx_n_s_newvalue;
 static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
 static PyObject *__pyx_n_s_nzcnt;
 static PyObject *__pyx_n_s_obj;
+static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_rcnt;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
+static PyObject *__pyx_n_s_result;
 static PyObject *__pyx_n_s_rhs;
 static PyObject *__pyx_n_s_rmatbeg;
 static PyObject *__pyx_n_s_rmatind;
 static PyObject *__pyx_n_s_rmatval;
 static PyObject *__pyx_n_s_rowname;
 static PyObject *__pyx_n_s_rtypes;
+static PyObject *__pyx_kp_s_self_impl_cannot_be_converted_to;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_status;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_ub;
 static PyObject *__pyx_n_s_values;
+static PyObject *__pyx_n_s_wherefrom;
 static PyObject *__pyx_n_s_whichparam;
 static PyObject *__pyx_n_s_xctype;
 static int __pyx_pf_19cplex_c_api_wrapper_13ArrayOfDouble___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *__pyx_v_self, PyObject *__pyx_v_values); /* proto */
@@ -1559,28 +1697,36 @@ static int __pyx_pf_19cplex_c_api_wrapper_13ArrayOfString___cinit__(struct __pyx
 static void __pyx_pf_19cplex_c_api_wrapper_13ArrayOfString_2__dealloc__(struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_19cplex_c_api_wrapper_13ArrayOfString_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_19cplex_c_api_wrapper_13ArrayOfString_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_19cplex_c_api_wrapper_11VoidPointer___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_11VoidPointer_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_11VoidPointer_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_19cplex_c_api_wrapper_CALL_CPLEX(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_status); /* proto */
-static int __pyx_pf_19cplex_c_api_wrapper_8CplexEnv___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CplexEnv_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CplexEnv_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_19cplex_c_api_wrapper_10CplexModel___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, PyObject *__pyx_v_name); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_3Env___reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_3Env_2__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_5Model___reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_5Model_2__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_19cplex_c_api_wrapper_2CPXopenCPLEX(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_4CPXcreateprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, PyObject *__pyx_v_name); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CPXwriteprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_filename_str, PyObject *__pyx_v_filetype_str); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_12CPXnewcols(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_obj, PyObject *__pyx_v_lb, PyObject *__pyx_v_ub, PyObject *__pyx_v_xctype, PyObject *__pyx_v_colname); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_rcnt, PyObject *__pyx_v_nzcnt, PyObject *__pyx_v_rhs, PyObject *__pyx_v_rtypes, PyObject *__pyx_v_rmatbeg, PyObject *__pyx_v_rmatind, PyObject *__pyx_v_rmatval, PyObject *__pyx_v_colname, PyObject *__pyx_v_rowname); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model); /* proto */
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, PyObject *__pyx_v_whichparam, PyObject *__pyx_v_newvalue); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_4CPXcreateprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, PyObject *__pyx_v_name); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CPXwriteprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model, PyObject *__pyx_v_filename_str, PyObject *__pyx_v_filetype_str); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_12CPXnewcols(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_obj, PyObject *__pyx_v_lb, PyObject *__pyx_v_ub, PyObject *__pyx_v_xctype, PyObject *__pyx_v_colname); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_rcnt, PyObject *__pyx_v_nzcnt, PyObject *__pyx_v_rhs, PyObject *__pyx_v_rtypes, PyObject *__pyx_v_rmatbeg, PyObject *__pyx_v_rmatind, PyObject *__pyx_v_rmatval, PyObject *__pyx_v_colname, PyObject *__pyx_v_rowname); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, PyObject *__pyx_v_whichparam, PyObject *__pyx_v_newvalue); /* proto */
+static int __pyx_pf_19cplex_c_api_wrapper_8Callback___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_8Callback_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_8Callback_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_20CPXsetlazyconstraintcallbackfunc(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_cb); /* proto */
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_22CPXgetcallbacknodelp(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_cbdata, PyObject *__pyx_v_wherefrom); /* proto */
 static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_ArrayOfDouble(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_ArrayOfInt(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_ArrayOfChar(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_ArrayOfString(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_CplexEnv(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_CplexModel(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_VoidPointer(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_Env(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_Model(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_Callback(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
@@ -1595,20 +1741,34 @@ static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__16;
 static PyObject *__pyx_tuple__17;
+static PyObject *__pyx_tuple__18;
 static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_tuple__25;
 static PyObject *__pyx_tuple__27;
-static PyObject *__pyx_codeobj__15;
-static PyObject *__pyx_codeobj__16;
-static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__33;
+static PyObject *__pyx_tuple__35;
+static PyObject *__pyx_tuple__37;
+static PyObject *__pyx_tuple__39;
+static PyObject *__pyx_tuple__41;
 static PyObject *__pyx_codeobj__20;
 static PyObject *__pyx_codeobj__22;
 static PyObject *__pyx_codeobj__24;
 static PyObject *__pyx_codeobj__26;
 static PyObject *__pyx_codeobj__28;
+static PyObject *__pyx_codeobj__30;
+static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_codeobj__34;
+static PyObject *__pyx_codeobj__36;
+static PyObject *__pyx_codeobj__38;
+static PyObject *__pyx_codeobj__40;
+static PyObject *__pyx_codeobj__42;
 /* Late includes */
 
 /* "c_utils.pxi":7
@@ -2957,6 +3117,7 @@ static void __pyx_pf_19cplex_c_api_wrapper_13ArrayOfString_2__dealloc__(struct _
  *     def __dealloc__(self):
  *         if self.impl != NULL:             # <<<<<<<<<<<<<<
  *             free(self.impl)
+ * 
  */
   __pyx_t_1 = ((__pyx_v_self->impl != NULL) != 0);
   if (__pyx_t_1) {
@@ -2965,6 +3126,8 @@ static void __pyx_pf_19cplex_c_api_wrapper_13ArrayOfString_2__dealloc__(struct _
  *     def __dealloc__(self):
  *         if self.impl != NULL:
  *             free(self.impl)             # <<<<<<<<<<<<<<
+ * 
+ * cdef class VoidPointer:
  */
     free(__pyx_v_self->impl);
 
@@ -2973,6 +3136,7 @@ static void __pyx_pf_19cplex_c_api_wrapper_13ArrayOfString_2__dealloc__(struct _
  *     def __dealloc__(self):
  *         if self.impl != NULL:             # <<<<<<<<<<<<<<
  *             free(self.impl)
+ * 
  */
   }
 
@@ -3101,7 +3265,240 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_13ArrayOfString_6__setstate_cyth
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":10
+/* "c_utils.pxi":90
+ *     cdef void* impl
+ * 
+ *     def __cinit__(self):             # <<<<<<<<<<<<<<
+ *         self.impl = NULL
+ * 
+ */
+
+/* Python wrapper */
+static int __pyx_pw_19cplex_c_api_wrapper_11VoidPointer_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_19cplex_c_api_wrapper_11VoidPointer_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__cinit__", 0))) return -1;
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_11VoidPointer___cinit__(((struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_19cplex_c_api_wrapper_11VoidPointer___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__", 0);
+
+  /* "c_utils.pxi":91
+ * 
+ *     def __cinit__(self):
+ *         self.impl = NULL             # <<<<<<<<<<<<<<
+ * 
+ *     @staticmethod
+ */
+  __pyx_v_self->impl = NULL;
+
+  /* "c_utils.pxi":90
+ *     cdef void* impl
+ * 
+ *     def __cinit__(self):             # <<<<<<<<<<<<<<
+ *         self.impl = NULL
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "c_utils.pxi":94
+ * 
+ *     @staticmethod
+ *     cdef from_ptr(void* impl):             # <<<<<<<<<<<<<<
+ *         cdef VoidPointer result = VoidPointer.__new__(VoidPointer)  # allocate without calling __cinit__
+ *         result.impl = impl
+ */
+
+static PyObject *__pyx_f_19cplex_c_api_wrapper_11VoidPointer_from_ptr(void *__pyx_v_impl) {
+  struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_result = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("from_ptr", 0);
+
+  /* "c_utils.pxi":95
+ *     @staticmethod
+ *     cdef from_ptr(void* impl):
+ *         cdef VoidPointer result = VoidPointer.__new__(VoidPointer)  # allocate without calling __cinit__             # <<<<<<<<<<<<<<
+ *         result.impl = impl
+ *         return result
+ */
+  __pyx_t_1 = ((PyObject *)__pyx_tp_new_19cplex_c_api_wrapper_VoidPointer(((PyTypeObject *)__pyx_ptype_19cplex_c_api_wrapper_VoidPointer), __pyx_empty_tuple, NULL)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __Pyx_GOTREF(((PyObject *)__pyx_t_1));
+  __pyx_v_result = ((struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "c_utils.pxi":96
+ *     cdef from_ptr(void* impl):
+ *         cdef VoidPointer result = VoidPointer.__new__(VoidPointer)  # allocate without calling __cinit__
+ *         result.impl = impl             # <<<<<<<<<<<<<<
+ *         return result
+ */
+  __pyx_v_result->impl = __pyx_v_impl;
+
+  /* "c_utils.pxi":97
+ *         cdef VoidPointer result = VoidPointer.__new__(VoidPointer)  # allocate without calling __cinit__
+ *         result.impl = impl
+ *         return result             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(((PyObject *)__pyx_v_result));
+  __pyx_r = ((PyObject *)__pyx_v_result);
+  goto __pyx_L0;
+
+  /* "c_utils.pxi":94
+ * 
+ *     @staticmethod
+ *     cdef from_ptr(void* impl):             # <<<<<<<<<<<<<<
+ *         cdef VoidPointer result = VoidPointer.__new__(VoidPointer)  # allocate without calling __cinit__
+ *         result.impl = impl
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.VoidPointer.from_ptr", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_result);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_11VoidPointer_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_11VoidPointer_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_11VoidPointer_2__reduce_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_11VoidPointer_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 2, __pyx_L1_error)
+
+  /* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.VoidPointer.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_11VoidPointer_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_11VoidPointer_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_11VoidPointer_4__setstate_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_11VoidPointer_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 4, __pyx_L1_error)
+
+  /* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.VoidPointer.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cplex_c_api_wrapper.pyx":15
  * CPX_OFF = cplex.CPX_OFF
  * 
  * def CALL_CPLEX(status):             # <<<<<<<<<<<<<<
@@ -3134,31 +3531,31 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_CALL_CPLEX(CYTHON_UNUSED PyObjec
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CALL_CPLEX", 0);
 
-  /* "cplex_c_api_wrapper.pyx":11
+  /* "cplex_c_api_wrapper.pyx":16
  * 
  * def CALL_CPLEX(status):
  *     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))             # <<<<<<<<<<<<<<
  * 
- * cdef class CplexEnv:
+ * cdef class Env:
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_status, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 11, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 11, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_status, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(2, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_t_2)) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_v_status); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 11, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_v_status); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 16, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Error_calling_CPLEX_returned_sta, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 11, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Error_calling_CPLEX_returned_sta, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 16, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_RuntimeError, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 11, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_RuntimeError, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 16, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(2, 11, __pyx_L1_error)
+    __PYX_ERR(2, 16, __pyx_L1_error)
   }
 
-  /* "cplex_c_api_wrapper.pyx":10
+  /* "cplex_c_api_wrapper.pyx":15
  * CPX_OFF = cplex.CPX_OFF
  * 
  * def CALL_CPLEX(status):             # <<<<<<<<<<<<<<
@@ -3180,409 +3577,97 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_CALL_CPLEX(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":16
- *     cdef cplex.CPXENVptr impl
+/* "cplex_c_api_wrapper.pyx":22
  * 
- *     def __cinit__(self):             # <<<<<<<<<<<<<<
- *         cdef int status = 0
- *         self.impl = cplex.CPXopenCPLEX(&status)
+ *     @staticmethod
+ *     cdef from_ptr(cplex.CPXENVptr impl):             # <<<<<<<<<<<<<<
+ *         cdef Env env = Env.__new__(Env)  # allocate without calling __cinit__
+ *         env.impl = impl
  */
 
-/* Python wrapper */
-static int __pyx_pw_19cplex_c_api_wrapper_8CplexEnv_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_19cplex_c_api_wrapper_8CplexEnv_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
-  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
-    __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
-  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__cinit__", 0))) return -1;
-  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_8CplexEnv___cinit__(((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_19cplex_c_api_wrapper_8CplexEnv___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_self) {
-  int __pyx_v_status;
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__cinit__", 0);
-
-  /* "cplex_c_api_wrapper.pyx":17
- * 
- *     def __cinit__(self):
- *         cdef int status = 0             # <<<<<<<<<<<<<<
- *         self.impl = cplex.CPXopenCPLEX(&status)
- *         CALL_CPLEX(status)
- */
-  __pyx_v_status = 0;
-
-  /* "cplex_c_api_wrapper.pyx":18
- *     def __cinit__(self):
- *         cdef int status = 0
- *         self.impl = cplex.CPXopenCPLEX(&status)             # <<<<<<<<<<<<<<
- *         CALL_CPLEX(status)
- * 
- */
-  __pyx_v_self->impl = CPXopenCPLEX((&__pyx_v_status));
-
-  /* "cplex_c_api_wrapper.pyx":19
- *         cdef int status = 0
- *         self.impl = cplex.CPXopenCPLEX(&status)
- *         CALL_CPLEX(status)             # <<<<<<<<<<<<<<
- * 
- * cdef class CplexModel:
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_status); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "cplex_c_api_wrapper.pyx":16
- *     cdef cplex.CPXENVptr impl
- * 
- *     def __cinit__(self):             # <<<<<<<<<<<<<<
- *         cdef int status = 0
- *         self.impl = cplex.CPXopenCPLEX(&status)
- */
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CplexEnv.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- * def __setstate_cython__(self, __pyx_state):
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_8CplexEnv_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_8CplexEnv_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_8CplexEnv_2__reduce_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CplexEnv_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_self) {
+static PyObject *__pyx_f_19cplex_c_api_wrapper_3Env_from_ptr(CPXENVptr __pyx_v_impl) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
+  __Pyx_RefNannySetupContext("from_ptr", 0);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+  /* "cplex_c_api_wrapper.pyx":23
+ *     @staticmethod
+ *     cdef from_ptr(cplex.CPXENVptr impl):
+ *         cdef Env env = Env.__new__(Env)  # allocate without calling __cinit__             # <<<<<<<<<<<<<<
+ *         env.impl = impl
+ *         return env
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 2, __pyx_L1_error)
-
-  /* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- * def __setstate_cython__(self, __pyx_state):
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CplexEnv.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":3
- * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_8CplexEnv_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_8CplexEnv_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_8CplexEnv_4__setstate_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CplexEnv_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-
-  /* "(tree fragment)":4
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
- */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 4, __pyx_L1_error)
-
-  /* "(tree fragment)":3
- * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CplexEnv.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "cplex_c_api_wrapper.pyx":24
- *     cdef cplex.CPXLPptr impl
- * 
- *     def __cinit__(self, CplexEnv env, name):             # <<<<<<<<<<<<<<
- *         cdef int status = 0
- *         self.impl = cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl)
- */
-
-/* Python wrapper */
-static int __pyx_pw_19cplex_c_api_wrapper_10CplexModel_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_19cplex_c_api_wrapper_10CplexModel_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
-  PyObject *__pyx_v_name = 0;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_env,&__pyx_n_s_name,0};
-    PyObject* values[2] = {0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_env)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); __PYX_ERR(2, 24, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 24, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-    }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
-    __pyx_v_name = values[1];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 24, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CplexModel.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return -1;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 24, __pyx_L1_error)
-  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_10CplexModel___cinit__(((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)__pyx_v_self), __pyx_v_env, __pyx_v_name);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_19cplex_c_api_wrapper_10CplexModel___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, PyObject *__pyx_v_name) {
-  int __pyx_v_status;
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__cinit__", 0);
-
-  /* "cplex_c_api_wrapper.pyx":25
- * 
- *     def __cinit__(self, CplexEnv env, name):
- *         cdef int status = 0             # <<<<<<<<<<<<<<
- *         self.impl = cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl)
- *         CALL_CPLEX(status)
- */
-  __pyx_v_status = 0;
-
-  /* "cplex_c_api_wrapper.pyx":26
- *     def __cinit__(self, CplexEnv env, name):
- *         cdef int status = 0
- *         self.impl = cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl)             # <<<<<<<<<<<<<<
- *         CALL_CPLEX(status)
- * 
- */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_self->impl = CPXcreateprob(__pyx_v_env->impl, (&__pyx_v_status), ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_1)->impl);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "cplex_c_api_wrapper.pyx":27
- *         cdef int status = 0
- *         self.impl = cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl)
- *         CALL_CPLEX(status)             # <<<<<<<<<<<<<<
- * 
- * def CPXopenCPLEX():
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_status); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = ((PyObject *)__pyx_tp_new_19cplex_c_api_wrapper_Env(((PyTypeObject *)__pyx_ptype_19cplex_c_api_wrapper_Env), __pyx_empty_tuple, NULL)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 23, __pyx_L1_error)
+  __Pyx_GOTREF(((PyObject *)__pyx_t_1));
+  __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "cplex_c_api_wrapper.pyx":24
- *     cdef cplex.CPXLPptr impl
+ *     cdef from_ptr(cplex.CPXENVptr impl):
+ *         cdef Env env = Env.__new__(Env)  # allocate without calling __cinit__
+ *         env.impl = impl             # <<<<<<<<<<<<<<
+ *         return env
  * 
- *     def __cinit__(self, CplexEnv env, name):             # <<<<<<<<<<<<<<
- *         cdef int status = 0
- *         self.impl = cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl)
+ */
+  __pyx_v_env->impl = __pyx_v_impl;
+
+  /* "cplex_c_api_wrapper.pyx":25
+ *         cdef Env env = Env.__new__(Env)  # allocate without calling __cinit__
+ *         env.impl = impl
+ *         return env             # <<<<<<<<<<<<<<
+ * 
+ * cdef class Model:
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(((PyObject *)__pyx_v_env));
+  __pyx_r = ((PyObject *)__pyx_v_env);
+  goto __pyx_L0;
+
+  /* "cplex_c_api_wrapper.pyx":22
+ * 
+ *     @staticmethod
+ *     cdef from_ptr(cplex.CPXENVptr impl):             # <<<<<<<<<<<<<<
+ *         cdef Env env = Env.__new__(Env)  # allocate without calling __cinit__
+ *         env.impl = impl
  */
 
   /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CplexModel.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Env.from_ptr", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_env);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_10CplexModel_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_10CplexModel_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_3Env_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_3Env_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_10CplexModel_2__reduce_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_3Env___reduce_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_Env *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_self) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_3Env___reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3593,9 +3678,9 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_2__reduce_cython__(
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  */
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3605,14 +3690,14 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_2__reduce_cython__(
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CplexModel.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Env.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -3621,25 +3706,25 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_2__reduce_cython__(
 
 /* "(tree fragment)":3
  * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_10CplexModel_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_10CplexModel_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_3Env_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_3Env_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_10CplexModel_4__setstate_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_3Env_2__setstate_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_Env *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_3Env_2__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3649,9 +3734,9 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_4__setstate_cython_
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":4
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3661,27 +3746,211 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CplexModel_4__setstate_cython_
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CplexModel.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Env.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":29
- *         CALL_CPLEX(status)
+/* "cplex_c_api_wrapper.pyx":31
+ * 
+ *     @staticmethod
+ *     cdef from_ptr(cplex.CPXLPptr impl):             # <<<<<<<<<<<<<<
+ *         cdef Model model = Model.__new__(Model)  # allocate without calling __cinit__
+ *         model.impl = impl
+ */
+
+static PyObject *__pyx_f_19cplex_c_api_wrapper_5Model_from_ptr(CPXLPptr __pyx_v_impl) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("from_ptr", 0);
+
+  /* "cplex_c_api_wrapper.pyx":32
+ *     @staticmethod
+ *     cdef from_ptr(cplex.CPXLPptr impl):
+ *         cdef Model model = Model.__new__(Model)  # allocate without calling __cinit__             # <<<<<<<<<<<<<<
+ *         model.impl = impl
+ *         return model
+ */
+  __pyx_t_1 = ((PyObject *)__pyx_tp_new_19cplex_c_api_wrapper_Model(((PyTypeObject *)__pyx_ptype_19cplex_c_api_wrapper_Model), __pyx_empty_tuple, NULL)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 32, __pyx_L1_error)
+  __Pyx_GOTREF(((PyObject *)__pyx_t_1));
+  __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_Model *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":33
+ *     cdef from_ptr(cplex.CPXLPptr impl):
+ *         cdef Model model = Model.__new__(Model)  # allocate without calling __cinit__
+ *         model.impl = impl             # <<<<<<<<<<<<<<
+ *         return model
+ * 
+ */
+  __pyx_v_model->impl = __pyx_v_impl;
+
+  /* "cplex_c_api_wrapper.pyx":34
+ *         cdef Model model = Model.__new__(Model)  # allocate without calling __cinit__
+ *         model.impl = impl
+ *         return model             # <<<<<<<<<<<<<<
+ * 
+ * def CPXopenCPLEX():
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(((PyObject *)__pyx_v_model));
+  __pyx_r = ((PyObject *)__pyx_v_model);
+  goto __pyx_L0;
+
+  /* "cplex_c_api_wrapper.pyx":31
+ * 
+ *     @staticmethod
+ *     cdef from_ptr(cplex.CPXLPptr impl):             # <<<<<<<<<<<<<<
+ *         cdef Model model = Model.__new__(Model)  # allocate without calling __cinit__
+ *         model.impl = impl
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Model.from_ptr", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_model);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_5Model_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_5Model_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_5Model___reduce_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_Model *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_5Model___reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 2, __pyx_L1_error)
+
+  /* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Model.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_5Model_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_5Model_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_5Model_2__setstate_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_Model *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_5Model_2__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 4, __pyx_L1_error)
+
+  /* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Model.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cplex_c_api_wrapper.pyx":36
+ *         return model
  * 
  * def CPXopenCPLEX():             # <<<<<<<<<<<<<<
- *     return CplexEnv()
- * 
+ *     cdef int status = 0
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))
  */
 
 /* Python wrapper */
@@ -3699,60 +3968,117 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_3CPXopenCPLEX(PyObject *__pyx_se
 }
 
 static PyObject *__pyx_pf_19cplex_c_api_wrapper_2CPXopenCPLEX(CYTHON_UNUSED PyObject *__pyx_self) {
+  int __pyx_v_status;
+  PyObject *__pyx_v_result = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXopenCPLEX", 0);
 
-  /* "cplex_c_api_wrapper.pyx":30
+  /* "cplex_c_api_wrapper.pyx":37
  * 
  * def CPXopenCPLEX():
- *     return CplexEnv()             # <<<<<<<<<<<<<<
+ *     cdef int status = 0             # <<<<<<<<<<<<<<
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))
+ *     CALL_CPLEX(status)
+ */
+  __pyx_v_status = 0;
+
+  /* "cplex_c_api_wrapper.pyx":38
+ * def CPXopenCPLEX():
+ *     cdef int status = 0
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(status)
+ *     return result
+ */
+  __pyx_t_1 = __pyx_f_19cplex_c_api_wrapper_3Env_from_ptr(CPXopenCPLEX((&__pyx_v_status))); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 38, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_result = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":39
+ *     cdef int status = 0
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))
+ *     CALL_CPLEX(status)             # <<<<<<<<<<<<<<
+ *     return result
  * 
- * def CPXcreateprob(CplexEnv env, name):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_status); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":40
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))
+ *     CALL_CPLEX(status)
+ *     return result             # <<<<<<<<<<<<<<
+ * 
+ * def CPXcreateprob(Env env, name):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_CplexEnv)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __Pyx_INCREF(__pyx_v_result);
+  __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "cplex_c_api_wrapper.pyx":29
- *         CALL_CPLEX(status)
+  /* "cplex_c_api_wrapper.pyx":36
+ *         return model
  * 
  * def CPXopenCPLEX():             # <<<<<<<<<<<<<<
- *     return CplexEnv()
- * 
+ *     cdef int status = 0
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXopenCPLEX", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":32
- *     return CplexEnv()
+/* "cplex_c_api_wrapper.pyx":42
+ *     return result
  * 
- * def CPXcreateprob(CplexEnv env, name):             # <<<<<<<<<<<<<<
- *     return CplexModel(env, name)
- * 
+ * def CPXcreateprob(Env env, name):             # <<<<<<<<<<<<<<
+ *     cdef int status = 0
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_5CPXcreateprob(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_5CPXcreateprob = {"CPXcreateprob", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_5CPXcreateprob, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_5CPXcreateprob(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
   PyObject *__pyx_v_name = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -3783,11 +4109,11 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_5CPXcreateprob(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXcreateprob", 1, 2, 2, 1); __PYX_ERR(2, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXcreateprob", 1, 2, 2, 1); __PYX_ERR(2, 42, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXcreateprob") < 0)) __PYX_ERR(2, 32, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXcreateprob") < 0)) __PYX_ERR(2, 42, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3795,18 +4121,18 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_5CPXcreateprob(PyObject *__pyx_s
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
     __pyx_v_name = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CPXcreateprob", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 32, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CPXcreateprob", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 42, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXcreateprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 32, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 42, __pyx_L1_error)
   __pyx_r = __pyx_pf_19cplex_c_api_wrapper_4CPXcreateprob(__pyx_self, __pyx_v_env, __pyx_v_name);
 
   /* function exit code */
@@ -3818,63 +4144,112 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_5CPXcreateprob(PyObject *__pyx_s
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_4CPXcreateprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, PyObject *__pyx_v_name) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_4CPXcreateprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, PyObject *__pyx_v_name) {
+  int __pyx_v_status;
+  PyObject *__pyx_v_result = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXcreateprob", 0);
 
-  /* "cplex_c_api_wrapper.pyx":33
+  /* "cplex_c_api_wrapper.pyx":43
  * 
- * def CPXcreateprob(CplexEnv env, name):
- *     return CplexModel(env, name)             # <<<<<<<<<<<<<<
- * 
- * def CPXcloseCPLEX(CplexEnv env):
+ * def CPXcreateprob(Env env, name):
+ *     cdef int status = 0             # <<<<<<<<<<<<<<
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))
+ *     CALL_CPLEX(status)
  */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 33, __pyx_L1_error)
+  __pyx_v_status = 0;
+
+  /* "cplex_c_api_wrapper.pyx":44
+ * def CPXcreateprob(Env env, name):
+ *     cdef int status = 0
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(status)
+ *     return result
+ */
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(((PyObject *)__pyx_v_env));
-  __Pyx_GIVEREF(((PyObject *)__pyx_v_env));
-  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_v_env));
-  __Pyx_INCREF(__pyx_v_name);
-  __Pyx_GIVEREF(__pyx_v_name);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_name);
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_CplexModel), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 33, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19cplex_c_api_wrapper_5Model_from_ptr(CPXcreateprob(__pyx_v_env->impl, (&__pyx_v_status), ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_1)->impl)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_r = __pyx_t_2;
+  __pyx_v_result = __pyx_t_2;
   __pyx_t_2 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":45
+ *     cdef int status = 0
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))
+ *     CALL_CPLEX(status)             # <<<<<<<<<<<<<<
+ *     return result
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_status); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_1);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_1, function);
+    }
+  }
+  __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":46
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))
+ *     CALL_CPLEX(status)
+ *     return result             # <<<<<<<<<<<<<<
+ * 
+ * def CPXcloseCPLEX(Env env):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_result);
+  __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "cplex_c_api_wrapper.pyx":32
- *     return CplexEnv()
+  /* "cplex_c_api_wrapper.pyx":42
+ *     return result
  * 
- * def CPXcreateprob(CplexEnv env, name):             # <<<<<<<<<<<<<<
- *     return CplexModel(env, name)
- * 
+ * def CPXcreateprob(Env env, name):             # <<<<<<<<<<<<<<
+ *     cdef int status = 0
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXcreateprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":35
- *     return CplexModel(env, name)
+/* "cplex_c_api_wrapper.pyx":48
+ *     return result
  * 
- * def CPXcloseCPLEX(CplexEnv env):             # <<<<<<<<<<<<<<
+ * def CPXcloseCPLEX(Env env):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
  * 
  */
@@ -3889,8 +4264,8 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_7CPXcloseCPLEX(PyObject *__pyx_s
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("CPXcloseCPLEX (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 35, __pyx_L1_error)
-  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(__pyx_self, ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)__pyx_v_env));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 48, __pyx_L1_error)
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(__pyx_self, ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)__pyx_v_env));
 
   /* function exit code */
   goto __pyx_L0;
@@ -3901,7 +4276,7 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_7CPXcloseCPLEX(PyObject *__pyx_s
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3913,16 +4288,16 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXcloseCPLEX", 0);
 
-  /* "cplex_c_api_wrapper.pyx":36
+  /* "cplex_c_api_wrapper.pyx":49
  * 
- * def CPXcloseCPLEX(CplexEnv env):
+ * def CPXcloseCPLEX(Env env):
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))             # <<<<<<<<<<<<<<
  * 
- * def CPXfreeprob(CplexEnv env, CplexModel model):
+ * def CPXfreeprob(Env env, Model model):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 36, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(CPXcloseCPLEX((&__pyx_v_env->impl))); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 36, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(CPXcloseCPLEX((&__pyx_v_env->impl))); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -3937,15 +4312,15 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyO
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 36, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":35
- *     return CplexModel(env, name)
+  /* "cplex_c_api_wrapper.pyx":48
+ *     return result
  * 
- * def CPXcloseCPLEX(CplexEnv env):             # <<<<<<<<<<<<<<
+ * def CPXcloseCPLEX(Env env):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
  * 
  */
@@ -3966,10 +4341,10 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":38
+/* "cplex_c_api_wrapper.pyx":51
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
  * 
- * def CPXfreeprob(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ * def CPXfreeprob(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
  * 
  */
@@ -3978,8 +4353,8 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_6CPXcloseCPLEX(CYTHON_UNUSED PyO
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_9CPXfreeprob(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_9CPXfreeprob = {"CPXfreeprob", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_9CPXfreeprob, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_9CPXfreeprob(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4009,11 +4384,11 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_9CPXfreeprob(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_model)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXfreeprob", 1, 2, 2, 1); __PYX_ERR(2, 38, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXfreeprob", 1, 2, 2, 1); __PYX_ERR(2, 51, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXfreeprob") < 0)) __PYX_ERR(2, 38, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXfreeprob") < 0)) __PYX_ERR(2, 51, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4021,19 +4396,19 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_9CPXfreeprob(PyObject *__pyx_sel
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
-    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)values[1]);
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
+    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_Model *)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CPXfreeprob", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 38, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CPXfreeprob", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 51, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXfreeprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 38, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_CplexModel, 1, "model", 0))) __PYX_ERR(2, 38, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 51, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_Model, 1, "model", 0))) __PYX_ERR(2, 51, __pyx_L1_error)
   __pyx_r = __pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(__pyx_self, __pyx_v_env, __pyx_v_model);
 
   /* function exit code */
@@ -4045,7 +4420,7 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_9CPXfreeprob(PyObject *__pyx_sel
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4057,16 +4432,16 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXfreeprob", 0);
 
-  /* "cplex_c_api_wrapper.pyx":39
+  /* "cplex_c_api_wrapper.pyx":52
  * 
- * def CPXfreeprob(CplexEnv env, CplexModel model):
+ * def CPXfreeprob(Env env, Model model):
  *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))             # <<<<<<<<<<<<<<
  * 
- * cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):
+ * def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 39, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(CPXfreeprob(__pyx_v_env->impl, (&__pyx_v_model->impl))); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 39, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(CPXfreeprob(__pyx_v_env->impl, (&__pyx_v_model->impl))); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -4081,15 +4456,15 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(CYTHON_UNUSED PyObj
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 39, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":38
+  /* "cplex_c_api_wrapper.pyx":51
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
  * 
- * def CPXfreeprob(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ * def CPXfreeprob(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
  * 
  */
@@ -4110,123 +4485,20 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_8CPXfreeprob(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":41
+/* "cplex_c_api_wrapper.pyx":54
  *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
  * 
- * cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):             # <<<<<<<<<<<<<<
+ * def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
  *                                   model.impl,
  */
-
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_19cplex_c_api_wrapper_CPXwriteprob(struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_filename_str, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_19cplex_c_api_wrapper_CPXwriteprob *__pyx_optional_args) {
-  PyObject *__pyx_v_filetype_str = ((PyObject *)Py_None);
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("CPXwriteprob", 0);
-  if (__pyx_optional_args) {
-    if (__pyx_optional_args->__pyx_n > 0) {
-      __pyx_v_filetype_str = __pyx_optional_args->filetype_str;
-    }
-  }
-
-  /* "cplex_c_api_wrapper.pyx":42
- * 
- * cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):
- *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,             # <<<<<<<<<<<<<<
- *                                   model.impl,
- *                                   ArrayOfChar(filename_str).impl,
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-
-  /* "cplex_c_api_wrapper.pyx":44
- *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
- *                                   model.impl,
- *                                   ArrayOfChar(filename_str).impl,             # <<<<<<<<<<<<<<
- *                                   ArrayOfChar(filetype_str).impl
- *                 ))
- */
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_filename_str); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 44, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-
-  /* "cplex_c_api_wrapper.pyx":45
- *                                   model.impl,
- *                                   ArrayOfChar(filename_str).impl,
- *                                   ArrayOfChar(filetype_str).impl             # <<<<<<<<<<<<<<
- *                 ))
- * 
- */
-  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_filetype_str); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-
-  /* "cplex_c_api_wrapper.pyx":42
- * 
- * cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):
- *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,             # <<<<<<<<<<<<<<
- *                                   model.impl,
- *                                   ArrayOfChar(filename_str).impl,
- */
-  __pyx_t_5 = __Pyx_PyInt_From_int(CPXwriteprob(__pyx_v_env->impl, __pyx_v_model->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_3)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_4)->impl)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "cplex_c_api_wrapper.pyx":41
- *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
- * 
- * cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):             # <<<<<<<<<<<<<<
- *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
- *                                   model.impl,
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXwriteprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_11CPXwriteprob = {"CPXwriteprob", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model = 0;
   PyObject *__pyx_v_filename_str = 0;
   PyObject *__pyx_v_filetype_str = 0;
   int __pyx_lineno = 0;
@@ -4263,13 +4535,13 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_model)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXwriteprob", 0, 3, 4, 1); __PYX_ERR(2, 41, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXwriteprob", 0, 3, 4, 1); __PYX_ERR(2, 54, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_filename_str)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXwriteprob", 0, 3, 4, 2); __PYX_ERR(2, 41, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXwriteprob", 0, 3, 4, 2); __PYX_ERR(2, 54, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -4279,7 +4551,7 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob(PyObject *__pyx_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXwriteprob") < 0)) __PYX_ERR(2, 41, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXwriteprob") < 0)) __PYX_ERR(2, 54, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4292,21 +4564,21 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob(PyObject *__pyx_s
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
-    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)values[1]);
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
+    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_Model *)values[1]);
     __pyx_v_filename_str = values[2];
     __pyx_v_filetype_str = values[3];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CPXwriteprob", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 41, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CPXwriteprob", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 54, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXwriteprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 41, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_CplexModel, 1, "model", 0))) __PYX_ERR(2, 41, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 54, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_Model, 1, "model", 0))) __PYX_ERR(2, 54, __pyx_L1_error)
   __pyx_r = __pyx_pf_19cplex_c_api_wrapper_10CPXwriteprob(__pyx_self, __pyx_v_env, __pyx_v_model, __pyx_v_filename_str, __pyx_v_filetype_str);
 
   /* function exit code */
@@ -4318,168 +4590,84 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob(PyObject *__pyx_s
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CPXwriteprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_filename_str, PyObject *__pyx_v_filetype_str) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_19cplex_c_api_wrapper_CPXwriteprob __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("CPXwriteprob", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2.__pyx_n = 1;
-  __pyx_t_2.filetype_str = __pyx_v_filetype_str;
-  __pyx_t_1 = __pyx_f_19cplex_c_api_wrapper_CPXwriteprob(__pyx_v_env, __pyx_v_model, __pyx_v_filename_str, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXwriteprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "cplex_c_api_wrapper.pyx":48
- *                 ))
- * 
- * cpdef CPXnewcols(CplexEnv env, CplexModel model, ccnt, obj, lb, ub, xctype, colname):             # <<<<<<<<<<<<<<
- *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
- *                                 model.impl,
- */
-
-static PyObject *__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_19cplex_c_api_wrapper_CPXnewcols(struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_obj, PyObject *__pyx_v_lb, PyObject *__pyx_v_ub, PyObject *__pyx_v_xctype, PyObject *__pyx_v_colname, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_10CPXwriteprob(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model, PyObject *__pyx_v_filename_str, PyObject *__pyx_v_filetype_str) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("CPXnewcols", 0);
-
-  /* "cplex_c_api_wrapper.pyx":49
- * 
- * cpdef CPXnewcols(CplexEnv env, CplexModel model, ccnt, obj, lb, ub, xctype, colname):
- *     CALL_CPLEX(cplex.CPXnewcols(env.impl,             # <<<<<<<<<<<<<<
- *                                 model.impl,
- *                                 ccnt,
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 49, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-
-  /* "cplex_c_api_wrapper.pyx":51
- *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
- *                                 model.impl,
- *                                 ccnt,             # <<<<<<<<<<<<<<
- *                                 ArrayOfDouble(obj).impl,
- *                                 ArrayOfDouble(lb).impl,
- */
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_ccnt); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 51, __pyx_L1_error)
-
-  /* "cplex_c_api_wrapper.pyx":52
- *                                 model.impl,
- *                                 ccnt,
- *                                 ArrayOfDouble(obj).impl,             # <<<<<<<<<<<<<<
- *                                 ArrayOfDouble(lb).impl,
- *                                 ArrayOfDouble(ub).impl,
- */
-  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_obj); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 52, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-
-  /* "cplex_c_api_wrapper.pyx":53
- *                                 ccnt,
- *                                 ArrayOfDouble(obj).impl,
- *                                 ArrayOfDouble(lb).impl,             # <<<<<<<<<<<<<<
- *                                 ArrayOfDouble(ub).impl,
- *                                 ArrayOfChar(xctype).impl,
- */
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_lb); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 53, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-
-  /* "cplex_c_api_wrapper.pyx":54
- *                                 ArrayOfDouble(obj).impl,
- *                                 ArrayOfDouble(lb).impl,
- *                                 ArrayOfDouble(ub).impl,             # <<<<<<<<<<<<<<
- *                                 ArrayOfChar(xctype).impl,
- *                                 ArrayOfString(colname).impl
- */
-  __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_ub); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_RefNannySetupContext("CPXwriteprob", 0);
 
   /* "cplex_c_api_wrapper.pyx":55
- *                                 ArrayOfDouble(lb).impl,
- *                                 ArrayOfDouble(ub).impl,
- *                                 ArrayOfChar(xctype).impl,             # <<<<<<<<<<<<<<
- *                                 ArrayOfString(colname).impl
+ * 
+ * def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):
+ *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,             # <<<<<<<<<<<<<<
+ *                                   model.impl,
+ *                                   ArrayOfChar(filename_str).impl,
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+
+  /* "cplex_c_api_wrapper.pyx":57
+ *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
+ *                                   model.impl,
+ *                                   ArrayOfChar(filename_str).impl,             # <<<<<<<<<<<<<<
+ *                                   ArrayOfChar(filetype_str).impl
  *                 ))
  */
-  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_xctype); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 55, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_filename_str); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 57, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
 
-  /* "cplex_c_api_wrapper.pyx":56
- *                                 ArrayOfDouble(ub).impl,
- *                                 ArrayOfChar(xctype).impl,
- *                                 ArrayOfString(colname).impl             # <<<<<<<<<<<<<<
+  /* "cplex_c_api_wrapper.pyx":58
+ *                                   model.impl,
+ *                                   ArrayOfChar(filename_str).impl,
+ *                                   ArrayOfChar(filetype_str).impl             # <<<<<<<<<<<<<<
  *                 ))
  * 
  */
-  __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfString), __pyx_v_colname); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 56, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_filetype_str); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 58, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
 
-  /* "cplex_c_api_wrapper.pyx":49
+  /* "cplex_c_api_wrapper.pyx":55
  * 
- * cpdef CPXnewcols(CplexEnv env, CplexModel model, ccnt, obj, lb, ub, xctype, colname):
- *     CALL_CPLEX(cplex.CPXnewcols(env.impl,             # <<<<<<<<<<<<<<
- *                                 model.impl,
- *                                 ccnt,
+ * def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):
+ *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,             # <<<<<<<<<<<<<<
+ *                                   model.impl,
+ *                                   ArrayOfChar(filename_str).impl,
  */
-  __pyx_t_9 = __Pyx_PyInt_From_int(CPXnewcols(__pyx_v_env->impl, __pyx_v_model->impl, __pyx_t_3, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_4)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_5)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_6)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_7)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *)__pyx_t_8)->impl)); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 49, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_5 = __Pyx_PyInt_From_int(CPXwriteprob(__pyx_v_env->impl, __pyx_v_model->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_3)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_4)->impl)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = NULL;
+  __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_8)) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_8);
+      __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 49, __pyx_L1_error)
+  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":48
- *                 ))
+  /* "cplex_c_api_wrapper.pyx":54
+ *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
  * 
- * cpdef CPXnewcols(CplexEnv env, CplexModel model, ccnt, obj, lb, ub, xctype, colname):             # <<<<<<<<<<<<<<
- *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
- *                                 model.impl,
+ * def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
+ *                                   model.impl,
  */
 
   /* function exit code */
@@ -4488,25 +4676,31 @@ static PyObject *__pyx_f_19cplex_c_api_wrapper_CPXnewcols(struct __pyx_obj_19cpl
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXnewcols", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
+  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXwriteprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
+/* "cplex_c_api_wrapper.pyx":61
+ *                 ))
+ * 
+ * def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
+ *                                 model.impl,
+ */
+
 /* Python wrapper */
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_13CPXnewcols = {"CPXnewcols", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model = 0;
   PyObject *__pyx_v_ccnt = 0;
   PyObject *__pyx_v_obj = 0;
   PyObject *__pyx_v_lb = 0;
@@ -4554,47 +4748,47 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_model)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 1); __PYX_ERR(2, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 1); __PYX_ERR(2, 61, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ccnt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 2); __PYX_ERR(2, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 2); __PYX_ERR(2, 61, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_obj)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 3); __PYX_ERR(2, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 3); __PYX_ERR(2, 61, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_lb)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 4); __PYX_ERR(2, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 4); __PYX_ERR(2, 61, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ub)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 5); __PYX_ERR(2, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 5); __PYX_ERR(2, 61, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_xctype)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 6); __PYX_ERR(2, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 6); __PYX_ERR(2, 61, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_colname)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 7); __PYX_ERR(2, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, 7); __PYX_ERR(2, 61, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXnewcols") < 0)) __PYX_ERR(2, 48, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXnewcols") < 0)) __PYX_ERR(2, 61, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
       goto __pyx_L5_argtuple_error;
@@ -4608,8 +4802,8 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols(PyObject *__pyx_sel
       values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
       values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
     }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
-    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)values[1]);
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
+    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_Model *)values[1]);
     __pyx_v_ccnt = values[2];
     __pyx_v_obj = values[3];
     __pyx_v_lb = values[4];
@@ -4619,14 +4813,14 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols(PyObject *__pyx_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 48, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CPXnewcols", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 61, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXnewcols", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 48, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_CplexModel, 1, "model", 0))) __PYX_ERR(2, 48, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 61, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_Model, 1, "model", 0))) __PYX_ERR(2, 61, __pyx_L1_error)
   __pyx_r = __pyx_pf_19cplex_c_api_wrapper_12CPXnewcols(__pyx_self, __pyx_v_env, __pyx_v_model, __pyx_v_ccnt, __pyx_v_obj, __pyx_v_lb, __pyx_v_ub, __pyx_v_xctype, __pyx_v_colname);
 
   /* function exit code */
@@ -4638,24 +4832,144 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols(PyObject *__pyx_sel
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_12CPXnewcols(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_obj, PyObject *__pyx_v_lb, PyObject *__pyx_v_ub, PyObject *__pyx_v_xctype, PyObject *__pyx_v_colname) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_12CPXnewcols(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_obj, PyObject *__pyx_v_lb, PyObject *__pyx_v_ub, PyObject *__pyx_v_xctype, PyObject *__pyx_v_colname) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXnewcols", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19cplex_c_api_wrapper_CPXnewcols(__pyx_v_env, __pyx_v_model, __pyx_v_ccnt, __pyx_v_obj, __pyx_v_lb, __pyx_v_ub, __pyx_v_xctype, __pyx_v_colname, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 48, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":62
+ * 
+ * def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):
+ *     CALL_CPLEX(cplex.CPXnewcols(env.impl,             # <<<<<<<<<<<<<<
+ *                                 model.impl,
+ *                                 ccnt,
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+
+  /* "cplex_c_api_wrapper.pyx":64
+ *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
+ *                                 model.impl,
+ *                                 ccnt,             # <<<<<<<<<<<<<<
+ *                                 ArrayOfDouble(obj).impl,
+ *                                 ArrayOfDouble(lb).impl,
+ */
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_ccnt); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 64, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":65
+ *                                 model.impl,
+ *                                 ccnt,
+ *                                 ArrayOfDouble(obj).impl,             # <<<<<<<<<<<<<<
+ *                                 ArrayOfDouble(lb).impl,
+ *                                 ArrayOfDouble(ub).impl,
+ */
+  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_obj); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 65, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+
+  /* "cplex_c_api_wrapper.pyx":66
+ *                                 ccnt,
+ *                                 ArrayOfDouble(obj).impl,
+ *                                 ArrayOfDouble(lb).impl,             # <<<<<<<<<<<<<<
+ *                                 ArrayOfDouble(ub).impl,
+ *                                 ArrayOfChar(xctype).impl,
+ */
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_lb); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 66, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+
+  /* "cplex_c_api_wrapper.pyx":67
+ *                                 ArrayOfDouble(obj).impl,
+ *                                 ArrayOfDouble(lb).impl,
+ *                                 ArrayOfDouble(ub).impl,             # <<<<<<<<<<<<<<
+ *                                 ArrayOfChar(xctype).impl,
+ *                                 ArrayOfString(colname).impl
+ */
+  __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_ub); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 67, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+
+  /* "cplex_c_api_wrapper.pyx":68
+ *                                 ArrayOfDouble(lb).impl,
+ *                                 ArrayOfDouble(ub).impl,
+ *                                 ArrayOfChar(xctype).impl,             # <<<<<<<<<<<<<<
+ *                                 ArrayOfString(colname).impl
+ *                 ))
+ */
+  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_xctype); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+
+  /* "cplex_c_api_wrapper.pyx":69
+ *                                 ArrayOfDouble(ub).impl,
+ *                                 ArrayOfChar(xctype).impl,
+ *                                 ArrayOfString(colname).impl             # <<<<<<<<<<<<<<
+ *                 ))
+ * 
+ */
+  __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfString), __pyx_v_colname); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 69, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+
+  /* "cplex_c_api_wrapper.pyx":62
+ * 
+ * def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):
+ *     CALL_CPLEX(cplex.CPXnewcols(env.impl,             # <<<<<<<<<<<<<<
+ *                                 model.impl,
+ *                                 ccnt,
+ */
+  __pyx_t_9 = __Pyx_PyInt_From_int(CPXnewcols(__pyx_v_env->impl, __pyx_v_model->impl, __pyx_t_3, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_4)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_5)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_6)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_7)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *)__pyx_t_8)->impl)); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_8 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_8)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_8);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":61
+ *                 ))
+ * 
+ * def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
+ *                                 model.impl,
+ */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXnewcols", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -4664,10 +4978,10 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_12CPXnewcols(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":59
+/* "cplex_c_api_wrapper.pyx":72
  *                 ))
  * 
- * def CPXaddrows(CplexEnv env, CplexModel model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
+ * def CPXaddrows(Env env, Model model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXaddrows(env.impl,
  *                                 model.impl,
  */
@@ -4676,8 +4990,8 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_12CPXnewcols(CYTHON_UNUSED PyObj
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_15CPXaddrows(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_15CPXaddrows = {"CPXaddrows", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_15CPXaddrows, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_15CPXaddrows(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model = 0;
   PyObject *__pyx_v_ccnt = 0;
   PyObject *__pyx_v_rcnt = 0;
   PyObject *__pyx_v_nzcnt = 0;
@@ -4737,71 +5051,71 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_15CPXaddrows(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_model)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 1); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 1); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ccnt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 2); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 2); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rcnt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 3); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 3); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nzcnt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 4); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 4); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rhs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 5); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 5); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rtypes)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 6); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 6); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rmatbeg)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 7); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 7); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rmatind)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 8); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 8); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  9:
         if (likely((values[9] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rmatval)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 9); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 9); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case 10:
         if (likely((values[10] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_colname)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 10); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 10); __PYX_ERR(2, 72, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case 11:
         if (likely((values[11] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rowname)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 11); __PYX_ERR(2, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, 11); __PYX_ERR(2, 72, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXaddrows") < 0)) __PYX_ERR(2, 59, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXaddrows") < 0)) __PYX_ERR(2, 72, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 12) {
       goto __pyx_L5_argtuple_error;
@@ -4819,8 +5133,8 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_15CPXaddrows(PyObject *__pyx_sel
       values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
       values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
     }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
-    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)values[1]);
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
+    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_Model *)values[1]);
     __pyx_v_ccnt = values[2];
     __pyx_v_rcnt = values[3];
     __pyx_v_nzcnt = values[4];
@@ -4834,14 +5148,14 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_15CPXaddrows(PyObject *__pyx_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 59, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CPXaddrows", 1, 12, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 72, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXaddrows", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 59, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_CplexModel, 1, "model", 0))) __PYX_ERR(2, 59, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 72, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_Model, 1, "model", 0))) __PYX_ERR(2, 72, __pyx_L1_error)
   __pyx_r = __pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(__pyx_self, __pyx_v_env, __pyx_v_model, __pyx_v_ccnt, __pyx_v_rcnt, __pyx_v_nzcnt, __pyx_v_rhs, __pyx_v_rtypes, __pyx_v_rmatbeg, __pyx_v_rmatind, __pyx_v_rmatval, __pyx_v_colname, __pyx_v_rowname);
 
   /* function exit code */
@@ -4853,7 +5167,7 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_15CPXaddrows(PyObject *__pyx_sel
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_rcnt, PyObject *__pyx_v_nzcnt, PyObject *__pyx_v_rhs, PyObject *__pyx_v_rtypes, PyObject *__pyx_v_rmatbeg, PyObject *__pyx_v_rmatind, PyObject *__pyx_v_rmatval, PyObject *__pyx_v_colname, PyObject *__pyx_v_rowname) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model, PyObject *__pyx_v_ccnt, PyObject *__pyx_v_rcnt, PyObject *__pyx_v_nzcnt, PyObject *__pyx_v_rhs, PyObject *__pyx_v_rtypes, PyObject *__pyx_v_rmatbeg, PyObject *__pyx_v_rmatind, PyObject *__pyx_v_rmatval, PyObject *__pyx_v_colname, PyObject *__pyx_v_rowname) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4874,121 +5188,121 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXaddrows", 0);
 
-  /* "cplex_c_api_wrapper.pyx":60
+  /* "cplex_c_api_wrapper.pyx":73
  * 
- * def CPXaddrows(CplexEnv env, CplexModel model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):
+ * def CPXaddrows(Env env, Model model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):
  *     CALL_CPLEX(cplex.CPXaddrows(env.impl,             # <<<<<<<<<<<<<<
  *                                 model.impl,
  *                                 ccnt,
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 60, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "cplex_c_api_wrapper.pyx":62
+  /* "cplex_c_api_wrapper.pyx":75
  *     CALL_CPLEX(cplex.CPXaddrows(env.impl,
  *                                 model.impl,
  *                                 ccnt,             # <<<<<<<<<<<<<<
  *                                 rcnt,
  *                                 nzcnt,
  */
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_ccnt); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 62, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_ccnt); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 75, __pyx_L1_error)
 
-  /* "cplex_c_api_wrapper.pyx":63
+  /* "cplex_c_api_wrapper.pyx":76
  *                                 model.impl,
  *                                 ccnt,
  *                                 rcnt,             # <<<<<<<<<<<<<<
  *                                 nzcnt,
  *                                 ArrayOfDouble(rhs).impl,
  */
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_rcnt); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 63, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_rcnt); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 76, __pyx_L1_error)
 
-  /* "cplex_c_api_wrapper.pyx":64
+  /* "cplex_c_api_wrapper.pyx":77
  *                                 ccnt,
  *                                 rcnt,
  *                                 nzcnt,             # <<<<<<<<<<<<<<
  *                                 ArrayOfDouble(rhs).impl,
  *                                 ArrayOfChar(rtypes).impl,
  */
-  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_nzcnt); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 64, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_nzcnt); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 77, __pyx_L1_error)
 
-  /* "cplex_c_api_wrapper.pyx":65
+  /* "cplex_c_api_wrapper.pyx":78
  *                                 rcnt,
  *                                 nzcnt,
  *                                 ArrayOfDouble(rhs).impl,             # <<<<<<<<<<<<<<
  *                                 ArrayOfChar(rtypes).impl,
  *                                 ArrayOfInt(rmatbeg).impl,
  */
-  __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_rhs); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 65, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_rhs); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
-  /* "cplex_c_api_wrapper.pyx":66
+  /* "cplex_c_api_wrapper.pyx":79
  *                                 nzcnt,
  *                                 ArrayOfDouble(rhs).impl,
  *                                 ArrayOfChar(rtypes).impl,             # <<<<<<<<<<<<<<
  *                                 ArrayOfInt(rmatbeg).impl,
  *                                 ArrayOfInt(rmatind).impl,
  */
-  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_rtypes); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 66, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfChar), __pyx_v_rtypes); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
-  /* "cplex_c_api_wrapper.pyx":67
+  /* "cplex_c_api_wrapper.pyx":80
  *                                 ArrayOfDouble(rhs).impl,
  *                                 ArrayOfChar(rtypes).impl,
  *                                 ArrayOfInt(rmatbeg).impl,             # <<<<<<<<<<<<<<
  *                                 ArrayOfInt(rmatind).impl,
  *                                 ArrayOfDouble(rmatval).impl,
  */
-  __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfInt), __pyx_v_rmatbeg); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 67, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfInt), __pyx_v_rmatbeg); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "cplex_c_api_wrapper.pyx":68
+  /* "cplex_c_api_wrapper.pyx":81
  *                                 ArrayOfChar(rtypes).impl,
  *                                 ArrayOfInt(rmatbeg).impl,
  *                                 ArrayOfInt(rmatind).impl,             # <<<<<<<<<<<<<<
  *                                 ArrayOfDouble(rmatval).impl,
  *                                 ArrayOfString(colname).impl,
  */
-  __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfInt), __pyx_v_rmatind); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 68, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfInt), __pyx_v_rmatind); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
 
-  /* "cplex_c_api_wrapper.pyx":69
+  /* "cplex_c_api_wrapper.pyx":82
  *                                 ArrayOfInt(rmatbeg).impl,
  *                                 ArrayOfInt(rmatind).impl,
  *                                 ArrayOfDouble(rmatval).impl,             # <<<<<<<<<<<<<<
  *                                 ArrayOfString(colname).impl,
  *                                 ArrayOfString(rowname).impl
  */
-  __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_rmatval); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 69, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfDouble), __pyx_v_rmatval); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
 
-  /* "cplex_c_api_wrapper.pyx":70
+  /* "cplex_c_api_wrapper.pyx":83
  *                                 ArrayOfInt(rmatind).impl,
  *                                 ArrayOfDouble(rmatval).impl,
  *                                 ArrayOfString(colname).impl,             # <<<<<<<<<<<<<<
  *                                 ArrayOfString(rowname).impl
  *                ))
  */
-  __pyx_t_11 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfString), __pyx_v_colname); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 70, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfString), __pyx_v_colname); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
 
-  /* "cplex_c_api_wrapper.pyx":71
+  /* "cplex_c_api_wrapper.pyx":84
  *                                 ArrayOfDouble(rmatval).impl,
  *                                 ArrayOfString(colname).impl,
  *                                 ArrayOfString(rowname).impl             # <<<<<<<<<<<<<<
  *                ))
  * 
  */
-  __pyx_t_12 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfString), __pyx_v_rowname); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 71, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_ArrayOfString), __pyx_v_rowname); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
 
-  /* "cplex_c_api_wrapper.pyx":60
+  /* "cplex_c_api_wrapper.pyx":73
  * 
- * def CPXaddrows(CplexEnv env, CplexModel model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):
+ * def CPXaddrows(Env env, Model model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):
  *     CALL_CPLEX(cplex.CPXaddrows(env.impl,             # <<<<<<<<<<<<<<
  *                                 model.impl,
  *                                 ccnt,
  */
-  __pyx_t_13 = __Pyx_PyInt_From_int(CPXaddrows(__pyx_v_env->impl, __pyx_v_model->impl, __pyx_t_3, __pyx_t_4, __pyx_t_5, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_6)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_7)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfInt *)__pyx_t_8)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfInt *)__pyx_t_9)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_10)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *)__pyx_t_11)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *)__pyx_t_12)->impl)); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 60, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyInt_From_int(CPXaddrows(__pyx_v_env->impl, __pyx_v_model->impl, __pyx_t_3, __pyx_t_4, __pyx_t_5, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_6)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfChar *)__pyx_t_7)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfInt *)__pyx_t_8)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfInt *)__pyx_t_9)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfDouble *)__pyx_t_10)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *)__pyx_t_11)->impl, ((struct __pyx_obj_19cplex_c_api_wrapper_ArrayOfString *)__pyx_t_12)->impl)); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -5010,15 +5324,15 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObj
   __pyx_t_1 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_12, __pyx_t_13) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_13);
   __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 60, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":59
+  /* "cplex_c_api_wrapper.pyx":72
  *                 ))
  * 
- * def CPXaddrows(CplexEnv env, CplexModel model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
+ * def CPXaddrows(Env env, Model model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXaddrows(env.impl,
  *                                 model.impl,
  */
@@ -5045,10 +5359,10 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":74
+/* "cplex_c_api_wrapper.pyx":87
  *                ))
  * 
- * def CPXmipopt(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ * def CPXmipopt(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
  */
@@ -5057,8 +5371,8 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_14CPXaddrows(CYTHON_UNUSED PyObj
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_17CPXmipopt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_17CPXmipopt = {"CPXmipopt", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_17CPXmipopt, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_17CPXmipopt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5088,11 +5402,11 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_17CPXmipopt(PyObject *__pyx_self
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_model)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXmipopt", 1, 2, 2, 1); __PYX_ERR(2, 74, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXmipopt", 1, 2, 2, 1); __PYX_ERR(2, 87, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXmipopt") < 0)) __PYX_ERR(2, 74, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXmipopt") < 0)) __PYX_ERR(2, 87, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5100,19 +5414,19 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_17CPXmipopt(PyObject *__pyx_self
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
-    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *)values[1]);
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
+    __pyx_v_model = ((struct __pyx_obj_19cplex_c_api_wrapper_Model *)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CPXmipopt", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 74, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CPXmipopt", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 87, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXmipopt", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 74, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_CplexModel, 1, "model", 0))) __PYX_ERR(2, 74, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 87, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_model), __pyx_ptype_19cplex_c_api_wrapper_Model, 1, "model", 0))) __PYX_ERR(2, 87, __pyx_L1_error)
   __pyx_r = __pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(__pyx_self, __pyx_v_env, __pyx_v_model);
 
   /* function exit code */
@@ -5124,7 +5438,7 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_17CPXmipopt(PyObject *__pyx_self
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_CplexModel *__pyx_v_model) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Model *__pyx_v_model) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5136,16 +5450,16 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(CYTHON_UNUSED PyObje
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXmipopt", 0);
 
-  /* "cplex_c_api_wrapper.pyx":75
+  /* "cplex_c_api_wrapper.pyx":88
  * 
- * def CPXmipopt(CplexEnv env, CplexModel model):
+ * def CPXmipopt(Env env, Model model):
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))             # <<<<<<<<<<<<<<
  * 
- * def CPXsetintparam(CplexEnv env, whichparam, newvalue):
+ * def CPXsetintparam(Env env, whichparam, newvalue):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 75, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(CPXmipopt(__pyx_v_env->impl, __pyx_v_model->impl)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 75, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(CPXmipopt(__pyx_v_env->impl, __pyx_v_model->impl)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -5160,15 +5474,15 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(CYTHON_UNUSED PyObje
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 75, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":74
+  /* "cplex_c_api_wrapper.pyx":87
  *                ))
  * 
- * def CPXmipopt(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ * def CPXmipopt(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
  */
@@ -5189,18 +5503,19 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_16CPXmipopt(CYTHON_UNUSED PyObje
   return __pyx_r;
 }
 
-/* "cplex_c_api_wrapper.pyx":77
+/* "cplex_c_api_wrapper.pyx":90
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
- * def CPXsetintparam(CplexEnv env, whichparam, newvalue):             # <<<<<<<<<<<<<<
+ * def CPXsetintparam(Env env, whichparam, newvalue):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))
+ * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_19CPXsetintparam(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_19CPXsetintparam = {"CPXsetintparam", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_19CPXsetintparam, METH_VARARGS|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_19cplex_c_api_wrapper_19CPXsetintparam(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
   PyObject *__pyx_v_whichparam = 0;
   PyObject *__pyx_v_newvalue = 0;
   int __pyx_lineno = 0;
@@ -5234,17 +5549,17 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_19CPXsetintparam(PyObject *__pyx
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_whichparam)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXsetintparam", 1, 3, 3, 1); __PYX_ERR(2, 77, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXsetintparam", 1, 3, 3, 1); __PYX_ERR(2, 90, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_newvalue)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CPXsetintparam", 1, 3, 3, 2); __PYX_ERR(2, 77, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CPXsetintparam", 1, 3, 3, 2); __PYX_ERR(2, 90, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXsetintparam") < 0)) __PYX_ERR(2, 77, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXsetintparam") < 0)) __PYX_ERR(2, 90, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5253,19 +5568,19 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_19CPXsetintparam(PyObject *__pyx
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *)values[0]);
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
     __pyx_v_whichparam = values[1];
     __pyx_v_newvalue = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CPXsetintparam", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 77, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CPXsetintparam", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 90, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXsetintparam", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_CplexEnv, 1, "env", 0))) __PYX_ERR(2, 77, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 90, __pyx_L1_error)
   __pyx_r = __pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(__pyx_self, __pyx_v_env, __pyx_v_whichparam, __pyx_v_newvalue);
 
   /* function exit code */
@@ -5277,7 +5592,7 @@ static PyObject *__pyx_pw_19cplex_c_api_wrapper_19CPXsetintparam(PyObject *__pyx
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv *__pyx_v_env, PyObject *__pyx_v_whichparam, PyObject *__pyx_v_newvalue) {
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, PyObject *__pyx_v_whichparam, PyObject *__pyx_v_newvalue) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5291,16 +5606,18 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CPXsetintparam", 0);
 
-  /* "cplex_c_api_wrapper.pyx":78
+  /* "cplex_c_api_wrapper.pyx":91
  * 
- * def CPXsetintparam(CplexEnv env, whichparam, newvalue):
+ * def CPXsetintparam(Env env, whichparam, newvalue):
  *     CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))             # <<<<<<<<<<<<<<
+ * 
+ * cdef class Callback:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 78, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_whichparam); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 78, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_newvalue); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 78, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyInt_From_int(CPXsetintparam(__pyx_v_env->impl, __pyx_t_3, __pyx_t_4)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 78, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_whichparam); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 91, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_newvalue); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 91, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(CPXsetintparam(__pyx_v_env->impl, __pyx_t_3, __pyx_t_4)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -5315,16 +5632,17 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(CYTHON_UNUSED P
   __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 78, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":77
+  /* "cplex_c_api_wrapper.pyx":90
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
- * def CPXsetintparam(CplexEnv env, whichparam, newvalue):             # <<<<<<<<<<<<<<
+ * def CPXsetintparam(Env env, whichparam, newvalue):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))
+ * 
  */
 
   /* function exit code */
@@ -5338,6 +5656,734 @@ static PyObject *__pyx_pf_19cplex_c_api_wrapper_18CPXsetintparam(CYTHON_UNUSED P
   __Pyx_AddTraceback("cplex_c_api_wrapper.CPXsetintparam", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cplex_c_api_wrapper.pyx":100
+ *     wherefrom = None
+ * 
+ *     def __cinit__(self):             # <<<<<<<<<<<<<<
+ *         if not callable(self): raise TypeError("Callback must be callable")
+ * 
+ */
+
+/* Python wrapper */
+static int __pyx_pw_19cplex_c_api_wrapper_8Callback_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_19cplex_c_api_wrapper_8Callback_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__cinit__", 0))) return -1;
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_8Callback___cinit__(((struct __pyx_obj_19cplex_c_api_wrapper_Callback *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_19cplex_c_api_wrapper_8Callback___cinit__(struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__cinit__", 0);
+
+  /* "cplex_c_api_wrapper.pyx":101
+ * 
+ *     def __cinit__(self):
+ *         if not callable(self): raise TypeError("Callback must be callable")             # <<<<<<<<<<<<<<
+ * 
+ * cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:
+ */
+  __pyx_t_1 = __Pyx_PyCallable_Check(((PyObject *)__pyx_v_self)); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(2, 101, __pyx_L1_error)
+  __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
+  if (unlikely(__pyx_t_2)) {
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 101, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(2, 101, __pyx_L1_error)
+  }
+
+  /* "cplex_c_api_wrapper.pyx":100
+ *     wherefrom = None
+ * 
+ *     def __cinit__(self):             # <<<<<<<<<<<<<<
+ *         if not callable(self): raise TypeError("Callback must be callable")
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Callback.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_8Callback_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_8Callback_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_8Callback_2__reduce_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_Callback *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_8Callback_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 2, __pyx_L1_error)
+
+  /* "(tree fragment)":1
+ * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Callback.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_8Callback_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_8Callback_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_8Callback_4__setstate_cython__(((struct __pyx_obj_19cplex_c_api_wrapper_Callback *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_8Callback_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_ERR(1, 4, __pyx_L1_error)
+
+  /* "(tree fragment)":3
+ * def __reduce_cython__(self):
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
+ *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.Callback.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cplex_c_api_wrapper.pyx":103
+ *         if not callable(self): raise TypeError("Callback must be callable")
+ * 
+ * cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:             # <<<<<<<<<<<<<<
+ *     with gil:
+ *         cb = <Callback>cbhandle
+ */
+
+static int __pyx_f_19cplex_c_api_wrapper_callback_bridge(CPXCENVptr __pyx_v_xenv, void *__pyx_v_cbdata, int __pyx_v_wherefrom, void *__pyx_v_cbhandle, int *__pyx_v_useraction_p) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_cb = NULL;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  #ifdef WITH_THREAD
+  PyGILState_STATE __pyx_gilstate_save;
+  #endif
+  __Pyx_RefNannySetupContext("callback_bridge", 1);
+
+  /* "cplex_c_api_wrapper.pyx":104
+ * 
+ * cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:
+ *     with gil:             # <<<<<<<<<<<<<<
+ *         cb = <Callback>cbhandle
+ * 
+ */
+  /*try:*/ {
+    {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        /*try:*/ {
+
+          /* "cplex_c_api_wrapper.pyx":105
+ * cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:
+ *     with gil:
+ *         cb = <Callback>cbhandle             # <<<<<<<<<<<<<<
+ * 
+ *         cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
+ */
+          __pyx_t_1 = ((PyObject *)__pyx_v_cbhandle);
+          __Pyx_INCREF(__pyx_t_1);
+          __pyx_v_cb = ((struct __pyx_obj_19cplex_c_api_wrapper_Callback *)__pyx_t_1);
+          __pyx_t_1 = 0;
+
+          /* "cplex_c_api_wrapper.pyx":107
+ *         cb = <Callback>cbhandle
+ * 
+ *         cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)             # <<<<<<<<<<<<<<
+ *         cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)
+ *         cb.wherefrom = wherefrom
+ */
+          __pyx_t_1 = __pyx_f_19cplex_c_api_wrapper_3Env_from_ptr(((CPXENVptr)__pyx_v_xenv)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 107, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_cb), __pyx_n_s_env, __pyx_t_1) < 0) __PYX_ERR(2, 107, __pyx_L7_error)
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+          /* "cplex_c_api_wrapper.pyx":108
+ * 
+ *         cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
+ *         cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)             # <<<<<<<<<<<<<<
+ *         cb.wherefrom = wherefrom
+ * 
+ */
+          __pyx_t_1 = __pyx_f_19cplex_c_api_wrapper_11VoidPointer_from_ptr(((void *)__pyx_v_cbdata)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 108, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_cb), __pyx_n_s_cbdata, __pyx_t_1) < 0) __PYX_ERR(2, 108, __pyx_L7_error)
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+          /* "cplex_c_api_wrapper.pyx":109
+ *         cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
+ *         cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)
+ *         cb.wherefrom = wherefrom             # <<<<<<<<<<<<<<
+ * 
+ *         cb()
+ */
+          __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_wherefrom); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 109, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_cb), __pyx_n_s_wherefrom, __pyx_t_1) < 0) __PYX_ERR(2, 109, __pyx_L7_error)
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+          /* "cplex_c_api_wrapper.pyx":111
+ *         cb.wherefrom = wherefrom
+ * 
+ *         cb()             # <<<<<<<<<<<<<<
+ * 
+ *         cb.env = None
+ */
+          __Pyx_INCREF(((PyObject *)__pyx_v_cb));
+          __pyx_t_2 = ((PyObject *)__pyx_v_cb); __pyx_t_3 = NULL;
+          if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+            __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+            if (likely(__pyx_t_3)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+              __Pyx_INCREF(__pyx_t_3);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_2, function);
+            }
+          }
+          __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 111, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+          /* "cplex_c_api_wrapper.pyx":113
+ *         cb()
+ * 
+ *         cb.env = None             # <<<<<<<<<<<<<<
+ *         cb.cbdata = None
+ *         cb.wherefrom = None
+ */
+          if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_cb), __pyx_n_s_env, Py_None) < 0) __PYX_ERR(2, 113, __pyx_L7_error)
+
+          /* "cplex_c_api_wrapper.pyx":114
+ * 
+ *         cb.env = None
+ *         cb.cbdata = None             # <<<<<<<<<<<<<<
+ *         cb.wherefrom = None
+ * 
+ */
+          if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_cb), __pyx_n_s_cbdata, Py_None) < 0) __PYX_ERR(2, 114, __pyx_L7_error)
+
+          /* "cplex_c_api_wrapper.pyx":115
+ *         cb.env = None
+ *         cb.cbdata = None
+ *         cb.wherefrom = None             # <<<<<<<<<<<<<<
+ * 
+ *         useraction_p[0] = 0
+ */
+          if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_cb), __pyx_n_s_wherefrom, Py_None) < 0) __PYX_ERR(2, 115, __pyx_L7_error)
+
+          /* "cplex_c_api_wrapper.pyx":117
+ *         cb.wherefrom = None
+ * 
+ *         useraction_p[0] = 0             # <<<<<<<<<<<<<<
+ * 
+ *         return 0
+ */
+          (__pyx_v_useraction_p[0]) = 0;
+
+          /* "cplex_c_api_wrapper.pyx":119
+ *         useraction_p[0] = 0
+ * 
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ * def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):
+ */
+          __pyx_r = 0;
+          goto __pyx_L6_return;
+        }
+
+        /* "cplex_c_api_wrapper.pyx":104
+ * 
+ * cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:
+ *     with gil:             # <<<<<<<<<<<<<<
+ *         cb = <Callback>cbhandle
+ * 
+ */
+        /*finally:*/ {
+          __pyx_L6_return: {
+            #ifdef WITH_THREAD
+            __Pyx_PyGILState_Release(__pyx_gilstate_save);
+            #endif
+            goto __pyx_L3_return;
+          }
+          __pyx_L7_error: {
+            #ifdef WITH_THREAD
+            __Pyx_PyGILState_Release(__pyx_gilstate_save);
+            #endif
+            goto __pyx_L4_error;
+          }
+        }
+    }
+  }
+  /*finally:*/ {
+    __pyx_L3_return: {
+      #ifdef WITH_THREAD
+      __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      goto __pyx_L0;
+    }
+    __pyx_L4_error: {
+      #ifdef WITH_THREAD
+      __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      goto __pyx_L1_error;
+    }
+  }
+
+  /* "cplex_c_api_wrapper.pyx":103
+ *         if not callable(self): raise TypeError("Callback must be callable")
+ * 
+ * cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:             # <<<<<<<<<<<<<<
+ *     with gil:
+ *         cb = <Callback>cbhandle
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_WriteUnraisable("cplex_c_api_wrapper.callback_bridge", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_cb);
+  #ifdef WITH_THREAD
+  __Pyx_PyGILState_Release(__pyx_gilstate_save);
+  #endif
+  return __pyx_r;
+}
+
+/* "cplex_c_api_wrapper.pyx":121
+ *         return 0
+ * 
+ * def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_21CPXsetlazyconstraintcallbackfunc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_21CPXsetlazyconstraintcallbackfunc = {"CPXsetlazyconstraintcallbackfunc", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_21CPXsetlazyconstraintcallbackfunc, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_21CPXsetlazyconstraintcallbackfunc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_cb = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("CPXsetlazyconstraintcallbackfunc (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_env,&__pyx_n_s_cb,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_env)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cb)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("CPXsetlazyconstraintcallbackfunc", 1, 2, 2, 1); __PYX_ERR(2, 121, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXsetlazyconstraintcallbackfunc") < 0)) __PYX_ERR(2, 121, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
+    __pyx_v_cb = ((struct __pyx_obj_19cplex_c_api_wrapper_Callback *)values[1]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("CPXsetlazyconstraintcallbackfunc", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 121, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXsetlazyconstraintcallbackfunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 121, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cb), __pyx_ptype_19cplex_c_api_wrapper_Callback, 1, "cb", 0))) __PYX_ERR(2, 121, __pyx_L1_error)
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_20CPXsetlazyconstraintcallbackfunc(__pyx_self, __pyx_v_env, __pyx_v_cb);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_20CPXsetlazyconstraintcallbackfunc(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_Callback *__pyx_v_cb) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("CPXsetlazyconstraintcallbackfunc", 0);
+
+  /* "cplex_c_api_wrapper.pyx":122
+ * 
+ * def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))             # <<<<<<<<<<<<<<
+ * 
+ * def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyInt_From_int(CPXsetlazyconstraintcallbackfunc(__pyx_v_env->impl, __pyx_f_19cplex_c_api_wrapper_callback_bridge, ((void *)__pyx_v_cb))); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":121
+ *         return 0
+ * 
+ * def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXsetlazyconstraintcallbackfunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cplex_c_api_wrapper.pyx":124
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ * def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):             # <<<<<<<<<<<<<<
+ *     cdef cplex.CPXLPptr lp
+ *     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_23CPXgetcallbacknodelp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19cplex_c_api_wrapper_23CPXgetcallbacknodelp = {"CPXgetcallbacknodelp", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_23CPXgetcallbacknodelp, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19cplex_c_api_wrapper_23CPXgetcallbacknodelp(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env = 0;
+  struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_cbdata = 0;
+  PyObject *__pyx_v_wherefrom = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("CPXgetcallbacknodelp (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_env,&__pyx_n_s_cbdata,&__pyx_n_s_wherefrom,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_env)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cbdata)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("CPXgetcallbacknodelp", 1, 3, 3, 1); __PYX_ERR(2, 124, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_wherefrom)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("CPXgetcallbacknodelp", 1, 3, 3, 2); __PYX_ERR(2, 124, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CPXgetcallbacknodelp") < 0)) __PYX_ERR(2, 124, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_env = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)values[0]);
+    __pyx_v_cbdata = ((struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *)values[1]);
+    __pyx_v_wherefrom = values[2];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("CPXgetcallbacknodelp", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 124, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXgetcallbacknodelp", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_env), __pyx_ptype_19cplex_c_api_wrapper_Env, 1, "env", 0))) __PYX_ERR(2, 124, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_cbdata), __pyx_ptype_19cplex_c_api_wrapper_VoidPointer, 1, "cbdata", 0))) __PYX_ERR(2, 124, __pyx_L1_error)
+  __pyx_r = __pyx_pf_19cplex_c_api_wrapper_22CPXgetcallbacknodelp(__pyx_self, __pyx_v_env, __pyx_v_cbdata, __pyx_v_wherefrom);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19cplex_c_api_wrapper_22CPXgetcallbacknodelp(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_19cplex_c_api_wrapper_Env *__pyx_v_env, struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *__pyx_v_cbdata, PyObject *__pyx_v_wherefrom) {
+  CPXLPptr __pyx_v_lp;
+  PyObject *__pyx_v_result = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("CPXgetcallbacknodelp", 0);
+
+  /* "cplex_c_api_wrapper.pyx":126
+ * def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):
+ *     cdef cplex.CPXLPptr lp
+ *     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))             # <<<<<<<<<<<<<<
+ *     result = Model.from_ptr(<cplex.CPXLPptr> lp)
+ *     return result
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_CALL_CPLEX); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 126, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_wherefrom); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 126, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(CPXgetcallbacknodelp(__pyx_v_env->impl, __pyx_v_cbdata->impl, __pyx_t_3, (&__pyx_v_lp))); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 126, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 126, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":127
+ *     cdef cplex.CPXLPptr lp
+ *     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))
+ *     result = Model.from_ptr(<cplex.CPXLPptr> lp)             # <<<<<<<<<<<<<<
+ *     return result
+ */
+  __pyx_t_1 = __pyx_f_19cplex_c_api_wrapper_5Model_from_ptr(((CPXLPptr)__pyx_v_lp)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 127, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_result = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":128
+ *     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))
+ *     result = Model.from_ptr(<cplex.CPXLPptr> lp)
+ *     return result             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_result);
+  __pyx_r = __pyx_v_result;
+  goto __pyx_L0;
+
+  /* "cplex_c_api_wrapper.pyx":124
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ * def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):             # <<<<<<<<<<<<<<
+ *     cdef cplex.CPXLPptr lp
+ *     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("cplex_c_api_wrapper.CPXgetcallbacknodelp", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -5803,8 +6849,10 @@ static PyTypeObject __pyx_type_19cplex_c_api_wrapper_ArrayOfString = {
   0, /*tp_pypy_flags*/
   #endif
 };
+static struct __pyx_vtabstruct_19cplex_c_api_wrapper_VoidPointer __pyx_vtable_19cplex_c_api_wrapper_VoidPointer;
 
-static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_CplexEnv(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_VoidPointer(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -5812,14 +6860,16 @@ static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_CplexEnv(PyTypeObject *t, CY
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  if (unlikely(__pyx_pw_19cplex_c_api_wrapper_8CplexEnv_1__cinit__(o, __pyx_empty_tuple, NULL) < 0)) goto bad;
+  p = ((struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer *)o);
+  p->__pyx_vtab = __pyx_vtabptr_19cplex_c_api_wrapper_VoidPointer;
+  if (unlikely(__pyx_pw_19cplex_c_api_wrapper_11VoidPointer_1__cinit__(o, __pyx_empty_tuple, NULL) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static void __pyx_tp_dealloc_19cplex_c_api_wrapper_CplexEnv(PyObject *o) {
+static void __pyx_tp_dealloc_19cplex_c_api_wrapper_VoidPointer(PyObject *o) {
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -5828,18 +6878,18 @@ static void __pyx_tp_dealloc_19cplex_c_api_wrapper_CplexEnv(PyObject *o) {
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyMethodDef __pyx_methods_19cplex_c_api_wrapper_CplexEnv[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_8CplexEnv_3__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_8CplexEnv_5__setstate_cython__, METH_O, 0},
+static PyMethodDef __pyx_methods_19cplex_c_api_wrapper_VoidPointer[] = {
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_11VoidPointer_3__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_11VoidPointer_5__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexEnv = {
+static PyTypeObject __pyx_type_19cplex_c_api_wrapper_VoidPointer = {
   PyVarObject_HEAD_INIT(0, 0)
-  "cplex_c_api_wrapper.CplexEnv", /*tp_name*/
-  sizeof(struct __pyx_obj_19cplex_c_api_wrapper_CplexEnv), /*tp_basicsize*/
+  "cplex_c_api_wrapper.VoidPointer", /*tp_name*/
+  sizeof(struct __pyx_obj_19cplex_c_api_wrapper_VoidPointer), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_19cplex_c_api_wrapper_CplexEnv, /*tp_dealloc*/
+  __pyx_tp_dealloc_19cplex_c_api_wrapper_VoidPointer, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -5872,7 +6922,7 @@ static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexEnv = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_19cplex_c_api_wrapper_CplexEnv, /*tp_methods*/
+  __pyx_methods_19cplex_c_api_wrapper_VoidPointer, /*tp_methods*/
   0, /*tp_members*/
   0, /*tp_getset*/
   0, /*tp_base*/
@@ -5882,7 +6932,211 @@ static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexEnv = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_19cplex_c_api_wrapper_CplexEnv, /*tp_new*/
+  __pyx_tp_new_19cplex_c_api_wrapper_VoidPointer, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b1 && (!CYTHON_COMPILING_IN_PYPY || PYPY_VERSION_NUM >= 0x07030800)
+  0, /*tp_vectorcall*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
+  0, /*tp_print*/
+  #endif
+  #if CYTHON_COMPILING_IN_PYPY && PY_VERSION_HEX >= 0x03090000
+  0, /*tp_pypy_flags*/
+  #endif
+};
+static struct __pyx_vtabstruct_19cplex_c_api_wrapper_Env __pyx_vtable_19cplex_c_api_wrapper_Env;
+
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_Env(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Env *p;
+  PyObject *o;
+  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
+    o = (*t->tp_alloc)(t, 0);
+  } else {
+    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
+  }
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_19cplex_c_api_wrapper_Env *)o);
+  p->__pyx_vtab = __pyx_vtabptr_19cplex_c_api_wrapper_Env;
+  return o;
+}
+
+static void __pyx_tp_dealloc_19cplex_c_api_wrapper_Env(PyObject *o) {
+  #if CYTHON_USE_TP_FINALIZE
+  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  (*Py_TYPE(o)->tp_free)(o);
+}
+
+static PyMethodDef __pyx_methods_19cplex_c_api_wrapper_Env[] = {
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_3Env_1__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_3Env_3__setstate_cython__, METH_O, 0},
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_19cplex_c_api_wrapper_Env = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "cplex_c_api_wrapper.Env", /*tp_name*/
+  sizeof(struct __pyx_obj_19cplex_c_api_wrapper_Env), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_19cplex_c_api_wrapper_Env, /*tp_dealloc*/
+  #if PY_VERSION_HEX < 0x030800b4
+  0, /*tp_print*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b4
+  0, /*tp_vectorcall_offset*/
+  #endif
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_19cplex_c_api_wrapper_Env, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_19cplex_c_api_wrapper_Env, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b1 && (!CYTHON_COMPILING_IN_PYPY || PYPY_VERSION_NUM >= 0x07030800)
+  0, /*tp_vectorcall*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
+  0, /*tp_print*/
+  #endif
+  #if CYTHON_COMPILING_IN_PYPY && PY_VERSION_HEX >= 0x03090000
+  0, /*tp_pypy_flags*/
+  #endif
+};
+static struct __pyx_vtabstruct_19cplex_c_api_wrapper_Model __pyx_vtable_19cplex_c_api_wrapper_Model;
+
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_Model(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Model *p;
+  PyObject *o;
+  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
+    o = (*t->tp_alloc)(t, 0);
+  } else {
+    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
+  }
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_19cplex_c_api_wrapper_Model *)o);
+  p->__pyx_vtab = __pyx_vtabptr_19cplex_c_api_wrapper_Model;
+  return o;
+}
+
+static void __pyx_tp_dealloc_19cplex_c_api_wrapper_Model(PyObject *o) {
+  #if CYTHON_USE_TP_FINALIZE
+  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  (*Py_TYPE(o)->tp_free)(o);
+}
+
+static PyMethodDef __pyx_methods_19cplex_c_api_wrapper_Model[] = {
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_5Model_1__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_5Model_3__setstate_cython__, METH_O, 0},
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_19cplex_c_api_wrapper_Model = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "cplex_c_api_wrapper.Model", /*tp_name*/
+  sizeof(struct __pyx_obj_19cplex_c_api_wrapper_Model), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_19cplex_c_api_wrapper_Model, /*tp_dealloc*/
+  #if PY_VERSION_HEX < 0x030800b4
+  0, /*tp_print*/
+  #endif
+  #if PY_VERSION_HEX >= 0x030800b4
+  0, /*tp_vectorcall_offset*/
+  #endif
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_19cplex_c_api_wrapper_Model, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_19cplex_c_api_wrapper_Model, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -5906,7 +7160,8 @@ static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexEnv = {
   #endif
 };
 
-static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_CplexModel(PyTypeObject *t, PyObject *a, PyObject *k) {
+static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_Callback(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Callback *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -5914,34 +7169,57 @@ static PyObject *__pyx_tp_new_19cplex_c_api_wrapper_CplexModel(PyTypeObject *t, 
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  if (unlikely(__pyx_pw_19cplex_c_api_wrapper_10CplexModel_1__cinit__(o, a, k) < 0)) goto bad;
+  p = ((struct __pyx_obj_19cplex_c_api_wrapper_Callback *)o);
+  p->python_callback = Py_None; Py_INCREF(Py_None);
+  if (unlikely(__pyx_pw_19cplex_c_api_wrapper_8Callback_1__cinit__(o, __pyx_empty_tuple, NULL) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static void __pyx_tp_dealloc_19cplex_c_api_wrapper_CplexModel(PyObject *o) {
+static void __pyx_tp_dealloc_19cplex_c_api_wrapper_Callback(PyObject *o) {
+  struct __pyx_obj_19cplex_c_api_wrapper_Callback *p = (struct __pyx_obj_19cplex_c_api_wrapper_Callback *)o;
   #if CYTHON_USE_TP_FINALIZE
-  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
+  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
   }
   #endif
+  PyObject_GC_UnTrack(o);
+  Py_CLEAR(p->python_callback);
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyMethodDef __pyx_methods_19cplex_c_api_wrapper_CplexModel[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_10CplexModel_3__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_10CplexModel_5__setstate_cython__, METH_O, 0},
+static int __pyx_tp_traverse_19cplex_c_api_wrapper_Callback(PyObject *o, visitproc v, void *a) {
+  int e;
+  struct __pyx_obj_19cplex_c_api_wrapper_Callback *p = (struct __pyx_obj_19cplex_c_api_wrapper_Callback *)o;
+  if (p->python_callback) {
+    e = (*v)(p->python_callback, a); if (e) return e;
+  }
+  return 0;
+}
+
+static int __pyx_tp_clear_19cplex_c_api_wrapper_Callback(PyObject *o) {
+  PyObject* tmp;
+  struct __pyx_obj_19cplex_c_api_wrapper_Callback *p = (struct __pyx_obj_19cplex_c_api_wrapper_Callback *)o;
+  tmp = ((PyObject*)p->python_callback);
+  p->python_callback = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  return 0;
+}
+
+static PyMethodDef __pyx_methods_19cplex_c_api_wrapper_Callback[] = {
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_8Callback_3__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_19cplex_c_api_wrapper_8Callback_5__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexModel = {
+static PyTypeObject __pyx_type_19cplex_c_api_wrapper_Callback = {
   PyVarObject_HEAD_INIT(0, 0)
-  "cplex_c_api_wrapper.CplexModel", /*tp_name*/
-  sizeof(struct __pyx_obj_19cplex_c_api_wrapper_CplexModel), /*tp_basicsize*/
+  "cplex_c_api_wrapper.Callback", /*tp_name*/
+  sizeof(struct __pyx_obj_19cplex_c_api_wrapper_Callback), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_19cplex_c_api_wrapper_CplexModel, /*tp_dealloc*/
+  __pyx_tp_dealloc_19cplex_c_api_wrapper_Callback, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -5966,15 +7244,15 @@ static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexModel = {
   0, /*tp_getattro*/
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
+  __pyx_tp_traverse_19cplex_c_api_wrapper_Callback, /*tp_traverse*/
+  __pyx_tp_clear_19cplex_c_api_wrapper_Callback, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_19cplex_c_api_wrapper_CplexModel, /*tp_methods*/
+  __pyx_methods_19cplex_c_api_wrapper_Callback, /*tp_methods*/
   0, /*tp_members*/
   0, /*tp_getset*/
   0, /*tp_base*/
@@ -5984,7 +7262,7 @@ static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexModel = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_19cplex_c_api_wrapper_CplexModel, /*tp_new*/
+  __pyx_tp_new_19cplex_c_api_wrapper_Callback, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -6009,8 +7287,6 @@ static PyTypeObject __pyx_type_19cplex_c_api_wrapper_CplexModel = {
 };
 
 static PyMethodDef __pyx_methods[] = {
-  {"CPXwriteprob", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_11CPXwriteprob, METH_VARARGS|METH_KEYWORDS, 0},
-  {"CPXnewcols", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19cplex_c_api_wrapper_13CPXnewcols, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -6061,24 +7337,38 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ArrayOfInt, __pyx_k_ArrayOfInt, sizeof(__pyx_k_ArrayOfInt), 0, 0, 1, 1},
   {&__pyx_n_s_ArrayOfString, __pyx_k_ArrayOfString, sizeof(__pyx_k_ArrayOfString), 0, 0, 1, 1},
   {&__pyx_n_s_CALL_CPLEX, __pyx_k_CALL_CPLEX, sizeof(__pyx_k_CALL_CPLEX), 0, 0, 1, 1},
+  {&__pyx_n_s_CPX_ALG_DUAL, __pyx_k_CPX_ALG_DUAL, sizeof(__pyx_k_CPX_ALG_DUAL), 0, 0, 1, 1},
+  {&__pyx_n_s_CPX_ALG_PRIMAL, __pyx_k_CPX_ALG_PRIMAL, sizeof(__pyx_k_CPX_ALG_PRIMAL), 0, 0, 1, 1},
   {&__pyx_n_s_CPX_INFBOUND, __pyx_k_CPX_INFBOUND, sizeof(__pyx_k_CPX_INFBOUND), 0, 0, 1, 1},
   {&__pyx_n_s_CPX_OFF, __pyx_k_CPX_OFF, sizeof(__pyx_k_CPX_OFF), 0, 0, 1, 1},
   {&__pyx_n_s_CPX_ON, __pyx_k_CPX_ON, sizeof(__pyx_k_CPX_ON), 0, 0, 1, 1},
+  {&__pyx_n_s_CPX_PARAM_PREIND, __pyx_k_CPX_PARAM_PREIND, sizeof(__pyx_k_CPX_PARAM_PREIND), 0, 0, 1, 1},
   {&__pyx_n_s_CPX_PARAM_SCRIND, __pyx_k_CPX_PARAM_SCRIND, sizeof(__pyx_k_CPX_PARAM_SCRIND), 0, 0, 1, 1},
+  {&__pyx_n_s_CPX_PARAM_STARTALG, __pyx_k_CPX_PARAM_STARTALG, sizeof(__pyx_k_CPX_PARAM_STARTALG), 0, 0, 1, 1},
+  {&__pyx_n_s_CPX_PARAM_SUBALG, __pyx_k_CPX_PARAM_SUBALG, sizeof(__pyx_k_CPX_PARAM_SUBALG), 0, 0, 1, 1},
   {&__pyx_n_s_CPXaddrows, __pyx_k_CPXaddrows, sizeof(__pyx_k_CPXaddrows), 0, 0, 1, 1},
   {&__pyx_n_s_CPXcloseCPLEX, __pyx_k_CPXcloseCPLEX, sizeof(__pyx_k_CPXcloseCPLEX), 0, 0, 1, 1},
   {&__pyx_n_s_CPXcreateprob, __pyx_k_CPXcreateprob, sizeof(__pyx_k_CPXcreateprob), 0, 0, 1, 1},
   {&__pyx_n_s_CPXfreeprob, __pyx_k_CPXfreeprob, sizeof(__pyx_k_CPXfreeprob), 0, 0, 1, 1},
+  {&__pyx_n_s_CPXgetcallbacknodelp, __pyx_k_CPXgetcallbacknodelp, sizeof(__pyx_k_CPXgetcallbacknodelp), 0, 0, 1, 1},
   {&__pyx_n_s_CPXmipopt, __pyx_k_CPXmipopt, sizeof(__pyx_k_CPXmipopt), 0, 0, 1, 1},
+  {&__pyx_n_s_CPXnewcols, __pyx_k_CPXnewcols, sizeof(__pyx_k_CPXnewcols), 0, 0, 1, 1},
   {&__pyx_n_s_CPXopenCPLEX, __pyx_k_CPXopenCPLEX, sizeof(__pyx_k_CPXopenCPLEX), 0, 0, 1, 1},
   {&__pyx_n_s_CPXsetintparam, __pyx_k_CPXsetintparam, sizeof(__pyx_k_CPXsetintparam), 0, 0, 1, 1},
-  {&__pyx_n_s_CplexEnv, __pyx_k_CplexEnv, sizeof(__pyx_k_CplexEnv), 0, 0, 1, 1},
-  {&__pyx_n_s_CplexModel, __pyx_k_CplexModel, sizeof(__pyx_k_CplexModel), 0, 0, 1, 1},
+  {&__pyx_n_s_CPXsetlazyconstraintcallbackfunc, __pyx_k_CPXsetlazyconstraintcallbackfunc, sizeof(__pyx_k_CPXsetlazyconstraintcallbackfunc), 0, 0, 1, 1},
+  {&__pyx_n_s_CPXwriteprob, __pyx_k_CPXwriteprob, sizeof(__pyx_k_CPXwriteprob), 0, 0, 1, 1},
+  {&__pyx_n_s_Callback, __pyx_k_Callback, sizeof(__pyx_k_Callback), 0, 0, 1, 1},
+  {&__pyx_kp_u_Callback_must_be_callable, __pyx_k_Callback_must_be_callable, sizeof(__pyx_k_Callback_must_be_callable), 0, 1, 0, 0},
+  {&__pyx_n_s_Env, __pyx_k_Env, sizeof(__pyx_k_Env), 0, 0, 1, 1},
   {&__pyx_kp_u_Error_calling_CPLEX_returned_sta, __pyx_k_Error_calling_CPLEX_returned_sta, sizeof(__pyx_k_Error_calling_CPLEX_returned_sta), 0, 1, 0, 0},
+  {&__pyx_n_s_Model, __pyx_k_Model, sizeof(__pyx_k_Model), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
+  {&__pyx_n_s_VoidPointer, __pyx_k_VoidPointer, sizeof(__pyx_k_VoidPointer), 0, 0, 1, 1},
   {&__pyx_kp_u__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 1, 0, 0},
   {&__pyx_n_u_ascii, __pyx_k_ascii, sizeof(__pyx_k_ascii), 0, 1, 0, 1},
+  {&__pyx_n_s_cb, __pyx_k_cb, sizeof(__pyx_k_cb), 0, 0, 1, 1},
+  {&__pyx_n_s_cbdata, __pyx_k_cbdata, sizeof(__pyx_k_cbdata), 0, 0, 1, 1},
   {&__pyx_n_s_ccnt, __pyx_k_ccnt, sizeof(__pyx_k_ccnt), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_colname, __pyx_k_colname, sizeof(__pyx_k_colname), 0, 0, 1, 1},
@@ -6090,6 +7380,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_filetype_str, __pyx_k_filetype_str, sizeof(__pyx_k_filetype_str), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_n_s_lb, __pyx_k_lb, sizeof(__pyx_k_lb), 0, 0, 1, 1},
+  {&__pyx_n_s_lp, __pyx_k_lp, sizeof(__pyx_k_lp), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_model, __pyx_k_model, sizeof(__pyx_k_model), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
@@ -6098,23 +7389,27 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
   {&__pyx_n_s_nzcnt, __pyx_k_nzcnt, sizeof(__pyx_k_nzcnt), 0, 0, 1, 1},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
+  {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_rcnt, __pyx_k_rcnt, sizeof(__pyx_k_rcnt), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
+  {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
   {&__pyx_n_s_rhs, __pyx_k_rhs, sizeof(__pyx_k_rhs), 0, 0, 1, 1},
   {&__pyx_n_s_rmatbeg, __pyx_k_rmatbeg, sizeof(__pyx_k_rmatbeg), 0, 0, 1, 1},
   {&__pyx_n_s_rmatind, __pyx_k_rmatind, sizeof(__pyx_k_rmatind), 0, 0, 1, 1},
   {&__pyx_n_s_rmatval, __pyx_k_rmatval, sizeof(__pyx_k_rmatval), 0, 0, 1, 1},
   {&__pyx_n_s_rowname, __pyx_k_rowname, sizeof(__pyx_k_rowname), 0, 0, 1, 1},
   {&__pyx_n_s_rtypes, __pyx_k_rtypes, sizeof(__pyx_k_rtypes), 0, 0, 1, 1},
+  {&__pyx_kp_s_self_impl_cannot_be_converted_to, __pyx_k_self_impl_cannot_be_converted_to, sizeof(__pyx_k_self_impl_cannot_be_converted_to), 0, 0, 1, 0},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_status, __pyx_k_status, sizeof(__pyx_k_status), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_ub, __pyx_k_ub, sizeof(__pyx_k_ub), 0, 0, 1, 1},
   {&__pyx_n_s_values, __pyx_k_values, sizeof(__pyx_k_values), 0, 0, 1, 1},
+  {&__pyx_n_s_wherefrom, __pyx_k_wherefrom, sizeof(__pyx_k_wherefrom), 0, 0, 1, 1},
   {&__pyx_n_s_whichparam, __pyx_k_whichparam, sizeof(__pyx_k_whichparam), 0, 0, 1, 1},
   {&__pyx_n_s_xctype, __pyx_k_xctype, sizeof(__pyx_k_xctype), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -6122,7 +7417,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 16, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 11, __pyx_L1_error)
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 16, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -6229,114 +7524,215 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_self_impl_cannot_be_converted_to); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ */
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_self_impl_cannot_be_converted_to); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_self_impl_cannot_be_converted_to); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+
+  /* "(tree fragment)":4
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.impl cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ */
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_self_impl_cannot_be_converted_to); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+
+  /* "cplex_c_api_wrapper.pyx":101
+ * 
+ *     def __cinit__(self):
+ *         if not callable(self): raise TypeError("Callback must be callable")             # <<<<<<<<<<<<<<
+ * 
+ * cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:
+ */
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Callback_must_be_callable); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(2, 101, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "cplex_c_api_wrapper.pyx":10
+  /* "cplex_c_api_wrapper.pyx":15
  * CPX_OFF = cplex.CPX_OFF
  * 
  * def CALL_CPLEX(status):             # <<<<<<<<<<<<<<
  *     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
  * 
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_s_status); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(2, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CALL_CPLEX, 10, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(2, 10, __pyx_L1_error)
-
-  /* "cplex_c_api_wrapper.pyx":29
- *         CALL_CPLEX(status)
- * 
- * def CPXopenCPLEX():             # <<<<<<<<<<<<<<
- *     return CplexEnv()
- * 
- */
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXopenCPLEX, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(2, 29, __pyx_L1_error)
-
-  /* "cplex_c_api_wrapper.pyx":32
- *     return CplexEnv()
- * 
- * def CPXcreateprob(CplexEnv env, name):             # <<<<<<<<<<<<<<
- *     return CplexModel(env, name)
- * 
- */
-  __pyx_tuple__17 = PyTuple_Pack(2, __pyx_n_s_env, __pyx_n_s_name); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(2, 32, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXcreateprob, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(2, 32, __pyx_L1_error)
-
-  /* "cplex_c_api_wrapper.pyx":35
- *     return CplexModel(env, name)
- * 
- * def CPXcloseCPLEX(CplexEnv env):             # <<<<<<<<<<<<<<
- *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
- * 
- */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_n_s_env); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(2, 35, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_n_s_status); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(2, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXcloseCPLEX, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(2, 35, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CALL_CPLEX, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(2, 15, __pyx_L1_error)
 
-  /* "cplex_c_api_wrapper.pyx":38
+  /* "cplex_c_api_wrapper.pyx":36
+ *         return model
+ * 
+ * def CPXopenCPLEX():             # <<<<<<<<<<<<<<
+ *     cdef int status = 0
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))
+ */
+  __pyx_tuple__21 = PyTuple_Pack(2, __pyx_n_s_status, __pyx_n_s_result); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(2, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXopenCPLEX, 36, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(2, 36, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":42
+ *     return result
+ * 
+ * def CPXcreateprob(Env env, name):             # <<<<<<<<<<<<<<
+ *     cdef int status = 0
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))
+ */
+  __pyx_tuple__23 = PyTuple_Pack(4, __pyx_n_s_env, __pyx_n_s_name, __pyx_n_s_status, __pyx_n_s_result); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(2, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXcreateprob, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(2, 42, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":48
+ *     return result
+ * 
+ * def CPXcloseCPLEX(Env env):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
  * 
- * def CPXfreeprob(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ */
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_s_env); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(2, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXcloseCPLEX, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(2, 48, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":51
+ *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
+ * 
+ * def CPXfreeprob(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
  * 
  */
-  __pyx_tuple__21 = PyTuple_Pack(2, __pyx_n_s_env, __pyx_n_s_model); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(2, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXfreeprob, 38, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(2, 38, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_env, __pyx_n_s_model); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(2, 51, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXfreeprob, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(2, 51, __pyx_L1_error)
 
-  /* "cplex_c_api_wrapper.pyx":59
+  /* "cplex_c_api_wrapper.pyx":54
+ *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
+ * 
+ * def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
+ *                                   model.impl,
+ */
+  __pyx_tuple__29 = PyTuple_Pack(4, __pyx_n_s_env, __pyx_n_s_model, __pyx_n_s_filename_str, __pyx_n_s_filetype_str); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(2, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXwriteprob, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(2, 54, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":61
  *                 ))
  * 
- * def CPXaddrows(CplexEnv env, CplexModel model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
+ * def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
+ *                                 model.impl,
+ */
+  __pyx_tuple__31 = PyTuple_Pack(8, __pyx_n_s_env, __pyx_n_s_model, __pyx_n_s_ccnt, __pyx_n_s_obj, __pyx_n_s_lb, __pyx_n_s_ub, __pyx_n_s_xctype, __pyx_n_s_colname); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(2, 61, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXnewcols, 61, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(2, 61, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":72
+ *                 ))
+ * 
+ * def CPXaddrows(Env env, Model model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXaddrows(env.impl,
  *                                 model.impl,
  */
-  __pyx_tuple__23 = PyTuple_Pack(12, __pyx_n_s_env, __pyx_n_s_model, __pyx_n_s_ccnt, __pyx_n_s_rcnt, __pyx_n_s_nzcnt, __pyx_n_s_rhs, __pyx_n_s_rtypes, __pyx_n_s_rmatbeg, __pyx_n_s_rmatind, __pyx_n_s_rmatval, __pyx_n_s_colname, __pyx_n_s_rowname); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(2, 59, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(12, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXaddrows, 59, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(2, 59, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(12, __pyx_n_s_env, __pyx_n_s_model, __pyx_n_s_ccnt, __pyx_n_s_rcnt, __pyx_n_s_nzcnt, __pyx_n_s_rhs, __pyx_n_s_rtypes, __pyx_n_s_rmatbeg, __pyx_n_s_rmatind, __pyx_n_s_rmatval, __pyx_n_s_colname, __pyx_n_s_rowname); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(2, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(12, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXaddrows, 72, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(2, 72, __pyx_L1_error)
 
-  /* "cplex_c_api_wrapper.pyx":74
+  /* "cplex_c_api_wrapper.pyx":87
  *                ))
  * 
- * def CPXmipopt(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ * def CPXmipopt(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(2, __pyx_n_s_env, __pyx_n_s_model); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(2, 74, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXmipopt, 74, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(2, 74, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_n_s_env, __pyx_n_s_model); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(2, 87, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXmipopt, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(2, 87, __pyx_L1_error)
 
-  /* "cplex_c_api_wrapper.pyx":77
+  /* "cplex_c_api_wrapper.pyx":90
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
- * def CPXsetintparam(CplexEnv env, whichparam, newvalue):             # <<<<<<<<<<<<<<
+ * def CPXsetintparam(Env env, whichparam, newvalue):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))
+ * 
  */
-  __pyx_tuple__27 = PyTuple_Pack(3, __pyx_n_s_env, __pyx_n_s_whichparam, __pyx_n_s_newvalue); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(2, 77, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXsetintparam, 77, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(2, 77, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(3, __pyx_n_s_env, __pyx_n_s_whichparam, __pyx_n_s_newvalue); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(2, 90, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXsetintparam, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(2, 90, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":121
+ *         return 0
+ * 
+ * def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ */
+  __pyx_tuple__39 = PyTuple_Pack(2, __pyx_n_s_env, __pyx_n_s_cb); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(2, 121, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXsetlazyconstraintcallbackfunc, 121, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(2, 121, __pyx_L1_error)
+
+  /* "cplex_c_api_wrapper.pyx":124
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ * def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):             # <<<<<<<<<<<<<<
+ *     cdef cplex.CPXLPptr lp
+ *     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))
+ */
+  __pyx_tuple__41 = PyTuple_Pack(5, __pyx_n_s_env, __pyx_n_s_cbdata, __pyx_n_s_wherefrom, __pyx_n_s_lp, __pyx_n_s_result); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(2, 124, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cplex_c_api_wrapper_pyx, __pyx_n_s_CPXgetcallbacknodelp, 124, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(2, 124, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6431,26 +7827,55 @@ static int __Pyx_modinit_type_init_code(void) {
   if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayOfString, (PyObject *)&__pyx_type_19cplex_c_api_wrapper_ArrayOfString) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
   if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19cplex_c_api_wrapper_ArrayOfString) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
   __pyx_ptype_19cplex_c_api_wrapper_ArrayOfString = &__pyx_type_19cplex_c_api_wrapper_ArrayOfString;
-  if (PyType_Ready(&__pyx_type_19cplex_c_api_wrapper_CplexEnv) < 0) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_vtabptr_19cplex_c_api_wrapper_VoidPointer = &__pyx_vtable_19cplex_c_api_wrapper_VoidPointer;
+  __pyx_vtable_19cplex_c_api_wrapper_VoidPointer.from_ptr = (PyObject *(*)(void *))__pyx_f_19cplex_c_api_wrapper_11VoidPointer_from_ptr;
+  if (PyType_Ready(&__pyx_type_19cplex_c_api_wrapper_VoidPointer) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_19cplex_c_api_wrapper_CplexEnv.tp_print = 0;
+  __pyx_type_19cplex_c_api_wrapper_VoidPointer.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19cplex_c_api_wrapper_CplexEnv.tp_dictoffset && __pyx_type_19cplex_c_api_wrapper_CplexEnv.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_19cplex_c_api_wrapper_CplexEnv.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19cplex_c_api_wrapper_VoidPointer.tp_dictoffset && __pyx_type_19cplex_c_api_wrapper_VoidPointer.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_19cplex_c_api_wrapper_VoidPointer.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_CplexEnv, (PyObject *)&__pyx_type_19cplex_c_api_wrapper_CplexEnv) < 0) __PYX_ERR(2, 13, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19cplex_c_api_wrapper_CplexEnv) < 0) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_ptype_19cplex_c_api_wrapper_CplexEnv = &__pyx_type_19cplex_c_api_wrapper_CplexEnv;
-  if (PyType_Ready(&__pyx_type_19cplex_c_api_wrapper_CplexModel) < 0) __PYX_ERR(2, 21, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19cplex_c_api_wrapper_VoidPointer.tp_dict, __pyx_vtabptr_19cplex_c_api_wrapper_VoidPointer) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_VoidPointer, (PyObject *)&__pyx_type_19cplex_c_api_wrapper_VoidPointer) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19cplex_c_api_wrapper_VoidPointer) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_ptype_19cplex_c_api_wrapper_VoidPointer = &__pyx_type_19cplex_c_api_wrapper_VoidPointer;
+  __pyx_vtabptr_19cplex_c_api_wrapper_Env = &__pyx_vtable_19cplex_c_api_wrapper_Env;
+  __pyx_vtable_19cplex_c_api_wrapper_Env.from_ptr = (PyObject *(*)(CPXENVptr))__pyx_f_19cplex_c_api_wrapper_3Env_from_ptr;
+  if (PyType_Ready(&__pyx_type_19cplex_c_api_wrapper_Env) < 0) __PYX_ERR(2, 18, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_19cplex_c_api_wrapper_CplexModel.tp_print = 0;
+  __pyx_type_19cplex_c_api_wrapper_Env.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19cplex_c_api_wrapper_CplexModel.tp_dictoffset && __pyx_type_19cplex_c_api_wrapper_CplexModel.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_19cplex_c_api_wrapper_CplexModel.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19cplex_c_api_wrapper_Env.tp_dictoffset && __pyx_type_19cplex_c_api_wrapper_Env.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_19cplex_c_api_wrapper_Env.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_CplexModel, (PyObject *)&__pyx_type_19cplex_c_api_wrapper_CplexModel) < 0) __PYX_ERR(2, 21, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19cplex_c_api_wrapper_CplexModel) < 0) __PYX_ERR(2, 21, __pyx_L1_error)
-  __pyx_ptype_19cplex_c_api_wrapper_CplexModel = &__pyx_type_19cplex_c_api_wrapper_CplexModel;
+  if (__Pyx_SetVtable(__pyx_type_19cplex_c_api_wrapper_Env.tp_dict, __pyx_vtabptr_19cplex_c_api_wrapper_Env) < 0) __PYX_ERR(2, 18, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Env, (PyObject *)&__pyx_type_19cplex_c_api_wrapper_Env) < 0) __PYX_ERR(2, 18, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19cplex_c_api_wrapper_Env) < 0) __PYX_ERR(2, 18, __pyx_L1_error)
+  __pyx_ptype_19cplex_c_api_wrapper_Env = &__pyx_type_19cplex_c_api_wrapper_Env;
+  __pyx_vtabptr_19cplex_c_api_wrapper_Model = &__pyx_vtable_19cplex_c_api_wrapper_Model;
+  __pyx_vtable_19cplex_c_api_wrapper_Model.from_ptr = (PyObject *(*)(CPXLPptr))__pyx_f_19cplex_c_api_wrapper_5Model_from_ptr;
+  if (PyType_Ready(&__pyx_type_19cplex_c_api_wrapper_Model) < 0) __PYX_ERR(2, 27, __pyx_L1_error)
+  #if PY_VERSION_HEX < 0x030800B1
+  __pyx_type_19cplex_c_api_wrapper_Model.tp_print = 0;
+  #endif
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19cplex_c_api_wrapper_Model.tp_dictoffset && __pyx_type_19cplex_c_api_wrapper_Model.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_19cplex_c_api_wrapper_Model.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  }
+  if (__Pyx_SetVtable(__pyx_type_19cplex_c_api_wrapper_Model.tp_dict, __pyx_vtabptr_19cplex_c_api_wrapper_Model) < 0) __PYX_ERR(2, 27, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Model, (PyObject *)&__pyx_type_19cplex_c_api_wrapper_Model) < 0) __PYX_ERR(2, 27, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19cplex_c_api_wrapper_Model) < 0) __PYX_ERR(2, 27, __pyx_L1_error)
+  __pyx_ptype_19cplex_c_api_wrapper_Model = &__pyx_type_19cplex_c_api_wrapper_Model;
+  if (PyType_Ready(&__pyx_type_19cplex_c_api_wrapper_Callback) < 0) __PYX_ERR(2, 93, __pyx_L1_error)
+  #if PY_VERSION_HEX < 0x030800B1
+  __pyx_type_19cplex_c_api_wrapper_Callback.tp_print = 0;
+  #endif
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19cplex_c_api_wrapper_Callback.tp_dictoffset && __pyx_type_19cplex_c_api_wrapper_Callback.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_19cplex_c_api_wrapper_Callback.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  }
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Callback, (PyObject *)&__pyx_type_19cplex_c_api_wrapper_Callback) < 0) __PYX_ERR(2, 93, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19cplex_c_api_wrapper_Callback) < 0) __PYX_ERR(2, 93, __pyx_L1_error)
+  __pyx_ptype_19cplex_c_api_wrapper_Callback = &__pyx_type_19cplex_c_api_wrapper_Callback;
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6687,7 +8112,7 @@ if (!__Pyx_RefNanny) {
  * 
  * CPX_INFBOUND = cplex.CPX_INFBOUND             # <<<<<<<<<<<<<<
  * CPX_PARAM_SCRIND = cplex.CPX_PARAM_SCRIND
- * CPX_ON = cplex.CPX_ON
+ * CPX_PARAM_STARTALG = cplex.CPX_PARAM_STARTALG
  */
   __pyx_t_1 = PyFloat_FromDouble(CPX_INFBOUND); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -6698,8 +8123,8 @@ if (!__Pyx_RefNanny) {
  * 
  * CPX_INFBOUND = cplex.CPX_INFBOUND
  * CPX_PARAM_SCRIND = cplex.CPX_PARAM_SCRIND             # <<<<<<<<<<<<<<
- * CPX_ON = cplex.CPX_ON
- * CPX_OFF = cplex.CPX_OFF
+ * CPX_PARAM_STARTALG = cplex.CPX_PARAM_STARTALG
+ * CPX_PARAM_SUBALG = cplex.CPX_PARAM_SUBALG
  */
   __pyx_t_1 = __Pyx_PyInt_From_int(CPX_PARAM_SCRIND); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -6709,120 +8134,259 @@ if (!__Pyx_RefNanny) {
   /* "cplex_c_api_wrapper.pyx":7
  * CPX_INFBOUND = cplex.CPX_INFBOUND
  * CPX_PARAM_SCRIND = cplex.CPX_PARAM_SCRIND
- * CPX_ON = cplex.CPX_ON             # <<<<<<<<<<<<<<
- * CPX_OFF = cplex.CPX_OFF
- * 
+ * CPX_PARAM_STARTALG = cplex.CPX_PARAM_STARTALG             # <<<<<<<<<<<<<<
+ * CPX_PARAM_SUBALG = cplex.CPX_PARAM_SUBALG
+ * CPX_PARAM_PREIND = cplex.CPX_PARAM_PREIND
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_ON); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_PARAM_STARTALG); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_ON, __pyx_t_1) < 0) __PYX_ERR(2, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_PARAM_STARTALG, __pyx_t_1) < 0) __PYX_ERR(2, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "cplex_c_api_wrapper.pyx":8
  * CPX_PARAM_SCRIND = cplex.CPX_PARAM_SCRIND
+ * CPX_PARAM_STARTALG = cplex.CPX_PARAM_STARTALG
+ * CPX_PARAM_SUBALG = cplex.CPX_PARAM_SUBALG             # <<<<<<<<<<<<<<
+ * CPX_PARAM_PREIND = cplex.CPX_PARAM_PREIND
+ * CPX_ALG_PRIMAL = cplex.CPX_ALG_PRIMAL
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_PARAM_SUBALG); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_PARAM_SUBALG, __pyx_t_1) < 0) __PYX_ERR(2, 8, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":9
+ * CPX_PARAM_STARTALG = cplex.CPX_PARAM_STARTALG
+ * CPX_PARAM_SUBALG = cplex.CPX_PARAM_SUBALG
+ * CPX_PARAM_PREIND = cplex.CPX_PARAM_PREIND             # <<<<<<<<<<<<<<
+ * CPX_ALG_PRIMAL = cplex.CPX_ALG_PRIMAL
+ * CPX_ALG_DUAL = cplex.CPX_ALG_DUAL
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_PARAM_PREIND); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_PARAM_PREIND, __pyx_t_1) < 0) __PYX_ERR(2, 9, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":10
+ * CPX_PARAM_SUBALG = cplex.CPX_PARAM_SUBALG
+ * CPX_PARAM_PREIND = cplex.CPX_PARAM_PREIND
+ * CPX_ALG_PRIMAL = cplex.CPX_ALG_PRIMAL             # <<<<<<<<<<<<<<
+ * CPX_ALG_DUAL = cplex.CPX_ALG_DUAL
+ * CPX_ON = cplex.CPX_ON
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_ALG_PRIMAL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_ALG_PRIMAL, __pyx_t_1) < 0) __PYX_ERR(2, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":11
+ * CPX_PARAM_PREIND = cplex.CPX_PARAM_PREIND
+ * CPX_ALG_PRIMAL = cplex.CPX_ALG_PRIMAL
+ * CPX_ALG_DUAL = cplex.CPX_ALG_DUAL             # <<<<<<<<<<<<<<
+ * CPX_ON = cplex.CPX_ON
+ * CPX_OFF = cplex.CPX_OFF
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_ALG_DUAL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_ALG_DUAL, __pyx_t_1) < 0) __PYX_ERR(2, 11, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":12
+ * CPX_ALG_PRIMAL = cplex.CPX_ALG_PRIMAL
+ * CPX_ALG_DUAL = cplex.CPX_ALG_DUAL
+ * CPX_ON = cplex.CPX_ON             # <<<<<<<<<<<<<<
+ * CPX_OFF = cplex.CPX_OFF
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_ON); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_ON, __pyx_t_1) < 0) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":13
+ * CPX_ALG_DUAL = cplex.CPX_ALG_DUAL
  * CPX_ON = cplex.CPX_ON
  * CPX_OFF = cplex.CPX_OFF             # <<<<<<<<<<<<<<
  * 
  * def CALL_CPLEX(status):
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_OFF); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(CPX_OFF); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_OFF, __pyx_t_1) < 0) __PYX_ERR(2, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPX_OFF, __pyx_t_1) < 0) __PYX_ERR(2, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":10
+  /* "cplex_c_api_wrapper.pyx":15
  * CPX_OFF = cplex.CPX_OFF
  * 
  * def CALL_CPLEX(status):             # <<<<<<<<<<<<<<
  *     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_1CALL_CPLEX, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 10, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_1CALL_CPLEX, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CALL_CPLEX, __pyx_t_1) < 0) __PYX_ERR(2, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CALL_CPLEX, __pyx_t_1) < 0) __PYX_ERR(2, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":29
- *         CALL_CPLEX(status)
+  /* "cplex_c_api_wrapper.pyx":36
+ *         return model
  * 
  * def CPXopenCPLEX():             # <<<<<<<<<<<<<<
- *     return CplexEnv()
- * 
+ *     cdef int status = 0
+ *     result = Env.from_ptr(cplex.CPXopenCPLEX(&status))
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_3CPXopenCPLEX, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 29, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_3CPXopenCPLEX, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXopenCPLEX, __pyx_t_1) < 0) __PYX_ERR(2, 29, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXopenCPLEX, __pyx_t_1) < 0) __PYX_ERR(2, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":32
- *     return CplexEnv()
+  /* "cplex_c_api_wrapper.pyx":42
+ *     return result
  * 
- * def CPXcreateprob(CplexEnv env, name):             # <<<<<<<<<<<<<<
- *     return CplexModel(env, name)
- * 
+ * def CPXcreateprob(Env env, name):             # <<<<<<<<<<<<<<
+ *     cdef int status = 0
+ *     result = Model.from_ptr(cplex.CPXcreateprob(env.impl, &status, ArrayOfChar(name).impl))
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_5CPXcreateprob, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 32, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_5CPXcreateprob, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXcreateprob, __pyx_t_1) < 0) __PYX_ERR(2, 32, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXcreateprob, __pyx_t_1) < 0) __PYX_ERR(2, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":35
- *     return CplexModel(env, name)
+  /* "cplex_c_api_wrapper.pyx":48
+ *     return result
  * 
- * def CPXcloseCPLEX(CplexEnv env):             # <<<<<<<<<<<<<<
+ * def CPXcloseCPLEX(Env env):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_7CPXcloseCPLEX, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 35, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_7CPXcloseCPLEX, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXcloseCPLEX, __pyx_t_1) < 0) __PYX_ERR(2, 35, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXcloseCPLEX, __pyx_t_1) < 0) __PYX_ERR(2, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":38
+  /* "cplex_c_api_wrapper.pyx":51
  *     CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
  * 
- * def CPXfreeprob(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ * def CPXfreeprob(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_9CPXfreeprob, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 38, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_9CPXfreeprob, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXfreeprob, __pyx_t_1) < 0) __PYX_ERR(2, 38, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXfreeprob, __pyx_t_1) < 0) __PYX_ERR(2, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":59
+  /* "cplex_c_api_wrapper.pyx":54
+ *     CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
+ * 
+ * def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXwriteprob(env.impl,
+ *                                   model.impl,
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_11CPXwriteprob, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXwriteprob, __pyx_t_1) < 0) __PYX_ERR(2, 54, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":61
  *                 ))
  * 
- * def CPXaddrows(CplexEnv env, CplexModel model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
+ * def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXnewcols(env.impl,
+ *                                 model.impl,
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_13CPXnewcols, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 61, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXnewcols, __pyx_t_1) < 0) __PYX_ERR(2, 61, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":72
+ *                 ))
+ * 
+ * def CPXaddrows(Env env, Model model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXaddrows(env.impl,
  *                                 model.impl,
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_15CPXaddrows, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 59, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_15CPXaddrows, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXaddrows, __pyx_t_1) < 0) __PYX_ERR(2, 59, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXaddrows, __pyx_t_1) < 0) __PYX_ERR(2, 72, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":74
+  /* "cplex_c_api_wrapper.pyx":87
  *                ))
  * 
- * def CPXmipopt(CplexEnv env, CplexModel model):             # <<<<<<<<<<<<<<
+ * def CPXmipopt(Env env, Model model):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_17CPXmipopt, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 74, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_17CPXmipopt, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXmipopt, __pyx_t_1) < 0) __PYX_ERR(2, 74, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXmipopt, __pyx_t_1) < 0) __PYX_ERR(2, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cplex_c_api_wrapper.pyx":77
+  /* "cplex_c_api_wrapper.pyx":90
  *     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
  * 
- * def CPXsetintparam(CplexEnv env, whichparam, newvalue):             # <<<<<<<<<<<<<<
+ * def CPXsetintparam(Env env, whichparam, newvalue):             # <<<<<<<<<<<<<<
  *     CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))
+ * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_19CPXsetintparam, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 77, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_19CPXsetintparam, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXsetintparam, __pyx_t_1) < 0) __PYX_ERR(2, 77, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXsetintparam, __pyx_t_1) < 0) __PYX_ERR(2, 90, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":96
+ *     cdef object python_callback
+ * 
+ *     env = None             # <<<<<<<<<<<<<<
+ *     cbdata = None
+ *     wherefrom = None
+ */
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_Callback->tp_dict, __pyx_n_s_env, Py_None) < 0) __PYX_ERR(2, 96, __pyx_L1_error)
+  PyType_Modified(__pyx_ptype_19cplex_c_api_wrapper_Callback);
+
+  /* "cplex_c_api_wrapper.pyx":97
+ * 
+ *     env = None
+ *     cbdata = None             # <<<<<<<<<<<<<<
+ *     wherefrom = None
+ * 
+ */
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_Callback->tp_dict, __pyx_n_s_cbdata, Py_None) < 0) __PYX_ERR(2, 97, __pyx_L1_error)
+  PyType_Modified(__pyx_ptype_19cplex_c_api_wrapper_Callback);
+
+  /* "cplex_c_api_wrapper.pyx":98
+ *     env = None
+ *     cbdata = None
+ *     wherefrom = None             # <<<<<<<<<<<<<<
+ * 
+ *     def __cinit__(self):
+ */
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19cplex_c_api_wrapper_Callback->tp_dict, __pyx_n_s_wherefrom, Py_None) < 0) __PYX_ERR(2, 98, __pyx_L1_error)
+  PyType_Modified(__pyx_ptype_19cplex_c_api_wrapper_Callback);
+
+  /* "cplex_c_api_wrapper.pyx":121
+ *         return 0
+ * 
+ * def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):             # <<<<<<<<<<<<<<
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_21CPXsetlazyconstraintcallbackfunc, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 121, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXsetlazyconstraintcallbackfunc, __pyx_t_1) < 0) __PYX_ERR(2, 121, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "cplex_c_api_wrapper.pyx":124
+ *     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
+ * 
+ * def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):             # <<<<<<<<<<<<<<
+ *     cdef cplex.CPXLPptr lp
+ *     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_19cplex_c_api_wrapper_23CPXgetcallbacknodelp, NULL, __pyx_n_s_cplex_c_api_wrapper); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 124, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CPXgetcallbacknodelp, __pyx_t_1) < 0) __PYX_ERR(2, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "cplex_c_api_wrapper.pyx":1
@@ -7690,6 +9254,20 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
     return 0;
 }
 
+/* PyObjectSetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_setattro))
+        return tp->tp_setattro(obj, attr_name, value);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_setattr))
+        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
+#endif
+    return PyObject_SetAttr(obj, attr_name, value);
+}
+#endif
+
 /* PyObjectCallNoArg */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
@@ -7711,6 +9289,48 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
     return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
 }
 #endif
+
+/* WriteUnraisableException */
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+    __Pyx_PyThreadState_declare
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#ifdef _MSC_VER
+    else state = (PyGILState_STATE)-1;
+#endif
+#endif
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
+#endif
+}
 
 /* PyObject_GenericGetAttrNoDict */
 #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
@@ -7891,6 +9511,24 @@ __PYX_GOOD:
     Py_XDECREF(setstate);
     Py_XDECREF(setstate_cython);
     return ret;
+}
+
+/* SetVTable */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
+#if PY_VERSION_HEX >= 0x02070000
+    PyObject *ob = PyCapsule_New(vtable, 0, 0);
+#else
+    PyObject *ob = PyCObject_FromVoidPtr(vtable, 0);
+#endif
+    if (!ob)
+        goto bad;
+    if (PyDict_SetItem(dict, __pyx_n_s_pyx_vtable, ob) < 0)
+        goto bad;
+    Py_DECREF(ob);
+    return 0;
+bad:
+    Py_XDECREF(ob);
+    return -1;
 }
 
 /* CLineInTraceback */

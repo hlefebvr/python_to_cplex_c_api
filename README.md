@@ -1,5 +1,10 @@
 # Wrapper to C API from Cplex 
 
+Python wrapper to the Cplex C API. This may be useful in case one wants to use
+funcitonallities of Cplex which are not available through the [official python
+API](https://www.ibm.com/docs/en/icos/22.1.1?topic=tutorials-python-tutorial)
+but still code in Python.  
+
 ## Dependencies
 
 - [cython](https://cython.readthedocs.io/en/latest/src/quickstart/install.html)

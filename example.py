@@ -2,7 +2,7 @@ import cplex_c_api_wrapper.cplex_c_api_wrapper as cplex
 
 env = cplex.CPXopenCPLEX()
 
-model = cplex.CPXcreateprob(env, "my_model")
+model = cplex.CPXcreateprob(env, "model")
 
 numcols = 2;
 types = ['I', 'I']

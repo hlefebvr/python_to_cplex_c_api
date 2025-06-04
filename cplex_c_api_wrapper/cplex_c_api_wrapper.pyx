@@ -126,3 +126,33 @@ def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):
     CALL_CPLEX(cplex.CPXgetcallbacknodelp(env.impl, cbdata.impl, wherefrom, &lp))
     result = Model.from_ptr(<cplex.CPXLPptr> lp)
     return result
+
+def CPXgetnumcols(Env env, Model lp):
+    return cplex.CPXgetnumcols(env.impl, lp.impl)
+
+def CPXgetnumrows(Env env, Model lp):
+    return cplex.CPXgetnumrows(env.impl, lp.impl)
+
+def CPXgetx(Env env, Model lp, begin, end):
+    n = end - begin + 1
+    result = ArrayOfDouble(n)
+    CALL_CPLEX(cplex.CPXgetx(env.impl, lp.impl, result.impl, begin, end))
+    return result.to_list()
+
+def CPXgetlb(Env env, Model lp, begin, end):
+    n = end - begin + 1
+    result = ArrayOfDouble(n)
+    CALL_CPLEX(cplex.CPXgetlb(env.impl, lp.impl, result.impl, begin, end))
+    return result.to_list()
+
+def CPXgetub(Env env, Model lp, begin, end):
+    n = end - begin + 1
+    result = ArrayOfDouble(n)
+    CALL_CPLEX(cplex.CPXgetub(env.impl, lp.impl, result.impl, begin, end))
+    return result.to_list()
+
+def CPXgetsense(Env env, Model lp, begin, end):
+    n = end - begin + 1
+    result = ArrayOfChar(n)
+    CALL_CPLEX(cplex.CPXgetsense(env.impl, lp.impl, result.impl, begin, end))
+    return result.to_list()

@@ -2,6 +2,7 @@ cdef extern from "cplex.h":
     ctypedef void* CPXENVptr
     ctypedef void* CPXCENVptr
     ctypedef void* CPXLPptr
+    ctypedef void* CPXCLPptr
     ctypedef int (*LazyCallbackCFunc)(CPXENVptr env, void* cbdata, int wherefrom, void* cbhandle, int* useraction_p)
 
     # Create environment
@@ -11,6 +12,14 @@ cdef extern from "cplex.h":
     # Create model
     CPXLPptr CPXcreateprob(CPXENVptr env, int *status_p, char *name)
     int CPXfreeprob(CPXENVptr env, CPXLPptr * lp_p)
+
+    # Read model
+    int CPXgetnumcols(CPXCENVptr env, CPXLPptr lp)
+    int CPXgetnumrows(CPXCENVptr env, CPXLPptr lp)
+    int CPXgetx (CPXCENVptr env, CPXCLPptr lp, double *x, int begin, int end)
+    int CPXgetsense (CPXCENVptr env, CPXCLPptr lp, char *sense, int begin, int end)
+    int CPXgetlb (CPXCENVptr env, CPXCLPptr lp, double *lb, int begin, int end)
+    int CPXgetub (CPXCENVptr env, CPXCLPptr lp, double *ub, int begin, int end)
     
     # Build model
     int CPXnewcols(CPXENVptr env, CPXLPptr lp, int ccnt, const double * obj, const double * lb, const double * ub, const char * xctype, char ** colname)

@@ -6,6 +6,11 @@ cdef class ArrayOfDouble():
 
     def __cinit__(self, values):
 
+        if isinstance(values, int):
+            self.size = values
+            self.impl = <double*> malloc(self.size * sizeof(double))
+            return
+
         self.size = len(values) if values is not None else 0
         
         if self.size == 0: 
@@ -18,12 +23,20 @@ cdef class ArrayOfDouble():
     def __dealloc__(self):
         if self.impl != NULL:
             free(self.impl)
+    
+    def to_list(self):
+        return [self.impl[i] for i in range(self.size)]
 
 cdef class ArrayOfInt():
     cdef int* impl
     cdef Py_ssize_t size
 
     def __cinit__(self, values):
+
+        if isinstance(values, int):
+            self.size = values
+            self.impl = <int*> malloc(self.size * sizeof(int))
+            return
 
         self.size = len(values) if values is not None else 0
         
@@ -37,13 +50,21 @@ cdef class ArrayOfInt():
     def __dealloc__(self):
         if self.impl != NULL:
             free(self.impl)
+    
+    def to_list(self):
+        return [self.impl[i] for i in range(self.size)]
 
 cdef class ArrayOfChar():
-    cdef const char* impl
+    cdef char* impl
     cdef  Py_ssize_t size
     cdef bytes _xvalues
 
     def __cinit__(self, values):
+
+        if isinstance(values, int):
+            self.size = values
+            self.impl = <char*> malloc(self.size * sizeof(char))
+            return
 
         self.size = len(values) if values is not None else 0
         
@@ -57,6 +78,9 @@ cdef class ArrayOfChar():
             self._xvalues = values.encode("ascii")
 
         self.impl = self._xvalues
+    
+    def to_list(self):
+        return [self.impl[i] for i in range(self.size)]
 
 cdef class ArrayOfString:
     cdef char** impl

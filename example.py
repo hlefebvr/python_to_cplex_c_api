@@ -9,8 +9,25 @@ class MyCallback(cplex.Callback):
 
         print("Python callback called from event " + str(self.wherefrom))
         
+        # Get node's problem
         lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
+
+        # Write problen to a file
         cplex.CPXwriteprob(self.env, lp, "test.lp")
+
+        # Get number of columns and constraints
+        n_cols = cplex.CPXgetnumcols(env, lp)
+        n_rows = cplex.CPXgetnumrows(env, lp)
+
+        # Get current solution
+        x = cplex.CPXgetx(env, lp, 0, n_cols - 1)
+        print("Node solution = ", x)
+
+        # Get current bounds
+        lb = cplex.CPXgetlb(env, lp, 0, n_cols - 1)
+        ub = cplex.CPXgetub(env, lp, 0, n_cols - 1)
+        print("LB = ", lb)
+        print("UB = ", ub)
 
 env = cplex.CPXopenCPLEX()
 

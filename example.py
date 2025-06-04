@@ -1,4 +1,4 @@
-import cplex_c_api_wrapper.cplex_c_api_wrapper as cplex
+import cplex_c_api_wrapper as cplex
 
 env = cplex.CPXopenCPLEX()
 

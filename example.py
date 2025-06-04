@@ -14,3 +14,6 @@ colnames = ["x", "y"]
 cplex.CPXnewcols(env, model, numcols, obj, lb, ub, types, colnames)
 
 cplex.CPXwriteprob(env, model, "test.lp")
+
+cplex.CPXfreeprob(env, model)
+cplex.CPXcloseCPLEX(env)

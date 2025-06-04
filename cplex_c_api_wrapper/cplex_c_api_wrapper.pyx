@@ -46,11 +46,11 @@ cdef class CplexEnv:
         self.impl = cplex.CPXopenCPLEX(&status)
         CALL_CPLEX(status)
 
-    def __dealloc__(self):
-        CALL_CPLEX(cplex.CPXcloseCPLEX(&self.impl))
-
 def CPXopenCPLEX():
     return CplexEnv()
+
+def CPXcloseCPLEX(CplexEnv env):
+    CALL_CPLEX(cplex.CPXcloseCPLEX(&env.impl))
 
 cdef class CplexModel:
     cdef cplex.CPXLPptr impl
@@ -63,6 +63,9 @@ cdef class CplexModel:
 
 def CPXcreateprob(CplexEnv env, name):
     return CplexModel(env, name)
+
+def CPXfreeprob(CplexEnv env, CplexModel model):
+    CALL_CPLEX(cplex.CPXfreeprob(env.impl, &model.impl))
 
 cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):
     filename = filename_str + '.' + filetype_str if filetype_str is not None else filename_str

@@ -5,10 +5,13 @@ print("**********************************************************")
 
 class MyCallback(cplex.Callback):
 
+    def __init__(self):
+        pass
+
     def __call__(self):
 
         print("Python callback called from event " + str(self.wherefrom))
-        
+
         # Get node's problem
         lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
 
@@ -98,5 +101,8 @@ cplex.CPXsetlazyconstraintcallbackfunc(env, cb)
 # Solve problem
 cplex.CPXmipopt(env, model)
 
+# Free model
 cplex.CPXfreeprob(env, model)
+
+# Free environment
 cplex.CPXcloseCPLEX(env)

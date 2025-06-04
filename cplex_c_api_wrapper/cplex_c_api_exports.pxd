@@ -20,8 +20,12 @@ cdef extern from "cplex.h":
     int CPXgetsense (CPXCENVptr env, CPXCLPptr lp, char *sense, int begin, int end)
     int CPXgetlb (CPXCENVptr env, CPXCLPptr lp, double *lb, int begin, int end)
     int CPXgetub (CPXCENVptr env, CPXCLPptr lp, double *ub, int begin, int end)
-    
+    int CPXgetbase (CPXCENVptr env, CPXCLPptr lp, int *cstat, int *rstat)
+    int CPXgetbhead (CPXCENVptr env, CPXCLPptr lp, int *head, double *x)
+    int CPXbinvacol (CPXCENVptr env, CPXCLPptr lp, int j, double *x)
+
     # Build model
+    int CPXchgobjsen (CPXCENVptr env, CPXLPptr lp, int maxormin)
     int CPXnewcols(CPXENVptr env, CPXLPptr lp, int ccnt, const double * obj, const double * lb, const double * ub, const char * xctype, char ** colname)
     int CPXaddrows(CPXENVptr env, CPXLPptr lp, int ccnt, int rcnt, int nzcnt, const double * rhs, const char * sense, const int * rmatbeg, const int * rmatind, const double * rmatval, char ** colname, char ** rowname)
     
@@ -48,3 +52,5 @@ cdef extern from "cplex.h":
     int CPX_PARAM_PREIND
     int CPX_ON
     int CPX_OFF
+    int CPX_MIN
+    int CPX_MAX

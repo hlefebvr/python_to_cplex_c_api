@@ -11,6 +11,8 @@ CPX_ALG_PRIMAL = cplex.CPX_ALG_PRIMAL
 CPX_ALG_DUAL = cplex.CPX_ALG_DUAL
 CPX_ON = cplex.CPX_ON
 CPX_OFF = cplex.CPX_OFF
+CPX_MIN = cplex.CPX_MIN
+CPX_MAX = cplex.CPX_MAX
 
 def CALL_CPLEX(status): 
     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
@@ -156,3 +158,25 @@ def CPXgetsense(Env env, Model lp, begin, end):
     result = ArrayOfChar(n)
     CALL_CPLEX(cplex.CPXgetsense(env.impl, lp.impl, result.impl, begin, end))
     return result.to_list()
+
+def CPXgetbase(Env env, Model lp):
+    cstat = ArrayOfInt(CPXgetnumcols(env, lp))
+    rstat = ArrayOfInt(CPXgetnumrows(env, lp))
+    CALL_CPLEX(cplex.CPXgetbase(env.impl, lp.impl, cstat.impl, rstat.impl))
+    return (cstat.to_list(), rstat.to_list())
+
+def CPXgetbhead(Env env, Model lp):
+    n_rows = CPXgetnumrows(env, lp)
+    head = ArrayOfInt(n_rows)
+    x = ArrayOfDouble(n_rows)
+    CALL_CPLEX(cplex.CPXgetbhead(env.impl, lp.impl, head.impl, x.impl))
+    return (head.to_list(), x.to_list())
+
+def CPXbinvacol(Env env, Model lp, int j):
+    n_rows = CPXgetnumrows(env, lp)
+    result = ArrayOfDouble(n_rows)
+    CALL_CPLEX(cplex.CPXbinvacol(env.impl, lp.impl, j, result.impl))
+    return result.to_list()
+
+def CPXchgobjsen(Env env, Model lp, sense):
+    CALL_CPLEX(cplex.CPXchgobjsen(env.impl, lp.impl, sense))

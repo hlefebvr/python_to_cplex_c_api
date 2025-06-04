@@ -80,7 +80,7 @@ cdef class ArrayOfChar():
         self.impl = self._xvalues
     
     def to_list(self):
-        return [self.impl[i] for i in range(self.size)]
+        return [chr(self.impl[i]) for i in range(self.size)]
 
 cdef class ArrayOfString:
     cdef char** impl

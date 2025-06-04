@@ -29,9 +29,31 @@ class MyCallback(cplex.Callback):
         print("LB = ", lb)
         print("UB = ", ub)
 
+        # Get row sense
+        sense = cplex.CPXgetsense(env, lp, 0, n_rows - 1)
+        print("sense = ", sense)
+
+        # Get basis
+        (rstat, cstat) = cplex.CPXgetbase(env, lp)
+        print("rstat = ", rstat)
+        print("cstat = ", cstat)
+
+        # Get basis head 
+        (head, x) = cplex.CPXgetbhead(env, lp)
+        print("head = ", head)
+        print("x = ", x)
+
+        # Get Binvacol
+        print("Binvacol[0] = ", cplex.CPXbinvacol(env, lp, 0))
+
+# Create environment
 env = cplex.CPXopenCPLEX()
 
+# Create model
 model = cplex.CPXcreateprob(env, "model")
+
+# Change objective sense
+cplex.CPXchgobjsen(env, model, cplex.CPX_MIN)
 
 # Add columns
 numcols = 2;

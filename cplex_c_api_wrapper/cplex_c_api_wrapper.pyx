@@ -17,6 +17,22 @@ def CALL_CPLEX(status):
     if status != 0: 
         raise RuntimeError("Error calling CPLEX.")
 
+cdef class ArrayOfDouble():
+    cdef double* impl
+    cdef Py_ssize_t size
+
+    def __cinit__(self, values):
+        self.size = len(values)
+        if self.size == 0: raise ValueError("Length of array cannot be 0")
+        self.impl = <double*> malloc(self.size * sizeof(double))
+        if self.impl == NULL:
+            raise MemoryError("Failed to allocate memory for ArrayOfDouble")
+        for i in range(self.size): self.impl[i] = values[i]
+    
+    def __dealloc__(self):
+        if self.impl != NULL:
+            free(self.impl)
+
 cdef class CplexEnv:
     cdef CPXENVptr impl
 
@@ -45,71 +61,45 @@ cpdef c_CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str 
     cdef bytes filename_bytes = filename.encode()
     CALL_CPLEX(CPXwriteprob(env.impl, model.impl, filename_bytes, NULL))
 
-cpdef c_CPXnewcols(CplexEnv env, CplexModel model, ccnt, obj, lb, ub, xctype, colname):
+cpdef c_CPXnewcols(CplexEnv t_env, CplexModel t_model, t_ccnt, t_obj, t_lb, t_ub, t_xctype, t_colname):
     cdef:
         int status = 0
-        double* obj_ptr = NULL
-        double* lb_ptr = NULL
-        double* ub_ptr = NULL
         const char* xctype_ptr = NULL
         char** colname_ptr = NULL
         int i
 
-    # Convert objective
-    if obj is not None:
-        if len(obj) != ccnt:
-            raise ValueError("Length of obj must be ccnt")
-        obj_ptr = <double*> malloc(ccnt * sizeof(double))
-        for i in range(ccnt):
-            obj_ptr[i] = obj[i]
-
-    # Convert lower bounds
-    if lb is not None:
-        if len(lb) != ccnt:
-            raise ValueError("Length of lb must be ccnt")
-        lb_ptr = <double*> malloc(ccnt * sizeof(double))
-        for i in range(ccnt):
-            lb_ptr[i] = lb[i]
-
-    # Convert upper bounds
-    if ub is not None:
-        if len(ub) != ccnt:
-            raise ValueError("Length of ub must be ccnt")
-        ub_ptr = <double*> malloc(ccnt * sizeof(double))
-        for i in range(ccnt):
-            ub_ptr[i] = ub[i]
+    obj = ArrayOfDouble(t_obj)
+    lb = ArrayOfDouble(t_lb)
+    ub = ArrayOfDouble(t_ub)
 
     # Convert xctype (variable types)
-    if xctype is not None:
-        if isinstance(xctype, list):
-            xctype = bytes("".join(xctype), "ascii")
-        elif isinstance(xctype, str):
-            xctype = xctype.encode("ascii")
+    if t_xctype is not None:
+        if isinstance(t_xctype, list):
+            xctype = bytes("".join(t_xctype), "ascii")
+        elif isinstance(t_xctype, str):
+            xctype = t_xctype.encode("ascii")
 
-        if len(xctype) != ccnt:
+        if len(t_xctype) != t_ccnt:
             raise ValueError("Length of xctype must be equal to ccnt")
         
         xctype_bytes = xctype  # prevent GC
         xctype_ptr = <const char*> xctype_bytes
 
     # Convert colname (list of strings)
-    if colname is not None:
-        if len(colname) != ccnt:
+    if t_colname is not None:
+        if len(t_colname) != t_ccnt:
             raise ValueError("Length of colname must be ccnt")
-        colname_ptr = <char**> malloc(ccnt * sizeof(char*))
-        for i in range(ccnt):
-            b = colname[i].encode("ascii")
+        colname_ptr = <char**> malloc(t_ccnt * sizeof(char*))
+        for i in range(t_ccnt):
+            b = t_colname[i].encode("ascii")
             colname_ptr[i] = <char*> malloc(len(b) + 1)
             strcpy(colname_ptr[i], b)
 
     # Call CPLEX API
-    status = CPXnewcols(env.impl, model.impl, ccnt, obj_ptr, lb_ptr, ub_ptr, xctype_ptr, colname_ptr)
+    status = CPXnewcols(t_env.impl, t_model.impl, t_ccnt, obj.impl, lb.impl, ub.impl, xctype_ptr, colname_ptr)
     CALL_CPLEX(status)
 
     # Free all malloc'd memory
-    if obj_ptr: free(obj_ptr)
-    if lb_ptr: free(lb_ptr)
-    if ub_ptr: free(ub_ptr)
-    for i in range(ccnt):
+    for i in range(t_ccnt):
         free(<char*> colname_ptr[i])
     free(colname_ptr)

@@ -1,23 +1,14 @@
 from libc.stdlib cimport malloc, free
 from libc.string cimport strcpy
+cimport cplex_c_api_exports as cplex
 
-cdef extern from "cplex.h":
-    ctypedef void* CPXENVptr
-    ctypedef void* CPXLPptr
-    CPXENVptr CPXopenCPLEX(int *status_p)
-    int CPXcloseCPLEX(CPXENVptr *env_p)
-    CPXLPptr CPXcreateprob(CPXENVptr env, int *status_p, char *name)
-    int CPXwriteprob(CPXENVptr env, CPXLPptr lp, const char *filename_str, const char *filetype)
-    int CPXnewcols(CPXENVptr env, CPXLPptr lp, int ccnt, const double * obj, const double * lb, const double * ub, const char * xctype, char ** colname)
-    double CPX_INFBOUND
-
-c_CPX_INFBOUND = CPX_INFBOUND
+CPX_INFBOUND = cplex.CPX_INFBOUND
 
 def CALL_CPLEX(status):
     if status != 0: 
         raise RuntimeError("Error calling CPLEX.")
 
-cdef class ArrayOfDouble():
+cdef class c_ArrayOfDouble():
     cdef double* impl
     cdef Py_ssize_t size
 
@@ -33,59 +24,62 @@ cdef class ArrayOfDouble():
         if self.impl != NULL:
             free(self.impl)
 
+cdef class c_ArrayOfChar():
+    cdef const char* impl
+    cdef  Py_ssize_t size
+    cdef bytes _xvalues
+
+    def __cinit__(self, values):
+
+        if isinstance(values, list):
+            self._xvalues = bytes("".join(values), "ascii")
+        elif isinstance(values, str):
+            self._xvalues = values.encode("ascii")
+
+        self.impl = self._xvalues
+
 cdef class CplexEnv:
-    cdef CPXENVptr impl
+    cdef cplex.CPXENVptr impl
 
     def __cinit__(self):
         cdef int status = 0
-        self.impl = CPXopenCPLEX(&status)
+        self.impl = cplex.CPXopenCPLEX(&status)
         CALL_CPLEX(status)
 
-def c_CPXopenCPLEX():
+    def __dealloc__(self):
+        CALL_CPLEX(cplex.CPXcloseCPLEX(&self.impl))
+
+def CPXopenCPLEX():
     return CplexEnv()
 
 cdef class CplexModel:
-    cdef CPXLPptr impl
+    cdef cplex.CPXLPptr impl
 
     def __cinit__(self, CplexEnv env, name = "model"):
         cdef int status = 0
         cdef bytes name_bytes = name.encode()
-        self.impl = CPXcreateprob(env.impl, &status, <char*>name_bytes)
+        self.impl = cplex.CPXcreateprob(env.impl, &status, <char*>name_bytes)
         CALL_CPLEX(status)
 
-def c_CPXcreateprob(CplexEnv env, name):
+def CPXcreateprob(CplexEnv env, name):
     return CplexModel(env, name)
 
-cpdef c_CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):
+cpdef CPXwriteprob(CplexEnv env, CplexModel model, filename_str, filetype_str = None):
     filename = filename_str + '.' + filetype_str if filetype_str is not None else filename_str
     cdef bytes filename_bytes = filename.encode()
-    CALL_CPLEX(CPXwriteprob(env.impl, model.impl, filename_bytes, NULL))
+    CALL_CPLEX(cplex.CPXwriteprob(env.impl, model.impl, filename_bytes, NULL))
 
-cpdef c_CPXnewcols(CplexEnv t_env, CplexModel t_model, t_ccnt, t_obj, t_lb, t_ub, t_xctype, t_colname):
+cpdef CPXnewcols(CplexEnv t_env, CplexModel t_model, t_ccnt, t_obj, t_lb, t_ub, t_xctype, t_colname):
     cdef:
         int status = 0
-        const char* xctype_ptr = NULL
         char** colname_ptr = NULL
         int i
 
-    obj = ArrayOfDouble(t_obj)
-    lb = ArrayOfDouble(t_lb)
-    ub = ArrayOfDouble(t_ub)
+    obj = c_ArrayOfDouble(t_obj)
+    lb = c_ArrayOfDouble(t_lb)
+    ub = c_ArrayOfDouble(t_ub)
+    xtype = c_ArrayOfChar(t_xctype)
 
-    # Convert xctype (variable types)
-    if t_xctype is not None:
-        if isinstance(t_xctype, list):
-            xctype = bytes("".join(t_xctype), "ascii")
-        elif isinstance(t_xctype, str):
-            xctype = t_xctype.encode("ascii")
-
-        if len(t_xctype) != t_ccnt:
-            raise ValueError("Length of xctype must be equal to ccnt")
-        
-        xctype_bytes = xctype  # prevent GC
-        xctype_ptr = <const char*> xctype_bytes
-
-    # Convert colname (list of strings)
     if t_colname is not None:
         if len(t_colname) != t_ccnt:
             raise ValueError("Length of colname must be ccnt")
@@ -95,9 +89,7 @@ cpdef c_CPXnewcols(CplexEnv t_env, CplexModel t_model, t_ccnt, t_obj, t_lb, t_ub
             colname_ptr[i] = <char*> malloc(len(b) + 1)
             strcpy(colname_ptr[i], b)
 
-    # Call CPLEX API
-    status = CPXnewcols(t_env.impl, t_model.impl, t_ccnt, obj.impl, lb.impl, ub.impl, xctype_ptr, colname_ptr)
-    CALL_CPLEX(status)
+    CALL_CPLEX(cplex.CPXnewcols(t_env.impl, t_model.impl, t_ccnt, obj.impl, lb.impl, ub.impl, xtype.impl, colname_ptr))
 
     # Free all malloc'd memory
     for i in range(t_ccnt):

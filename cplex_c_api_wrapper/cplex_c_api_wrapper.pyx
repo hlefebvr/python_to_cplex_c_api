@@ -3,6 +3,9 @@ include "c_utils.pxi"
 cimport cplex_c_api_exports as cplex
 
 CPX_INFBOUND = cplex.CPX_INFBOUND
+CPX_PARAM_SCRIND = cplex.CPX_PARAM_SCRIND
+CPX_ON = cplex.CPX_ON
+CPX_OFF = cplex.CPX_OFF
 
 def CALL_CPLEX(status): 
     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
@@ -52,3 +55,24 @@ cpdef CPXnewcols(CplexEnv env, CplexModel model, ccnt, obj, lb, ub, xctype, coln
                                 ArrayOfChar(xctype).impl,
                                 ArrayOfString(colname).impl
                 ))
+
+def CPXaddrows(CplexEnv env, CplexModel model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rmatind, rmatval, colname, rowname):
+    CALL_CPLEX(cplex.CPXaddrows(env.impl,
+                                model.impl,
+                                ccnt, 
+                                rcnt,
+                                nzcnt,
+                                ArrayOfDouble(rhs).impl,
+                                ArrayOfChar(rtypes).impl,
+                                ArrayOfInt(rmatbeg).impl,
+                                ArrayOfInt(rmatind).impl,
+                                ArrayOfDouble(rmatval).impl,
+                                ArrayOfString(colname).impl,
+                                ArrayOfString(rowname).impl
+               ))
+
+def CPXmipopt(CplexEnv env, CplexModel model):
+    CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
+
+def CPXsetintparam(CplexEnv env, whichparam, newvalue):
+    CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))

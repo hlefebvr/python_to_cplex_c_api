@@ -19,6 +19,25 @@ cdef class ArrayOfDouble():
         if self.impl != NULL:
             free(self.impl)
 
+cdef class ArrayOfInt():
+    cdef int* impl
+    cdef Py_ssize_t size
+
+    def __cinit__(self, values):
+
+        self.size = len(values) if values is not None else 0
+        
+        if self.size == 0: 
+            self.impl = NULL
+            return
+        
+        self.impl = <int*> malloc(self.size * sizeof(int))
+        for i in range(self.size): self.impl[i] = values[i]
+    
+    def __dealloc__(self):
+        if self.impl != NULL:
+            free(self.impl)
+
 cdef class ArrayOfChar():
     cdef const char* impl
     cdef  Py_ssize_t size

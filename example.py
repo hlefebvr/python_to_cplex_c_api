@@ -19,35 +19,35 @@ class MyCallback(cplex.Callback):
         cplex.CPXwriteprob(self.env, lp, "test.lp")
 
         # Get number of columns and constraints
-        n_cols = cplex.CPXgetnumcols(env, lp)
-        n_rows = cplex.CPXgetnumrows(env, lp)
+        n_cols = cplex.CPXgetnumcols(self.env, lp)
+        n_rows = cplex.CPXgetnumrows(self.env, lp)
 
         # Get current solution
-        x = cplex.CPXgetx(env, lp, 0, n_cols - 1)
+        x = cplex.CPXgetx(self.env, lp, 0, n_cols - 1)
         print("Node solution = ", x)
 
         # Get current bounds
-        lb = cplex.CPXgetlb(env, lp, 0, n_cols - 1)
-        ub = cplex.CPXgetub(env, lp, 0, n_cols - 1)
+        lb = cplex.CPXgetlb(self.env, lp, 0, n_cols - 1)
+        ub = cplex.CPXgetub(self.env, lp, 0, n_cols - 1)
         print("LB = ", lb)
         print("UB = ", ub)
 
         # Get row sense
-        sense = cplex.CPXgetsense(env, lp, 0, n_rows - 1)
+        sense = cplex.CPXgetsense(self.env, lp, 0, n_rows - 1)
         print("sense = ", sense)
 
         # Get basis
-        (rstat, cstat) = cplex.CPXgetbase(env, lp)
+        (rstat, cstat) = cplex.CPXgetbase(self.env, lp)
         print("rstat = ", rstat)
         print("cstat = ", cstat)
 
         # Get basis head 
-        (head, x) = cplex.CPXgetbhead(env, lp)
+        (head, x) = cplex.CPXgetbhead(self.env, lp)
         print("head = ", head)
         print("x = ", x)
 
         # Get Binvacol
-        print("Binvacol[0] = ", cplex.CPXbinvacol(env, lp, 0))
+        print("Binvacol[0] = ", cplex.CPXbinvacol(self.env, lp, 0))
 
 # Create environment
 env = cplex.CPXopenCPLEX()

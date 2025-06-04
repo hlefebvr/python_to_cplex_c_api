@@ -116,6 +116,6 @@ cdef class VoidPointer:
 
     @staticmethod
     cdef from_ptr(void* impl):
-        cdef VoidPointer result = VoidPointer.__new__(VoidPointer)  # allocate without calling __cinit__
+        cdef VoidPointer result = VoidPointer.__new__(VoidPointer)
         result.impl = impl
         return result

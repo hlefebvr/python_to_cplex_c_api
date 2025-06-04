@@ -22,7 +22,7 @@ cdef class Env:
 
     @staticmethod
     cdef from_ptr(cplex.CPXENVptr impl):
-        cdef Env env = Env.__new__(Env)  # allocate without calling __cinit__
+        cdef Env env = Env.__new__(Env)
         env.impl = impl
         return env
 
@@ -31,7 +31,7 @@ cdef class Model:
 
     @staticmethod
     cdef from_ptr(cplex.CPXLPptr impl):
-        cdef Model model = Model.__new__(Model)  # allocate without calling __cinit__
+        cdef Model model = Model.__new__(Model)
         model.impl = impl
         return model
 

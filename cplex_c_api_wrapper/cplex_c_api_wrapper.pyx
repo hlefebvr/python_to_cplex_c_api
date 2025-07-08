@@ -13,6 +13,9 @@ CPX_ON = cplex.CPX_ON
 CPX_OFF = cplex.CPX_OFF
 CPX_MIN = cplex.CPX_MIN
 CPX_MAX = cplex.CPX_MAX
+CPX_PARAM_TILIM = cplex.CPX_PARAM_TILIM
+CPX_PARAM_THREADS = cplex.CPX_PARAM_THREADS
+CPX_PARAM_EPINT = cplex.CPX_PARAM_EPINT
 
 def CALL_CPLEX(status): 
     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
@@ -102,23 +105,22 @@ cdef class Callback:
     def __cinit__(self):
         if not callable(self): raise TypeError("Callback must be callable")
 
-cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) nogil:
-    with gil:
-        cb = <Callback>cbhandle
-        
-        cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
-        cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)
-        cb.wherefrom = wherefrom
-        
-        cb()
+cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) noexcept:
+    cb = <Callback>cbhandle
+    
+    cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
+    cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)
+    cb.wherefrom = wherefrom
+    
+    cb()
 
-        cb.env = None
-        cb.cbdata = None
-        cb.wherefrom = None
-        
-        useraction_p[0] = 0
+    cb.env = None
+    cb.cbdata = None
+    cb.wherefrom = None
+    
+    useraction_p[0] = 0
 
-        return 0
+    return 0
 
 def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):
     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))

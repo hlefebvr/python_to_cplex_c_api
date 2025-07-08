@@ -54,3 +54,6 @@ cdef extern from "cplex.h":
     int CPX_OFF
     int CPX_MIN
     int CPX_MAX
+    int CPX_PARAM_TILIM
+    int CPX_PARAM_THREADS
+    int CPX_PARAM_EPINT

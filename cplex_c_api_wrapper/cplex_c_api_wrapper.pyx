@@ -95,6 +95,9 @@ def CPXmipopt(Env env, Model model):
 def CPXsetintparam(Env env, whichparam, newvalue):
     CALL_CPLEX(cplex.CPXsetintparam(env.impl, whichparam, newvalue))
 
+def CPXsetdblparam(Env env, whichparam, newvalue):
+    CALL_CPLEX(cplex.CPXsetdblparam(env.impl, whichparam, newvalue))
+
 cdef class Callback:
     cdef object python_callback
 

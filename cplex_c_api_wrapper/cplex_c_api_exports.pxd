@@ -34,6 +34,7 @@ cdef extern from "cplex.h":
 
     # Parameters
     int CPXsetintparam(CPXENVptr env, int whichparam, int newvalue)
+    int CPXsetdblparam(CPXENVptr env, int whichparam, double newvalue)
 
     # Solve
     int CPXmipopt(CPXENVptr env, CPXLPptr lp)

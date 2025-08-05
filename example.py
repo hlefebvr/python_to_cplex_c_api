@@ -5,8 +5,8 @@ print("**********************************************************")
 
 class MyCallback(cplex.Callback):
 
-    def __init__(self):
-        pass
+    def __init__(self, model):
+        self.model = model
 
     def __call__(self):
 
@@ -14,9 +14,6 @@ class MyCallback(cplex.Callback):
 
         # Get node's problem
         lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
-
-        # Write problen to a file
-        cplex.CPXwriteprob(self.env, lp, "test.lp")
 
         # Get number of columns and constraints
         n_cols = cplex.CPXgetnumcols(self.env, lp)
@@ -48,6 +45,15 @@ class MyCallback(cplex.Callback):
 
         # Get Binvacol
         print("Binvacol[0] = ", cplex.CPXbinvacol(self.env, lp, 0))
+
+        # Add cut
+        cplex.CPXcutcallbackadd(self.env, self.cbdata, self.wherefrom, 1, 5, 'G', [0],[1],0)
+        print("Added cut")
+
+        # Write problen to a file
+        cplex.CPXwriteprob(self.env, lp, "test.lp")
+        print("Exiting callback")
+
 
 # Create environment
 env = cplex.CPXopenCPLEX()
@@ -95,7 +101,7 @@ cplex.CPXsetintparam(env, cplex.CPX_PARAM_STARTALG, cplex.CPX_ALG_PRIMAL)
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_SUBALG, cplex.CPX_ALG_DUAL)
 
 # Set callback
-cb = MyCallback()
+cb = MyCallback(model)
 cplex.CPXsetlazyconstraintcallbackfunc(env, cb)
 
 # Solve problem

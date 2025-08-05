@@ -111,6 +111,18 @@ def CPXaddlazyconstraints(Env env, Model lp, rcnt, nzcnt,  rhs, sense, rmatbeg, 
                                            ArrayOfString(rowname).impl
     ))
 
+def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, int sense, cutind, cutval, purgeable):
+    CALL_CPLEX(cplex.CPXcutcallbackadd(env.impl,
+                                       cbdata.impl,
+                                       wherefrom,
+                                       nzcnt,
+                                       rhs,
+                                       sense,
+                                       ArrayOfInt(cutind).impl,
+                                       ArrayOfDouble(cutval).impl,
+                                       purgeable
+    ))
+
 cdef class Callback:
     cdef object python_callback
 

@@ -101,25 +101,25 @@ def CPXsetintparam(Env env, whichparam, newvalue):
 def CPXsetdblparam(Env env, whichparam, newvalue):
     CALL_CPLEX(cplex.CPXsetdblparam(env.impl, whichparam, newvalue))
 
-def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, int sense, cutind, cutval, purgeable):
+def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, sense, cutind, cutval, int purgeable):
     CALL_CPLEX(cplex.CPXcutcallbackadd(env.impl,
                                        cbdata.impl,
                                        wherefrom,
                                        nzcnt,
                                        rhs,
-                                       sense,
+                                       ord(sense),
                                        ArrayOfInt(cutind).impl,
                                        ArrayOfDouble(cutval).impl,
                                        purgeable
     ))
 
-def CPXcutcallbackaddlocal(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, int sense, cutind, cutval):
+def CPXcutcallbackaddlocal(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, sense, cutind, cutval):
     CALL_CPLEX(cplex.CPXcutcallbackaddlocal(env.impl,
                                        cbdata.impl,
                                        wherefrom,
                                        nzcnt,
                                        rhs,
-                                       sense,
+                                       ord(sense),
                                        ArrayOfInt(cutind).impl,
                                        ArrayOfDouble(cutval).impl
     ))

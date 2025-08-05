@@ -44,8 +44,7 @@ cdef extern from "cplex.h":
     int CPXgetcallbacknodelp (CPXCENVptr env, void *cbdata, int wherefrom, CPXLPptr *nodelp_p)
 
     int CPXcutcallbackadd( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double* cutval, int purgeable )
-    int CPXaddlazyconstraints(CPXCENVptr env, CPXLPptr lp, int rcnt, int nzcnt,  const double * rhs,  const char * sense, const int * rmatbeg,  const int * rmatind, const double * rmatval, char ** rowname )
-
+    
     # Constants
     double CPX_INFBOUND
     int CPX_PARAM_SCRIND

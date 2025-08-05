@@ -98,19 +98,6 @@ def CPXsetintparam(Env env, whichparam, newvalue):
 def CPXsetdblparam(Env env, whichparam, newvalue):
     CALL_CPLEX(cplex.CPXsetdblparam(env.impl, whichparam, newvalue))
 
-def CPXaddlazyconstraints(Env env, Model lp, rcnt, nzcnt,  rhs, sense, rmatbeg, rmatind, rmatval, rowname):
-    CALL_CPLEX(cplex.CPXaddlazyconstraints(env.impl,
-                                           lp.impl,
-                                           rcnt,
-                                           nzcnt,
-                                           ArrayOfDouble(rhs).impl,
-                                           ArrayOfChar(sense).impl,
-                                           ArrayOfInt(rmatbeg).impl,
-                                           ArrayOfInt(rmatind).impl,
-                                           ArrayOfDouble(rmatval).impl,
-                                           ArrayOfString(rowname).impl
-    ))
-
 def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, int sense, cutind, cutval, purgeable):
     CALL_CPLEX(cplex.CPXcutcallbackadd(env.impl,
                                        cbdata.impl,

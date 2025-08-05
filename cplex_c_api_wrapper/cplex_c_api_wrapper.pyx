@@ -16,6 +16,9 @@ CPX_MAX = cplex.CPX_MAX
 CPX_PARAM_TILIM = cplex.CPX_PARAM_TILIM
 CPX_PARAM_THREADS = cplex.CPX_PARAM_THREADS
 CPX_PARAM_EPINT = cplex.CPX_PARAM_EPINT
+CPX_USECUT_FORCE = cplex.CPX_USECUT_FORCE
+CPX_USECUT_PURGE = cplex.CPX_USECUT_PURGE
+CPX_USECUT_FILTER = cplex.CPX_USECUT_FILTER
 
 def CALL_CPLEX(status): 
     if status > 0: raise RuntimeError("Error calling CPLEX: returned status " + str(status))
@@ -108,6 +111,17 @@ def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, dou
                                        ArrayOfInt(cutind).impl,
                                        ArrayOfDouble(cutval).impl,
                                        purgeable
+    ))
+
+def CPXcutcallbackaddlocal(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, int sense, cutind, cutval):
+    CALL_CPLEX(cplex.CPXcutcallbackaddlocal(env.impl,
+                                       cbdata.impl,
+                                       wherefrom,
+                                       nzcnt,
+                                       rhs,
+                                       sense,
+                                       ArrayOfInt(cutind).impl,
+                                       ArrayOfDouble(cutval).impl
     ))
 
 cdef class Callback:

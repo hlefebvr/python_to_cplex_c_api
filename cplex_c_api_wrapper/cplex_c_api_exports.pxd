@@ -44,7 +44,8 @@ cdef extern from "cplex.h":
     int CPXgetcallbacknodelp (CPXCENVptr env, void *cbdata, int wherefrom, CPXLPptr *nodelp_p)
 
     int CPXcutcallbackadd( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double* cutval, int purgeable )
-    
+    int CPXcutcallbackaddlocal( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double * cutval )
+
     # Constants
     double CPX_INFBOUND
     int CPX_PARAM_SCRIND
@@ -60,3 +61,6 @@ cdef extern from "cplex.h":
     int CPX_PARAM_TILIM
     int CPX_PARAM_THREADS
     int CPX_PARAM_EPINT
+    int CPX_USECUT_FORCE
+    int CPX_USECUT_PURGE
+    int CPX_USECUT_FILTER

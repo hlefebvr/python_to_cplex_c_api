@@ -46,6 +46,12 @@ class MyCallback(cplex.Callback):
         # Get Binvacol
         print("Binvacol[0] = ", cplex.CPXbinvacol(self.env, lp, 0))
 
+        # Get rows
+        print("First two rows: ", cplex.CPXgetrows(self.env, lp, 0, 1))
+
+        # Get RHS
+        print("Fisrt two rhs: ", cplex.CPXgetrhs(self.env, lp, 0, 1))
+
         # Add cut
         cplex.CPXcutcallbackadd(self.env, self.cbdata, self.wherefrom, 1, 5, 'G', [0],[1],0)
         print("Added cut")

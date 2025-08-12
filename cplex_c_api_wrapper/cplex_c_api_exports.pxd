@@ -32,7 +32,9 @@ cdef extern from "cplex.h":
     int CPXgetbase (CPXCENVptr env, CPXCLPptr lp, int *cstat, int *rstat)
     int CPXgetbhead (CPXCENVptr env, CPXCLPptr lp, int *head, double *x)
     int CPXbinvacol (CPXCENVptr env, CPXCLPptr lp, int j, double *x)
-    
+    int CPXgetrhs( CPXCENVptr env, CPXCLPptr lp, double * rhs, int begin, int end )
+    int CPXgetrows( CPXCENVptr env, CPXCLPptr lp, int * nzcnt_p, int * rmatbeg, int * rmatind, double * rmatval, int rmatspace, int * surplus_p, int begin, int end )
+
     # Statistics
     int CPXgettime ( CPXCENVptr env , double * timestamp_p )
     int CPXgetnumcuts( CPXCENVptr env, CPXCLPptr lp, int cuttype, int * num_p )
@@ -139,7 +141,6 @@ cdef extern from "cplex.h":
     int CPXMIP_MEM_LIM_INFEAS
     int CPXMIP_NODE_LIM_FEAS
     int CPXMIP_NODE_LIM_INFEAS
-    int CPXMIP_OPTIMAL
     int CPXMIP_OPTIMAL_INFEAS
     int CPXMIP_OPTIMAL_POPULATED
     int CPXMIP_OPTIMAL_POPULATED_TOL
@@ -152,3 +153,6 @@ cdef extern from "cplex.h":
     int CPXMIP_TIME_LIM_FEAS
     int CPXMIP_TIME_LIM_INFEAS
     int CPXMIP_UNBOUNDED
+
+    # Error codes
+    int CPXERR_NEGATIVE_SURPLUS

@@ -144,6 +144,34 @@ def CPXgetmiprelgap(Env env, Model model):
     CALL_CPLEX(cplex.CPXgetmiprelgap(env.impl, model.impl, &result))
     return result
 
+def CPXgetrhs(Env env, Model model, int begin, int end):
+    rhs = ArrayOfDouble([0.0] * (end - begin + 1))
+    CALL_CPLEX(cplex.CPXgetrhs(env.impl, model.impl, rhs.impl, begin, end))
+    return rhs.to_list()
+
+def CPXgetrows(Env env, Model model, int begin, int end):
+    cdef int surplus
+    cdef int nzcnt
+    status = cplex.CPXgetrows(env.impl, model.impl, &nzcnt, NULL, NULL, NULL, 0, &surplus, begin, end)
+    if status != cplex.CPXERR_NEGATIVE_SURPLUS:
+        CALL_CPLEX(status)
+    n = -surplus
+    rmatbeg = ArrayOfInt([0] * n)
+    rmatind  = ArrayOfInt([0] * n)
+    rmatval = ArrayOfDouble([0.0] * n)
+    CALL_CPLEX(cplex.CPXgetrows(env.impl,
+                                model.impl,
+                                &nzcnt,
+                                rmatbeg.impl,
+                                rmatind.impl,
+                                rmatval.impl,
+                                n,
+                                &surplus,
+                                begin,
+                                end
+                                ))
+    return (rmatbeg.to_list(), rmatind.to_list(), rmatval.to_list())
+
 def CPXcutcallbackaddlocal(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, sense, cutind, cutval):
     CALL_CPLEX(cplex.CPXcutcallbackaddlocal(env.impl,
                                        cbdata.impl,

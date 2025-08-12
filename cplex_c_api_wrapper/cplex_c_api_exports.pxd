@@ -1,9 +1,18 @@
 cdef extern from "cplex.h":
+
+    #########
+    # Types #
+    #########
+
     ctypedef void* CPXENVptr
     ctypedef void* CPXCENVptr
     ctypedef void* CPXLPptr
     ctypedef void* CPXCLPptr
     ctypedef int (*LazyCallbackCFunc)(CPXENVptr env, void* cbdata, int wherefrom, void* cbhandle, int* useraction_p)
+
+    #############
+    # Functions #
+    #############
 
     # Create environment
     CPXENVptr CPXopenCPLEX(int *status_p)
@@ -54,24 +63,39 @@ cdef extern from "cplex.h":
     int CPXcutcallbackadd( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double* cutval, int purgeable )
     int CPXcutcallbackaddlocal( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double * cutval )
 
-    # Constants
+    #############
+    # Constants #
+    #############
+
     double CPX_INFBOUND
+
+    # Parameter Names
     int CPX_PARAM_SCRIND
     int CPX_PARAM_STARTALG
     int CPX_PARAM_SUBALG
-    int CPX_ALG_DUAL
-    int CPX_ALG_PRIMAL
     int CPX_PARAM_PREIND
-    int CPX_ON
-    int CPX_OFF
-    int CPX_MIN
-    int CPX_MAX
     int CPX_PARAM_TILIM
     int CPX_PARAM_THREADS
     int CPX_PARAM_EPINT
+
+    # Parameter Values
+    int CPX_ALG_DUAL
+    int CPX_ALG_PRIMAL
+    int CPX_ON
+    int CPX_OFF
+
+    # Objective Senses
+    int CPX_MIN
+    int CPX_MAX
+    
+    # Cut Purgeability
+    # https://www.ibm.com/docs/en/cofz/12.9.0?topic=cpxxcutcallbackadd-cpxcutcallbackadd
     int CPX_USECUT_FORCE
     int CPX_USECUT_PURGE
     int CPX_USECUT_FILTER
+
+    # Cut Types
+    # https://www.ibm.com/docs/en/cofz/12.9.0?topic=cpxxgetnumcuts-cpxgetnumcuts
     int CPX_CUT_COVER
     int CPX_CUT_GUBCOVER
     int CPX_CUT_FLOWCOVER
@@ -91,3 +115,40 @@ cdef extern from "cplex.h":
     int CPX_CUT_BQP
     int CPX_CUT_RLT
     int CPX_CUT_BENDERS
+
+    # MIP Status
+    # https://www.ibm.com/docs/en/icos/22.1.1?topic=micclcarm-solution-status-symbols-specific-mip-in-cplex-callable-library-c-api
+    int CPXMIP_ABORT_FEAS
+    int CPXMIP_OPTIMAL
+    int CPXMIP_ABORT_INFEAS
+    int CPXMIP_ABORT_RELAXATION_UNBOUNDED
+    int CPXMIP_ABORT_RELAXED
+    int CPXMIP_DETTIME_LIM_FEAS
+    int CPXMIP_DETTIME_LIM_INFEAS
+    int CPXMIP_FAIL_FEAS
+    int CPXMIP_FAIL_FEAS_NO_TREE
+    int CPXMIP_FAIL_INFEAS
+    int CPXMIP_FAIL_INFEAS_NO_TREE
+    int CPXMIP_FEASIBLE
+    int CPXMIP_FEASIBLE_RELAXED_INF
+    int CPXMIP_FEASIBLE_RELAXED_QUAD
+    int CPXMIP_FEASIBLE_RELAXED_SUM
+    int CPXMIP_INFEASIBLE
+    int CPXMIP_INForUNBD
+    int CPXMIP_MEM_LIM_FEAS
+    int CPXMIP_MEM_LIM_INFEAS
+    int CPXMIP_NODE_LIM_FEAS
+    int CPXMIP_NODE_LIM_INFEAS
+    int CPXMIP_OPTIMAL
+    int CPXMIP_OPTIMAL_INFEAS
+    int CPXMIP_OPTIMAL_POPULATED
+    int CPXMIP_OPTIMAL_POPULATED_TOL
+    int CPXMIP_OPTIMAL_RELAXED_INF
+    int CPXMIP_OPTIMAL_RELAXED_QUAD
+    int CPXMIP_OPTIMAL_RELAXED_SUM
+    int CPXMIP_OPTIMAL_TOL
+    int CPXMIP_POPULATESOL_LIM
+    int CPXMIP_SOL_LIM
+    int CPXMIP_TIME_LIM_FEAS
+    int CPXMIP_TIME_LIM_INFEAS
+    int CPXMIP_UNBOUNDED

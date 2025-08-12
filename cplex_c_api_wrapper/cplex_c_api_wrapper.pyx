@@ -156,7 +156,7 @@ def CPXgetrows(Env env, Model model, int begin, int end):
     if status != cplex.CPXERR_NEGATIVE_SURPLUS:
         CALL_CPLEX(status)
     n = -surplus
-    rmatbeg = ArrayOfInt([0] * n)
+    rmatbeg = ArrayOfInt([0] * (end - begin + 1))
     rmatind  = ArrayOfInt([0] * n)
     rmatval = ArrayOfDouble([0.0] * n)
     CALL_CPLEX(cplex.CPXgetrows(env.impl,

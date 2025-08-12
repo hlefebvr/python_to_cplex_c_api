@@ -23,7 +23,16 @@ cdef extern from "cplex.h":
     int CPXgetbase (CPXCENVptr env, CPXCLPptr lp, int *cstat, int *rstat)
     int CPXgetbhead (CPXCENVptr env, CPXCLPptr lp, int *head, double *x)
     int CPXbinvacol (CPXCENVptr env, CPXCLPptr lp, int j, double *x)
-
+    
+    # Statistics
+    int CPXgettime ( CPXCENVptr env , double * timestamp_p )
+    int CPXgetnumcuts( CPXCENVptr env, CPXCLPptr lp, int cuttype, int * num_p )
+    int CPXgetmiprelgap( CPXCENVptr env, CPXCLPptr lp, double * gap_p )
+    int CPXgetnodecnt( CPXCENVptr env, CPXCLPptr lp )
+    int CPXgetbestobjval( CPXCENVptr env, CPXCLPptr lp, double * objval_p )
+    int CPXgetobjval( CPXCENVptr env, CPXCLPptr lp, double * objval_p )
+    int CPXgetstat( CPXCENVptr env, CPXCLPptr lp )
+    
     # Build model
     int CPXchgobjsen (CPXCENVptr env, CPXLPptr lp, int maxormin)
     int CPXnewcols(CPXENVptr env, CPXLPptr lp, int ccnt, const double * obj, const double * lb, const double * ub, const char * xctype, char ** colname)
@@ -42,7 +51,6 @@ cdef extern from "cplex.h":
     # Callbacks
     int CPXsetlazyconstraintcallbackfunc(CPXENVptr env, LazyCallbackCFunc lazyconcallback, void* cbhandle)
     int CPXgetcallbacknodelp (CPXCENVptr env, void *cbdata, int wherefrom, CPXLPptr *nodelp_p)
-
     int CPXcutcallbackadd( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double* cutval, int purgeable )
     int CPXcutcallbackaddlocal( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double * cutval )
 
@@ -64,3 +72,22 @@ cdef extern from "cplex.h":
     int CPX_USECUT_FORCE
     int CPX_USECUT_PURGE
     int CPX_USECUT_FILTER
+    int CPX_CUT_COVER
+    int CPX_CUT_GUBCOVER
+    int CPX_CUT_FLOWCOVER
+    int CPX_CUT_CLIQUE
+    int CPX_CUT_FRAC
+    int CPX_CUT_MIR
+    int CPX_CUT_FLOWPATH
+    int CPX_CUT_DISJ
+    int CPX_CUT_IMPLBD
+    int CPX_CUT_ZEROHALF
+    int CPX_CUT_MCF
+    int CPX_CUT_LANDP
+    int CPX_CUT_USER
+    int CPX_CUT_TABLE
+    int CPX_CUT_SOLNPOOL
+    int CPX_CUT_LOCALIMPLBD
+    int CPX_CUT_BQP
+    int CPX_CUT_RLT
+    int CPX_CUT_BENDERS

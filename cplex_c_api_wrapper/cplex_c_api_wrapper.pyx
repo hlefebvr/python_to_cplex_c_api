@@ -113,6 +113,37 @@ def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, dou
                                        purgeable
     ))
 
+def CPXgettime(Env env):
+    cdef double result
+    CALL_CPLEX(cplex.CPXgettime(env.impl, &result))
+    return result
+
+def CPXgetnumcuts(Env env, Model model, int cuttype):
+    cdef int result
+    CALL_CPLEX(cplex.CPXgetnumcuts(env.impl, model.impl, cuttype, &result))
+    return result
+
+def CPXgetnodecnt(Env env, Model model):
+    return cplex.CPXgetnodecnt(env.impl, model.impl)
+
+def CPXgetbestobjval(Env env, Model model):
+    cdef double result
+    CALL_CPLEX(cplex.CPXgetbestobjval(env.impl, model.impl, &result))
+    return result
+
+def CPXgetobjval(Env env, Model model):
+    cdef double result
+    CALL_CPLEX(cplex.CPXgetobjval(env.impl, model.impl, &result))
+    return result
+
+def CPXgetstat(Env env, Model model):
+    return cplex.CPXgetstat(env.impl, model.impl)
+
+def CPXgetmiprelgap(Env env, Model model):
+    cdef double result
+    CALL_CPLEX(cplex.CPXgetmiprelgap(env.impl, model.impl, &result))
+    return result
+
 def CPXcutcallbackaddlocal(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, sense, cutind, cutval):
     CALL_CPLEX(cplex.CPXcutcallbackaddlocal(env.impl,
                                        cbdata.impl,

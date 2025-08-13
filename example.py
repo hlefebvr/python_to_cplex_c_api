@@ -1,44 +1,77 @@
 import cplex_c_api_wrapper as cplex
 
-print("**********************************************************")
-print("**********************************************************")
+class MyBranchCallback(cplex.BranchCallback):
+     
+     def __init__(self):
+          pass
+     
+     def __call__(self):
 
-class MyCallback(cplex.LazyConstraintCallback):
+        print("*************************************")
+        print("        BranchCallback Begin         ")
+        print("*************************************")
+
+        print("Python branch callback called with event " + str(self.wherefrom) + '.')
+
+        print("*************************************")
+        print("         BranchCallback End          ")
+        print("*************************************")
+
+        return cplex.CPX_CALLBACK_DEFAULT
+
+
+class MyLazyConstraintCallback(cplex.LazyConstraintCallback):
 
     def __init__(self, model):
         self.model = model
+        self.cut_has_been_added = False
 
     def __call__(self):
 
-        print("Python callback called from event " + str(self.wherefrom))
+        print("*********************************************")
+        print("        LazyConstraintCallback Begin         ")
+        print("*********************************************")
 
-        # Get node's problem
+        print("Python lazy constraint callback called with event " + str(self.wherefrom) + '.')
+
+        if self.cut_has_been_added:
+            
+                print("Cut has already been added, exiting.")
+
+
+                print("*********************************************")
+                print("         LazyConstraintCallback End          ")
+                print("*********************************************")
+
+                return
+
+        # Get Node's Problem
         lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
 
-        # Get number of columns and constraints
+        # Get Number of Columns and Constraints
         n_cols = cplex.CPXgetnumcols(self.env, lp)
         n_rows = cplex.CPXgetnumrows(self.env, lp)
 
-        # Get current solution
+        # Get Current Solution
         x = cplex.CPXgetx(self.env, lp, 0, n_cols - 1)
         print("Node solution = ", x)
 
-        # Get current bounds
+        # Get Current Bounds
         lb = cplex.CPXgetlb(self.env, lp, 0, n_cols - 1)
         ub = cplex.CPXgetub(self.env, lp, 0, n_cols - 1)
         print("LB = ", lb)
         print("UB = ", ub)
 
-        # Get row sense
+        # Get Row Sense
         sense = cplex.CPXgetsense(self.env, lp, 0, n_rows - 1)
         print("sense = ", sense)
 
-        # Get basis
+        # Get Basis
         (rstat, cstat) = cplex.CPXgetbase(self.env, lp)
         print("rstat = ", rstat)
         print("cstat = ", cstat)
 
-        # Get basis head 
+        # Get Basis Head 
         (head, x) = cplex.CPXgetbhead(self.env, lp)
         print("head = ", head)
         print("x = ", x)
@@ -46,31 +79,37 @@ class MyCallback(cplex.LazyConstraintCallback):
         # Get Binvacol
         print("Binvacol[0] = ", cplex.CPXbinvacol(self.env, lp, 0))
 
-        # Get rows
+        # Get Rows
         print("First two rows: ", cplex.CPXgetrows(self.env, lp, 0, 1))
 
         # Get RHS
         print("Fisrt two rhs: ", cplex.CPXgetrhs(self.env, lp, 0, 1))
 
-        # Add cut
+        # Add Cut
         cplex.CPXcutcallbackadd(self.env, self.cbdata, self.wherefrom, 1, 5, 'G', [0],[1],0)
+        self.cut_has_been_added = True
         print("Added cut")
 
-        # Write problen to a file
+        # Write Model to a File
         cplex.CPXwriteprob(self.env, lp, "test.lp")
         print("Exiting callback")
 
+        print("*********************************************")
+        print("         LazyConstraintCallback End          ")
+        print("*********************************************")
 
-# Create environment
+
+
+# Create Environment
 env = cplex.CPXopenCPLEX()
 
-# Create model
+# Create Model
 model = cplex.CPXcreateprob(env, "model")
 
-# Change objective sense
+# Change Objective Sense
 cplex.CPXchgobjsen(env, model, cplex.CPX_MIN)
 
-# Add columns
+# Add Columns
 numcols = 2;
 ctypes = ['I', 'I']
 obj = [-1,-10]
@@ -80,7 +119,7 @@ colnames = ["x", "y"]
 
 cplex.CPXnewcols(env, model, numcols, obj, lb, ub, ctypes, colnames)
 
-# Add rows
+# Add Rows
 rtypes = ['L', 'L', 'L', 'G']
 rmatbeg = [0, 2, 4, 6]
 rmatind = [
@@ -100,21 +139,29 @@ rownames = ["c1", "c2", "c3", "c4"]
 
 cplex.CPXaddrows(env, model, 0, 4, len(rmatval), rhs, rtypes, rmatbeg, rmatind, rmatval, None, rownames)
 
-# Set some parameters
+# Set Parameters
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_SCRIND, cplex.CPX_ON)
-#cplex.CPXsetintparam(env, cplex.CPX_PARAM_PREIND, cplex.CPX_OFF)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_MIPDISPLAY, 5)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_MIPCBREDLP, cplex.CPX_OFF)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_PREIND, cplex.CPX_OFF)
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_STARTALG, cplex.CPX_ALG_PRIMAL)
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_SUBALG, cplex.CPX_ALG_DUAL)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_HEURFREQ, -1)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_CUTPASS, -1)
 
-# Set callback
-cb = MyCallback(model)
-cplex.CPXsetlazyconstraintcallbackfunc(env, cb)
+# Set Lazy Constraint Callback
+lazyconcb = MyLazyConstraintCallback(model)
+#cplex.CPXsetlazyconstraintcallbackfunc(env, lazyconcb)
 
-# Solve problem
+# Set Branch Callback
+branchcb = MyBranchCallback()
+cplex.CPXsetbranchcallbackfunc(env, branchcb)
+
+# Solve Problem
 cplex.CPXmipopt(env, model)
 
-# Free model
+# Free Model
 cplex.CPXfreeprob(env, model)
 
-# Free environment
+# Free Environment
 cplex.CPXcloseCPLEX(env)

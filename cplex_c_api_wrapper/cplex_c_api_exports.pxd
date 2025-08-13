@@ -9,6 +9,7 @@ cdef extern from "cplex.h":
     ctypedef void* CPXLPptr
     ctypedef void* CPXCLPptr
     ctypedef int (*LazyCallbackCFunc)(CPXENVptr env, void* cbdata, int wherefrom, void* cbhandle, int* useraction_p)
+    ctypedef int (*BranchCallbackCFunc)(CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int brtype, int brset, int nodecnt, int bdcnt, const int *nodebeg, const int *xindex, const char *lu, const double *bd, const double *nodeest, int *useraction_p)
 
     #############
     # Functions #
@@ -59,11 +60,14 @@ cdef extern from "cplex.h":
     # Solve
     int CPXmipopt(CPXENVptr env, CPXLPptr lp)
 
-    # Callbacks
+    # Lazy Constraint Callbacks
     int CPXsetlazyconstraintcallbackfunc(CPXENVptr env, LazyCallbackCFunc lazyconcallback, void* cbhandle)
     int CPXgetcallbacknodelp (CPXCENVptr env, void *cbdata, int wherefrom, CPXLPptr *nodelp_p)
     int CPXcutcallbackadd( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double* cutval, int purgeable )
     int CPXcutcallbackaddlocal( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double * cutval )
+
+    # Branch Callbacks
+    int CPXsetbranchcallbackfunc(CPXENVptr env, BranchCallbackCFunc branchcallback, void * cbhandle)
 
     #############
     # Constants #
@@ -79,6 +83,10 @@ cdef extern from "cplex.h":
     int CPX_PARAM_TILIM
     int CPX_PARAM_THREADS
     int CPX_PARAM_EPINT
+    int CPX_PARAM_MIPCBREDLP
+    int CPX_PARAM_HEURFREQ
+    int CPX_PARAM_CUTPASS
+    int CPX_PARAM_MIPDISPLAY
 
     # Parameter Values
     int CPX_ALG_DUAL

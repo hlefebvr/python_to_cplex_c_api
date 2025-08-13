@@ -3,7 +3,7 @@ import cplex_c_api_wrapper as cplex
 print("**********************************************************")
 print("**********************************************************")
 
-class MyCallback(cplex.Callback):
+class MyCallback(cplex.LazyConstraintCallback):
 
     def __init__(self, model):
         self.model = model

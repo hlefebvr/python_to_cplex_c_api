@@ -183,7 +183,7 @@ def CPXcutcallbackaddlocal(Env env, VoidPointer cbdata, int wherefrom, int nzcnt
                                        ArrayOfDouble(cutval).impl
     ))
 
-cdef class Callback:
+cdef class LazyConstraintCallback:
     cdef object python_callback
 
     env = None
@@ -194,7 +194,7 @@ cdef class Callback:
         if not callable(self): raise TypeError("Callback must be callable")
 
 cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) noexcept:
-    cb = <Callback>cbhandle
+    cb = <LazyConstraintCallback>cbhandle
     
     cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
     cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)
@@ -210,7 +210,7 @@ cdef int callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, voi
 
     return 0
 
-def CPXsetlazyconstraintcallbackfunc(Env env, Callback cb):
+def CPXsetlazyconstraintcallbackfunc(Env env, LazyConstraintCallback cb):
     CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, callback_bridge, <void*>cb))
 
 def CPXgetcallbacknodelp(Env env, VoidPointer cbdata, wherefrom):

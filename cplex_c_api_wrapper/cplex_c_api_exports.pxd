@@ -105,6 +105,7 @@ cdef extern from "cplex.h":
     int CPX_PARAM_PRELINEAR
     int CPX_PARAM_MIPORDIND
     int CPX_PARAM_PROBE
+    int CPX_PARAM_REDUCE
 
     # Parameter Values
     int CPX_ALG_DUAL
@@ -112,6 +113,7 @@ cdef extern from "cplex.h":
     int CPX_ON
     int CPX_OFF
     int CPX_MIPSEARCH_TRADITIONAL
+    int CPX_PREREDUCE_NOPRIMALORDUAL
 
     # Objective Senses
     int CPX_MIN

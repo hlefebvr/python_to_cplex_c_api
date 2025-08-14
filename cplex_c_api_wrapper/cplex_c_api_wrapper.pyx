@@ -148,6 +148,9 @@ def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):
                                   ArrayOfChar(filetype_str).impl
                 ))
 
+def CPXordwrite(Env env, Model lp, filename_str):
+    CALL_CPLEX(cplex.CPXordwrite(env.impl, lp.inpl, ArrayOfChar(filename_str).impl))
+
 def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):
     CALL_CPLEX(cplex.CPXnewcols(env.impl,
                                 model.impl,

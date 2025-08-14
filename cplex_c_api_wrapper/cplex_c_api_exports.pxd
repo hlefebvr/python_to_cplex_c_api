@@ -56,6 +56,7 @@ cdef extern from "cplex.h":
     
     # I/O functions
     int CPXwriteprob(CPXENVptr env, CPXLPptr lp, const char *filename_str, const char *filetype)
+    int CPXordwrite(CPXCENVptr env, CPXCLPptr lp, const char * filename_str)
 
     # Parameters
     int CPXsetintparam(CPXENVptr env, int whichparam, int newvalue)

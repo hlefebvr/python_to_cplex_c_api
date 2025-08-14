@@ -100,6 +100,7 @@ cdef extern from "cplex.h":
     int CPX_PARAM_CUTPASS
     int CPX_PARAM_MIPDISPLAY
     int CPX_PARAM_MIPSEARCH
+    int CPX_PARAM_PRELINEAR
 
     # Parameter Values
     int CPX_ALG_DUAL

@@ -439,9 +439,9 @@ cdef class IncumbentCallback:
     def __cinit__(self):
         if not callable(self): raise TypeError("Callback must be callable")
     
-    cdef get_x(self, Model model):
+    def get_x(self, Model model):
         n_cols = CPXgetnumcols(self.env, model)
-        self._x.size = n_cols
+        self._x.set_size(n_cols)
         return self._x.to_list()
 
 cdef int incumbent_callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, double objval, double *x, int *isfeas_p, int *useraction_p) noexcept:

@@ -22,6 +22,9 @@ class MyIncumbentCallback(cplex.IncumbentCallback):
         # Get Node's Problem
         lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
 
+        x = self.get_x(lp)
+        print("Current point: ", x)
+
         # Write Model to a File
         cplex.CPXwriteprob(self.env, lp, "test.lp")
 

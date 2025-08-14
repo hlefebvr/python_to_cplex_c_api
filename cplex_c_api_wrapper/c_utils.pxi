@@ -33,6 +33,9 @@ cdef class ArrayOfDouble():
     def __dealloc__(self):
         if self.impl != NULL and self.owner is True:
             free(self.impl)
+
+    def set_size(self, size):
+        self.size = size
     
     def to_list(self):
         return [self.impl[i] for i in range(self.size)]

@@ -1,25 +1,36 @@
 import cplex_c_api_wrapper as cplex
 
-class MyBranchCallback(cplex.BranchCallback):
-     
+class MyIncumbentCallback(cplex.IncumbentCallback):
+ 
      def __init__(self):
-          pass
+          self.has_skipped_once = False
      
      def __call__(self):
 
-        print("*************************************")
-        print("        BranchCallback Begin         ")
-        print("*************************************")
-
-        print("Python branch callback called with event " + str(self.wherefrom) + '.')
+        if self.has_skipped_once: return cplex.CPX_CALLBACK_DEFAULT
 
         print("*************************************")
-        print("         BranchCallback End          ")
+        print("      IncumbentCallback Begin        ")
+        print("*************************************")
+
+        print("Python incumbent callback called with event " + str(self.wherefrom) + '.')
+
+        self.isfeas = False
+        self.has_skipped_once = True
+
+
+        # Get Node's Problem
+        lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
+
+        # Write Model to a File
+        cplex.CPXwriteprob(self.env, lp, "test.lp")
+
+        print("*************************************")
+        print("      IncumbentCallback End          ")
         print("*************************************")
 
         return cplex.CPX_CALLBACK_DEFAULT
-
-
+     
 class MyLazyConstraintCallback(cplex.LazyConstraintCallback):
 
     def __init__(self, model):
@@ -43,7 +54,7 @@ class MyLazyConstraintCallback(cplex.LazyConstraintCallback):
                 print("         LazyConstraintCallback End          ")
                 print("*********************************************")
 
-                return
+                return cplex.CPX_CALLBACK_DEFAULT
 
         # Get Node's Problem
         lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
@@ -98,7 +109,7 @@ class MyLazyConstraintCallback(cplex.LazyConstraintCallback):
         print("         LazyConstraintCallback End          ")
         print("*********************************************")
 
-
+        return cplex.CPX_CALLBACK_SET
 
 # Create Environment
 env = cplex.CPXopenCPLEX()
@@ -148,17 +159,33 @@ cplex.CPXsetintparam(env, cplex.CPX_PARAM_STARTALG, cplex.CPX_ALG_PRIMAL)
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_SUBALG, cplex.CPX_ALG_DUAL)
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_HEURFREQ, -1)
 cplex.CPXsetintparam(env, cplex.CPX_PARAM_CUTPASS, -1)
+cplex.CPXsetintparam(env, cplex.CPX_PARAM_MIPSEARCH, cplex.CPX_MIPSEARCH_TRADITIONAL)
 
 # Set Lazy Constraint Callback
 lazyconcb = MyLazyConstraintCallback(model)
-#cplex.CPXsetlazyconstraintcallbackfunc(env, lazyconcb)
+cplex.CPXsetlazyconstraintcallbackfunc(env, lazyconcb)
 
-# Set Branch Callback
-branchcb = MyBranchCallback()
-cplex.CPXsetbranchcallbackfunc(env, branchcb)
+# Set Incumbent Callback
+incumbentcb = MyIncumbentCallback()
+cplex.CPXsetincumbentcallbackfunc(env, incumbentcb)
 
 # Solve Problem
 cplex.CPXmipopt(env, model)
+
+# Display Status and Objective Value
+status = cplex.CPXgetstat(env, model)
+
+match status:
+     case cplex.CPXMIP_OPTIMAL: print("OPTIMAL")
+     case cplex.CPXMIP_FEASIBLE: print("FEASIBLE")
+     case cplex.CPXMIP_INFEASIBLE: print("INFEASIBLE")
+     case _: raise ValueError("Status is not handled.")
+
+if status == cplex.CPXMIP_OPTIMAL or status == cplex.CPXMIP_FEASIBLE:
+        lb = cplex.CPXgetbestobjval(env, model)
+        ub = cplex.CPXgetobjval(env, model)
+        print("LB = ", lb)
+        print("UB = ", ub)
 
 # Free Model
 cplex.CPXfreeprob(env, model)

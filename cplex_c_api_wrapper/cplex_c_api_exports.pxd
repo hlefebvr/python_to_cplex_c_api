@@ -9,7 +9,10 @@ cdef extern from "cplex.h":
     ctypedef void* CPXLPptr
     ctypedef void* CPXCLPptr
     ctypedef int (*LazyCallbackCFunc)(CPXENVptr env, void* cbdata, int wherefrom, void* cbhandle, int* useraction_p)
+    ctypedef int (*UserCutCallbackCFunc)(CPXENVptr env, void* cbdata, int wherefrom, void* cbhandle, int* useraction_p)
     ctypedef int (*BranchCallbackCFunc)(CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int brtype, int brset, int nodecnt, int bdcnt, const int *nodebeg, const int *xindex, const char *lu, const double *bd, const double *nodeest, int *useraction_p)
+    ctypedef int (*NodeCallbackCFunc)(CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *nodeindex, int *useraction)
+    ctypedef int (*IncumbentCallbackCFunc)(CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, double objval, double *x, int *isfeas_p, int *useraction_p)
 
     #############
     # Functions #
@@ -65,9 +68,18 @@ cdef extern from "cplex.h":
     int CPXgetcallbacknodelp (CPXCENVptr env, void *cbdata, int wherefrom, CPXLPptr *nodelp_p)
     int CPXcutcallbackadd( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double* cutval, int purgeable )
     int CPXcutcallbackaddlocal( CPXCENVptr env, void * cbdata, int wherefrom, int nzcnt, double rhs, int sense, const int * cutind, const double * cutval )
-
+    
+    # User Cut Callbacks
+    int CPXsetusercutcallbackfunc(CPXENVptr env, UserCutCallbackCFunc cutcb, void* cbhandle)
+    
     # Branch Callbacks
     int CPXsetbranchcallbackfunc(CPXENVptr env, BranchCallbackCFunc branchcallback, void * cbhandle)
+
+    # Node Callbacks
+    int CPXsetnodecallbackfunc(CPXENVptr env, NodeCallbackCFunc nodecallback, void * cbhandle)
+
+    # Incumbent Callbacks
+    int CPXsetincumbentcallbackfunc(CPXENVptr env, IncumbentCallbackCFunc incumbentcallback, void * cbhandle)
 
     #############
     # Constants #
@@ -87,12 +99,14 @@ cdef extern from "cplex.h":
     int CPX_PARAM_HEURFREQ
     int CPX_PARAM_CUTPASS
     int CPX_PARAM_MIPDISPLAY
+    int CPX_PARAM_MIPSEARCH
 
     # Parameter Values
     int CPX_ALG_DUAL
     int CPX_ALG_PRIMAL
     int CPX_ON
     int CPX_OFF
+    int CPX_MIPSEARCH_TRADITIONAL
 
     # Objective Senses
     int CPX_MIN
@@ -103,6 +117,12 @@ cdef extern from "cplex.h":
     int CPX_USECUT_FORCE
     int CPX_USECUT_PURGE
     int CPX_USECUT_FILTER
+
+    # Callback Return codes
+    int CPX_CALLBACK_DEFAULT
+    int CPX_CALLBACK_FAIL
+    int CPX_CALLBACK_SET
+    int CPX_CALLBACK_ABORT_CUT_LOOP
 
     # Cut Types
     # https://www.ibm.com/docs/en/cofz/12.9.0?topic=cpxxgetnumcuts-cpxgetnumcuts

@@ -173,6 +173,15 @@ def CPXaddrows(Env env, Model model, ccnt, rcnt, nzcnt, rhs, rtypes, rmatbeg, rm
                                 ArrayOfString(rowname).impl
                ))
 
+def CPXcopyorder(Env env, Model lp, int cnt, indices, priority, direction):
+    CALL_CPLEX(cplex.CPXcopyorder(env.impl,
+                                  lp.impl,
+                                  cnt,
+                                  ArrayOfInt(indices).impl,
+                                  ArrayOfInt(priority).impl,
+                                  ArrayOfInt(direction).impl
+                                ))
+
 def CPXmipopt(Env env, Model model):
     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))
 

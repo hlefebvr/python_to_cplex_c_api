@@ -3,9 +3,19 @@ from libc.stdlib cimport malloc, free
 cdef class ArrayOfDouble():
     cdef double* impl
     cdef Py_ssize_t size
+    cdef bint owner
 
-    def __cinit__(self, values):
+    def __cinit__(self, values = None):
 
+        if values is None:
+            self.owner = False
+            self.impl = NULL
+            self.size = 0
+            self.owner = False
+            return
+
+        self.owner = True
+        
         if isinstance(values, int):
             self.size = values
             self.impl = <double*> malloc(self.size * sizeof(double))
@@ -21,11 +31,18 @@ cdef class ArrayOfDouble():
         for i in range(self.size): self.impl[i] = values[i]
     
     def __dealloc__(self):
-        if self.impl != NULL:
+        if self.impl != NULL and self.owner is True:
             free(self.impl)
     
     def to_list(self):
         return [self.impl[i] for i in range(self.size)]
+    
+    @staticmethod
+    cdef from_ptr(double* impl, Py_ssize_t size):
+        cdef ArrayOfDouble result = ArrayOfDouble.__new__(ArrayOfDouble)
+        result.impl = impl
+        result.size = size
+        return result
 
 cdef class ArrayOfInt():
     cdef int* impl

@@ -20,6 +20,7 @@ CPX_PARAM_MIPDISPLAY   = cplex.CPX_PARAM_MIPDISPLAY
 CPX_PARAM_MIPSEARCH    = cplex.CPX_PARAM_MIPSEARCH
 CPX_PARAM_PRELINEAR    = cplex.CPX_PARAM_PRELINEAR
 CPX_PARAM_MIPORDIND    = cplex.CPX_PARAM_MIPORDIND
+CPX_PARAM_PROBE        = cplex.CPX_PARAM_PROBE
 
 # Parameter Values
 CPX_ALG_DUAL            = cplex.CPX_ALG_DUAL
@@ -149,7 +150,7 @@ def CPXwriteprob(Env env, Model model, filename_str, filetype_str = None):
                 ))
 
 def CPXordwrite(Env env, Model lp, filename_str):
-    CALL_CPLEX(cplex.CPXordwrite(env.impl, lp.inpl, ArrayOfChar(filename_str).impl))
+    CALL_CPLEX(cplex.CPXordwrite(env.impl, lp.impl, ArrayOfChar(filename_str).impl))
 
 def CPXnewcols(Env env, Model model, ccnt, obj, lb, ub, xctype, colname):
     CALL_CPLEX(cplex.CPXnewcols(env.impl,

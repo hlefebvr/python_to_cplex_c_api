@@ -104,6 +104,7 @@ cdef extern from "cplex.h":
     int CPX_PARAM_MIPSEARCH
     int CPX_PARAM_PRELINEAR
     int CPX_PARAM_MIPORDIND
+    int CPX_PARAM_PROBE
 
     # Parameter Values
     int CPX_ALG_DUAL

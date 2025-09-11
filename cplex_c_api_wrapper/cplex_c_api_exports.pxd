@@ -36,6 +36,9 @@ cdef extern from "cplex.h":
     int CPXgetbase (CPXCENVptr env, CPXCLPptr lp, int *cstat, int *rstat)
     int CPXgetbhead (CPXCENVptr env, CPXCLPptr lp, int *head, double *x)
     int CPXbinvacol (CPXCENVptr env, CPXCLPptr lp, int j, double *x)
+    int CPXbinvarow (CPXCENVptr env, CPXCLPptr lp, int j, double *x)
+    int CPXbinvcol (CPXCENVptr env, CPXCLPptr lp, int j, double *x)
+    int CPXbinvrow (CPXCENVptr env, CPXCLPptr lp, int j, double *x)
     int CPXgetrhs( CPXCENVptr env, CPXCLPptr lp, double * rhs, int begin, int end )
     int CPXgetrows( CPXCENVptr env, CPXCLPptr lp, int * nzcnt_p, int * rmatbeg, int * rmatind, double * rmatval, int rmatspace, int * surplus_p, int begin, int end )
 
@@ -106,6 +109,7 @@ cdef extern from "cplex.h":
     int CPX_PARAM_MIPORDIND
     int CPX_PARAM_PROBE
     int CPX_PARAM_REDUCE
+    int CPX_PARAM_VARSEL
 
     # Parameter Values
     int CPX_ALG_DUAL
@@ -114,6 +118,12 @@ cdef extern from "cplex.h":
     int CPX_OFF
     int CPX_MIPSEARCH_TRADITIONAL
     int CPX_PREREDUCE_NOPRIMALORDUAL
+    int CPX_VARSEL_MININFEAS
+    int CPX_VARSEL_MAXINFEAS
+    int CPX_VARSEL_DEFAULT
+    int CPX_VARSEL_PSEUDO
+    int CPX_VARSEL_STRONG
+    int CPX_VARSEL_PSEUDOREDUCED
 
     # Objective Senses
     int CPX_MIN

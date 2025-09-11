@@ -22,6 +22,7 @@ CPX_PARAM_PRELINEAR    = cplex.CPX_PARAM_PRELINEAR
 CPX_PARAM_MIPORDIND    = cplex.CPX_PARAM_MIPORDIND
 CPX_PARAM_PROBE        = cplex.CPX_PARAM_PROBE
 CPX_PARAM_REDUCE       = cplex.CPX_PARAM_REDUCE
+CPX_PARAM_VARSEL       = cplex.CPX_PARAM_VARSEL
 
 # Parameter Values
 CPX_ALG_DUAL            = cplex.CPX_ALG_DUAL
@@ -30,6 +31,12 @@ CPX_ON                  = cplex.CPX_ON
 CPX_OFF                 = cplex.CPX_OFF
 CPX_MIPSEARCH_TRADITIONAL = cplex.CPX_MIPSEARCH_TRADITIONAL
 CPX_PREREDUCE_NOPRIMALORDUAL = cplex.CPX_PREREDUCE_NOPRIMALORDUAL
+CPX_VARSEL_MININFEAS = cplex.CPX_VARSEL_MININFEAS
+CPX_VARSEL_MAXINFEAS = cplex.CPX_VARSEL_MAXINFEAS
+CPX_VARSEL_DEFAULT = cplex.CPX_VARSEL_DEFAULT
+CPX_VARSEL_PSEUDO = cplex.CPX_VARSEL_PSEUDO 
+CPX_VARSEL_STRONG = cplex.CPX_VARSEL_STRONG
+CPX_VARSEL_PSEUDOREDUCED = cplex.CPX_VARSEL_PSEUDOREDUCED
 
 # Objective Senses
 CPX_MIN = cplex.CPX_MIN
@@ -310,6 +317,24 @@ def CPXbinvacol(Env env, Model lp, int j):
     n_rows = CPXgetnumrows(env, lp)
     result = ArrayOfDouble(n_rows)
     CALL_CPLEX(cplex.CPXbinvacol(env.impl, lp.impl, j, result.impl))
+    return result.to_list()
+
+def CPXbinvarow(Env env, Model lp, int j):
+    n_rows = CPXgetnumrows(env, lp)
+    result = ArrayOfDouble(n_rows)
+    CALL_CPLEX(cplex.CPXbinvarow(env.impl, lp.impl, j, result.impl))
+    return result.to_list()
+
+def CPXbinvcol(Env env, Model lp, int j):
+    n_rows = CPXgetnumrows(env, lp)
+    result = ArrayOfDouble(n_rows)
+    CALL_CPLEX(cplex.CPXbinvcol(env.impl, lp.impl, j, result.impl))
+    return result.to_list()
+
+def CPXbinvrow(Env env, Model lp, int j):
+    n_rows = CPXgetnumrows(env, lp)
+    result = ArrayOfDouble(n_rows)
+    CALL_CPLEX(cplex.CPXbinvrow(env.impl, lp.impl, j, result.impl))
     return result.to_list()
 
 def CPXchgobjsen(Env env, Model lp, sense):

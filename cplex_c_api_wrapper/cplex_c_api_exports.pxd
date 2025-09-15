@@ -56,6 +56,7 @@ cdef extern from "cplex.h":
     int CPXnewcols(CPXENVptr env, CPXLPptr lp, int ccnt, const double * obj, const double * lb, const double * ub, const char * xctype, char ** colname)
     int CPXaddrows(CPXENVptr env, CPXLPptr lp, int ccnt, int rcnt, int nzcnt, const double * rhs, const char * sense, const int * rmatbeg, const int * rmatind, const double * rmatval, char ** colname, char ** rowname)
     int CPXcopyorder( CPXCENVptr env, CPXLPptr lp, int cnt, const int * indices, const int * priority, const int * direction )
+    int CPXcopybase(CPXCENVptr env, CPXLPptr lp, const int * cstat, const int * rstat )
     
     # I/O functions
     int CPXwriteprob(CPXENVptr env, CPXLPptr lp, const char *filename_str, const char *filetype)
@@ -128,6 +129,12 @@ cdef extern from "cplex.h":
     # Objective Senses
     int CPX_MIN
     int CPX_MAX
+
+    # Basis status
+    int CPX_AT_LOWER
+    int CPX_BASIC
+    int CPX_AT_UPPER
+    int CPX_FREE_SUPER
     
     # Cut Purgeability
     # https://www.ibm.com/docs/en/cofz/12.9.0?topic=cpxxcutcallbackadd-cpxcutcallbackadd

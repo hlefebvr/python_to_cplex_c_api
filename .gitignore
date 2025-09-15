@@ -3,3 +3,4 @@ cplex_c_api_wrapper/build
 *.lp
 __pycache__
 *.c
+venv

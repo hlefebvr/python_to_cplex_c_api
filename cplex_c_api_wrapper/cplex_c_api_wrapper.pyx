@@ -42,6 +42,12 @@ CPX_VARSEL_PSEUDOREDUCED = cplex.CPX_VARSEL_PSEUDOREDUCED
 CPX_MIN = cplex.CPX_MIN
 CPX_MAX = cplex.CPX_MAX
 
+# Basis status
+CPX_AT_LOWER = cplex.CPX_AT_LOWER
+CPX_BASIC = cplex.CPX_BASIC
+CPX_AT_UPPER = cplex.CPX_AT_UPPER
+CPX_FREE_SUPER = cplex.CPX_FREE_SUPER
+
 # Cut Purgeability
 CPX_USECUT_FORCE  = cplex.CPX_USECUT_FORCE
 CPX_USECUT_PURGE  = cplex.CPX_USECUT_PURGE
@@ -195,6 +201,13 @@ def CPXcopyorder(Env env, Model lp, int cnt, indices, priority, direction):
                                   ArrayOfInt(priority).impl,
                                   ArrayOfInt(direction).impl
                                 ))
+
+def CPXcopybase(Env env, Model model, cstat, rstat):
+    CALL_CPLEX(cplex.CPXcopybase(env.impl,
+                                    model.impl,
+                                    ArrayOfInt(cstat).impl,
+                                    ArrayOfInt(rstat).impl
+                                    ))
 
 def CPXmipopt(Env env, Model model):
     CALL_CPLEX(cplex.CPXmipopt(env.impl, model.impl))

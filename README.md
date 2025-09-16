@@ -16,8 +16,14 @@ The code uses the environment variables `CPLEX_LIBRARY` and `CPLEX_INCLUDE_DIR`.
 Be sure to have them set up. Here is an example:
 
 ```
-CPLEX_LIBRARY=/opt/ibm/ILOG/CPLEX_Studio2211/cplex/lib/x86-64_linux/static_pic/
-CPLEX_INCLUDE_DIR=//opt/ibm/ILOG/CPLEX_Studio2211/cplex/include/ilcplex/
+export CPLEX_LIBRARY=/opt/ibm/ILOG/CPLEX_Studio2211/cplex/lib/x86-64_linux/static_pic/
+export CPLEX_INCLUDE_DIR=//opt/ibm/ILOG/CPLEX_Studio2211/cplex/include/ilcplex/
+```
+
+On the HPC, run:
+```
+export CPLEX_LIBRARY=/software/ilog/22.1.1/cplex/lib/x86-64_linux/static_pic/
+export CPLEX_INCLUDE_DIR=/software/ilog/22.1.1/cplex/include/ilcplex/
 ```
 
 Then, run the following commands.

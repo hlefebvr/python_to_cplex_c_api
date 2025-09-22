@@ -59,6 +59,8 @@ class MyLazyConstraintCallback(cplex.LazyConstraintCallback):
 
                 return cplex.CPX_CALLBACK_DEFAULT
 
+        print("Node hash = ", self.get_node_hash())
+
         # Get Node's Problem
         lp = cplex.CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
 

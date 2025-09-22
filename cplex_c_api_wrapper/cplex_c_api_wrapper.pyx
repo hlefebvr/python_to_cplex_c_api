@@ -1,6 +1,8 @@
 include "c_utils.pxi"
 
 cimport cplex_c_api_exports as cplex
+import numpy as np
+import hashlib
 
 # Constants
 CPX_INFBOUND = cplex.CPX_INFBOUND
@@ -365,6 +367,15 @@ cdef class LazyConstraintCallback:
     env = None
     cbdata = None
     wherefrom = None
+
+    def get_node_hash(self):
+        lp = CPXgetcallbacknodelp(self.env, self.cbdata, self.wherefrom)
+        n_cols = CPXgetnumcols(self.env, lp)
+        lb = CPXgetlb(self.env, lp, 0, n_cols - 1)
+        ub = CPXgetub(self.env, lp, 0, n_cols - 1)
+        branching_history = np.concatenate([lb, ub]).astype(np.float64)
+        hash = hashlib.sha256(branching_history.tobytes()).digest()
+        return int.from_bytes(hash, byteorder='big')
 
     def __cinit__(self):
         if not callable(self): raise TypeError("Callback must be callable")

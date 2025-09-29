@@ -111,6 +111,7 @@ cdef extern from "cplex.h":
     int CPX_PARAM_PROBE
     int CPX_PARAM_REDUCE
     int CPX_PARAM_VARSEL
+    int CPX_PARAM_NUMERICALEMPHASIS
 
     # Parameter Values
     int CPX_ALG_DUAL

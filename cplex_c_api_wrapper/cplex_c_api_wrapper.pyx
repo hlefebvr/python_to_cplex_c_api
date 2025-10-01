@@ -362,7 +362,7 @@ def CPXchgobjsen(Env env, Model lp, sense):
 
 # Lazy Constraint Callback
 
-cdef class LazyConstraintCallback:
+cdef class CutCallback:
     cdef object python_callback
 
     env = None
@@ -381,8 +381,8 @@ cdef class LazyConstraintCallback:
     def __cinit__(self):
         if not callable(self): raise TypeError("Callback must be callable")
 
-cdef int lazy_constraint_callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) noexcept:
-    cb = <LazyConstraintCallback>cbhandle
+cdef int cut_callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) noexcept:
+    cb = <CutCallback>cbhandle
     
     cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
     cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)
@@ -404,8 +404,8 @@ cdef int lazy_constraint_callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, in
 
     return 0
 
-def CPXsetlazyconstraintcallbackfunc(Env env, LazyConstraintCallback cb):
-    CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, lazy_constraint_callback_bridge, <void*>cb))
+def CPXsetlazyconstraintcallbackfunc(Env env, CutCallback cb):
+    CALL_CPLEX(cplex.CPXsetlazyconstraintcallbackfunc(env.impl, cut_callback_bridge, <void*>cb))
 
 def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, sense, cutind, cutval, int purgeable):
     CALL_CPLEX(cplex.CPXcutcallbackadd(env.impl,
@@ -432,41 +432,8 @@ def CPXcutcallbackaddlocal(Env env, VoidPointer cbdata, int wherefrom, int nzcnt
 
 # User Cut Callback
 
-cdef class UserCutCallback:
-    cdef object python_callback
-
-    env = None
-    cbdata = None
-    wherefrom = None
-
-    def __cinit__(self):
-        if not callable(self): raise TypeError("Callback must be callable")
-
-cdef int user_cut_callback_bridge(cplex.CPXCENVptr xenv, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p) noexcept:
-    cb = <UserCutCallback>cbhandle
-    
-    cb.env = Env.from_ptr(<cplex.CPXENVptr>xenv)
-    cb.cbdata = VoidPointer.from_ptr(<void*> cbdata)
-    cb.wherefrom = wherefrom
-    
-    result = cb()
-
-    cb.env = None
-    cb.cbdata = None
-    cb.wherefrom = None
-
-    if result is None:
-        raise ValueError("Expected return value to be CPX_CALLBACK_DEFAULT, CPX_CALLBACK_FAIL or CPX_CALLBACK_SET")
-    
-    useraction_p[0] = result
-
-    if result == cplex.CPX_CALLBACK_FAIL: 
-        return 1
-
-    return 0
-
-def CPXsetusercutcallbackfunc(Env env, LazyConstraintCallback cb):
-    CALL_CPLEX(cplex.CPXsetusercutcallbackfunc(env.impl, user_cut_callback_bridge, <void*>cb))
+def CPXsetusercutcallbackfunc(Env env, CutCallback cb):
+    CALL_CPLEX(cplex.CPXsetusercutcallbackfunc(env.impl, cut_callback_bridge, <void*>cb))
 
 def CPXcutcallbackadd(Env env, VoidPointer cbdata, int wherefrom, int nzcnt, double rhs, sense, cutind, cutval, int purgeable):
     CALL_CPLEX(cplex.CPXcutcallbackadd(env.impl,

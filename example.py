@@ -34,7 +34,7 @@ class MyIncumbentCallback(cplex.IncumbentCallback):
 
         return cplex.CPX_CALLBACK_DEFAULT
      
-class MyLazyConstraintCallback(cplex.LazyConstraintCallback):
+class MyLazyConstraintCallback(cplex.CutCallback):
 
     def __init__(self, model):
         self.model = model

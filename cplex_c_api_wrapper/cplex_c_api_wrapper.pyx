@@ -223,6 +223,11 @@ def CPXsetintparam(Env env, whichparam, newvalue):
 def CPXsetdblparam(Env env, whichparam, newvalue):
     CALL_CPLEX(cplex.CPXsetdblparam(env.impl, whichparam, newvalue))
 
+def CPXgetdblparam(Env env, whichparam):
+    cdef double result
+    CALL_CPLEX(cplex.CPXgetdblparam(env.impl, whichparam, &result))
+    return result
+
 def CPXgettime(Env env):
     cdef double result
     CALL_CPLEX(cplex.CPXgettime(env.impl, &result))

@@ -115,6 +115,7 @@ cdef extern from "cplex.h":
     int CPX_PARAM_NUMERICALEMPHASIS
     int CPX_PARAM_TUNINGTILIM
     int CPX_PARAM_CLOCKTYPE
+    int CPX_PARAM_EPGAP
 
     # Parameter Values
     int CPX_ALG_DUAL
